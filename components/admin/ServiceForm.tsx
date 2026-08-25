@@ -12,11 +12,15 @@ export interface ServiceFormData {
   tag: string;
   image: string;
   basePrice: string;
+  pricePkr?: string;
+  priceBhd?: string;
   about: string;
   gallery: string[];
   options: {
     name: string;
     price: string;
+    pricePkr?: string;
+    priceBhd?: string;
     period: string;
     capacity: string;
     badge: string;
@@ -81,6 +85,7 @@ const S: Record<string, React.CSSProperties> = {
   },
   row: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 },
   row3: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 20 },
+  row4: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 16, marginBottom: 20 },
   sectionTitle: {
     fontSize: 12,
     fontWeight: 700,
@@ -147,7 +152,16 @@ interface ServiceFormProps {
   itemId?: string;
 }
 
-const EMPTY_OPTION = { name: "", price: "", period: "", capacity: "", badge: "", desc: "" };
+const EMPTY_OPTION = {
+  name: "",
+  price: "",
+  pricePkr: "",
+  priceBhd: "",
+  period: "",
+  capacity: "",
+  badge: "",
+  desc: "",
+};
 const EMPTY_STEP = { step: "", title: "", desc: "" };
 
 function makeSlug(name: string) {
@@ -176,6 +190,8 @@ export default function ServiceForm({
     tag: initialData?.tag || "",
     image: initialData?.image || "",
     basePrice: initialData?.basePrice || "",
+    pricePkr: (initialData as any)?.pricePkr || "",
+    priceBhd: (initialData as any)?.priceBhd || "",
     about: initialData?.about || "",
     gallery: (initialData?.gallery as string[]) || [],
     options: (initialData?.options as any[]) || [],
@@ -303,7 +319,10 @@ export default function ServiceForm({
         });
         setTimeout(() => router.push(backPath), 1000);
       } else {
-        setStatus({ type: "error", msg: data.error || "Failed to save. Please review the inputs." });
+        setStatus({
+          type: "error",
+          msg: data.error || "Failed to save. Please review the inputs.",
+        });
       }
     } catch (err: any) {
       setStatus({ type: "error", msg: err?.message || "Network error. Please try again." });
@@ -381,14 +400,24 @@ export default function ServiceForm({
         </div>
       </div>
 
-      <div style={S.row}>
+      {/* Dual Currency: Pakistan Price (PKR) vs Bahrain Price (BHD) */}
+      <div style={S.row3}>
         <div>
-          <label style={labelStyle}>Base Price</label>
+          <label style={{ ...labelStyle, color: "#006600" }}>🇵🇰 Price in Pakistan (PKR)</label>
           <input
-            style={inputStyle}
-            value={form.basePrice}
-            onChange={(e) => update("basePrice", e.target.value)}
-            placeholder="e.g. Starting from PKR 5,000"
+            style={{ ...inputStyle, borderColor: "#a3d9a5" }}
+            value={form.pricePkr || ""}
+            onChange={(e) => update("pricePkr", e.target.value)}
+            placeholder="e.g. PKR 45,000"
+          />
+        </div>
+        <div>
+          <label style={{ ...labelStyle, color: "#c49725" }}>🇧🇭 Price in Bahrain (BHD)</label>
+          <input
+            style={{ ...inputStyle, borderColor: "#ecd27d" }}
+            value={form.priceBhd || ""}
+            onChange={(e) => update("priceBhd", e.target.value)}
+            placeholder="e.g. BHD 65"
           />
         </div>
         <div>
@@ -666,10 +695,10 @@ export default function ServiceForm({
         </>
       )}
 
-      {/* === PRICING OPTIONS === */}
-      <div style={S.sectionTitle}>Pricing Options</div>
+      {/* === PRICING OPTIONS / PACKAGES (PKR & BHD) === */}
+      <div style={S.sectionTitle}>Pricing Options & Packages</div>
       <p style={{ fontSize: 12, color: "#999", marginBottom: 12 }}>
-        Add one or more pricing tiers. Each will show as a package card on the website.
+        Enter pricing for Pakistan (PKR) and Bahrain (BHD). Visitors in Pakistan will only see the PKR price; visitors in Bahrain will only see the BHD price.
       </p>
       {form.options.map((opt: any, i) => (
         <div key={i} style={S.optionCard}>
@@ -682,7 +711,7 @@ export default function ServiceForm({
             }}
           >
             <span style={{ fontSize: 12, fontWeight: 600, color: "#555" }}>
-              Option {i + 1}
+              Package Option {i + 1}
             </span>
             <button
               type="button"
@@ -694,12 +723,12 @@ export default function ServiceForm({
           </div>
           <div style={S.row}>
             <div>
-              <label style={labelStyle}>Option Name</label>
+              <label style={labelStyle}>Option / Package Name</label>
               <input
                 style={inputStyle}
                 value={opt.name}
                 onChange={(e) => updateOption(i, "name", e.target.value)}
-                placeholder="e.g. Economy Sedan"
+                placeholder="e.g. Standard 30 Days Visa / Basic CR Package"
               />
             </div>
             <div>
@@ -708,18 +737,29 @@ export default function ServiceForm({
                 style={inputStyle}
                 value={opt.badge}
                 onChange={(e) => updateOption(i, "badge", e.target.value)}
-                placeholder="e.g. Best Seller"
+                placeholder="e.g. Best Seller / Popular"
               />
             </div>
           </div>
-          <div style={S.row3}>
+
+          {/* Dual Price Row for Options */}
+          <div style={S.row4}>
             <div>
-              <label style={labelStyle}>Price</label>
+              <label style={{ ...labelStyle, color: "#006600" }}>🇵🇰 Price in PKR (Pakistan)</label>
               <input
-                style={inputStyle}
-                value={opt.price}
-                onChange={(e) => updateOption(i, "price", e.target.value)}
-                placeholder="e.g. PKR 5,000"
+                style={{ ...inputStyle, borderColor: "#a3d9a5" }}
+                value={opt.pricePkr || ""}
+                onChange={(e) => updateOption(i, "pricePkr", e.target.value)}
+                placeholder="e.g. PKR 45,000"
+              />
+            </div>
+            <div>
+              <label style={{ ...labelStyle, color: "#c49725" }}>🇧🇭 Price in BHD (Bahrain)</label>
+              <input
+                style={{ ...inputStyle, borderColor: "#ecd27d" }}
+                value={opt.priceBhd || ""}
+                onChange={(e) => updateOption(i, "priceBhd", e.target.value)}
+                placeholder="e.g. BHD 65"
               />
             </div>
             <div>
@@ -728,23 +768,24 @@ export default function ServiceForm({
                 style={inputStyle}
                 value={opt.period}
                 onChange={(e) => updateOption(i, "period", e.target.value)}
-                placeholder="e.g. per day"
+                placeholder="e.g. per applicant / day"
               />
             </div>
             <div>
-              <label style={labelStyle}>Capacity</label>
+              <label style={labelStyle}>Capacity / Details</label>
               <input
                 style={inputStyle}
                 value={opt.capacity}
                 onChange={(e) => updateOption(i, "capacity", e.target.value)}
-                placeholder="e.g. 4 Passengers"
+                placeholder="e.g. 1 Person / 4 Seats"
               />
             </div>
           </div>
+
           <div>
             <label style={labelStyle}>Description</label>
             <textarea
-              style={{ ...S.textarea, minHeight: 70 }}
+              style={{ ...S.textarea, minHeight: 60 }}
               value={opt.desc}
               onChange={(e) => updateOption(i, "desc", e.target.value)}
               placeholder="Short description of this option..."

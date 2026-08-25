@@ -9,7 +9,6 @@ import PageBanner from "@/components/PageBanner";
 import CoreServiceModal from "@/components/CoreServiceModal";
 import { CORE_SERVICES_DATA, CoreServiceItem } from "@/lib/core-services";
 import {
-  Sparkles,
   CheckCircle2,
   ArrowUpRight,
   PhoneCall,
@@ -121,23 +120,22 @@ export default function AboutPage() {
             <div className="lg:col-span-5">
               <div className="relative rounded-[32px] overflow-hidden shadow-2xl bg-neutral-950 border-4 border-white/80 group">
                 <img
-                  src="/image.png"
-                  alt="Founder & Managing Director - Arizona International Group"
+                  src="/images/image.png"
+                  alt="Ali Jabbar - CEO & Founder | Arizona International Group"
                   className="w-full h-auto object-cover object-top aspect-[4/5] group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
 
-                {/* Floating Badge on Photo */}
+                {/* Floating Name & Title on Photo */}
                 <div className="absolute bottom-6 left-6 right-6 text-white">
                   <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#dfb141] text-neutral-950 text-[11px] font-bold uppercase tracking-wider mb-2">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>{isArabic ? "القيادة التنفيذية" : "Executive Leadership"}</span>
+                    <span>{isArabic ? "المؤسس والرئيس التنفيذي" : "CEO & Founder"}</span>
                   </div>
                   <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                    Arizona International Group
+                    Ali Jabbar
                   </h3>
                   <p className="text-xs sm:text-sm text-neutral-300 font-normal mt-0.5">
-                    {isArabic ? "مملكة البحرين • حضور دولي" : "Kingdom of Bahrain • Global Reach"}
+                    {isArabic ? "مجموعة أريزونا الدولية" : "Arizona International Group"}
                   </p>
                 </div>
               </div>
@@ -146,7 +144,6 @@ export default function AboutPage() {
             {/* Leadership Message & Vision */}
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#dfb141]/15 text-neutral-950 text-xs font-semibold uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5 text-[#dfb141]" />
                 <span>{isArabic ? "رسالة الإدارة والخبرة الراسخة" : "20+ Years Leadership & Expertise"}</span>
               </div>
 

@@ -46,6 +46,17 @@ export default function VisaDetailClient({ visa: initialVisa }: { visa: VisaDeta
   const visaTime = isArabic && arInfo ? arInfo.time : visa.time;
   const regionName = isArabic && arInfo ? arInfo.regionName : visa.regionName;
 
+  const displayOptions =
+    Array.isArray((visa as any).options) && (visa as any).options.length > 0
+      ? (visa as any).options
+      : visa.requirements.map((req, idx) => ({
+          name: isArabic ? `المستند المطلوب ${idx + 1}` : `Requirement ${idx + 1}`,
+          price: isArabic ? "مستند رسمي" : "Verified Document",
+          badge: isArabic ? "إلزامي" : "Mandatory",
+          desc: req,
+          capacity: isArabic ? "تجهيز وتدقيق أريزونا" : "Arizona Submission Assist",
+        }));
+
   return (
     <>
       {/* Page Banner */}
@@ -61,18 +72,14 @@ export default function VisaDetailClient({ visa: initialVisa }: { visa: VisaDeta
         title={visaName}
         categoryTag={`${visa.flag} ${regionName} ${isArabic ? "تأشيرة" : "Visa"}`}
         locationOrTagline={`${visaTime} • ${visa.entryType} • ${visa.validity}`}
-        startingPrice={isArabic ? "إجراءات وتوثيق معتمد" : "Verified Facilitation"}
+        startingPrice={(visa as any).pricePkr || (visa as any).priceBhd || (isArabic ? "إجراءات وتوثيق معتمد" : "Verified Facilitation")}
+        startingPricePkr={(visa as any).pricePkr}
+        startingPriceBhd={(visa as any).priceBhd}
         rating={isArabic ? "5.0 ★ (مكتب التأشيرات المعتمد)" : "5.0 ★ (Certified Visa Desk)"}
         overviewText={visaOverview}
         heroImage={visa.heroImage}
         galleryImages={[visa.heroImage, visa.cardImage]}
-        serviceOptions={visa.requirements.map((req, idx) => ({
-          name: isArabic ? `المستند المطلوب ${idx + 1}` : `Requirement ${idx + 1}`,
-          price: isArabic ? "مستند رسمي" : "Verified Document",
-          badge: isArabic ? "إلزامي" : "Mandatory",
-          desc: req,
-          capacity: isArabic ? "تجهيز وتدقيق أريزونا" : "Arizona Submission Assist",
-        }))}
+        serviceOptions={displayOptions}
         backLinkHref="/visas"
         backLinkLabel={t("visas.view_all")}
         whatsAppText={`Hi Arizona, I want to apply for ${visa.name}. Please guide me with requirements and processing time.`}

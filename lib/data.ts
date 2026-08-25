@@ -377,8 +377,19 @@ export interface ServiceItemDetail {
   tag: string;
   image: string;
   price: string;
+  pricePkr?: string;
+  priceBhd?: string;
   gallery: string[];
-  options: { name: string; price: string; period?: string; capacity?: string; badge?: string; desc?: string }[];
+  options: {
+    name: string;
+    price: string;
+    pricePkr?: string;
+    priceBhd?: string;
+    period?: string;
+    capacity?: string;
+    badge?: string;
+    desc?: string;
+  }[];
   about: string;
 }
 

@@ -8,6 +8,7 @@ import PageBanner from "@/components/PageBanner";
 import CtaSection from "@/components/CtaSection";
 import { useLanguage } from "@/context/LanguageContext";
 import { useGeoLocation } from "@/context/GeoContext";
+import { getLocalizedPrice } from "@/lib/pricing-helper";
 
 const arabicDivisionInfo: { [slug: string]: { title: string; overview: string } } = {
   "travel-tours": {
@@ -30,7 +31,7 @@ const arabicDivisionInfo: { [slug: string]: { title: string; overview: string } 
 
 export default function DivisionDetailClient({ division }: { division: BusinessDivision }) {
   const { isArabic, t } = useLanguage();
-  const { contact } = useGeoLocation();
+  const { contact, isPakistan } = useGeoLocation();
   const arInfo = arabicDivisionInfo[division.slug];
 
   const divTitle = isArabic && arInfo ? arInfo.title : division.title;
@@ -60,6 +61,8 @@ export default function DivisionDetailClient({ division }: { division: BusinessD
               tag: item.tag || "",
               image: item.image || "",
               price: item.basePrice || item.price || "",
+              pricePkr: item.pricePkr || "",
+              priceBhd: item.priceBhd || "",
               gallery: Array.isArray(item.gallery) ? item.gallery : [item.image || ""],
               options: Array.isArray(item.options) ? item.options : [],
               about: item.about || "",
@@ -78,79 +81,105 @@ export default function DivisionDetailClient({ division }: { division: BusinessD
       <PageBanner
         title={divTitle}
         subtitle={divOverview}
-        breadcrumbCurrent={divTitle}
+        breadcrumbCurrent={division.title}
         backgroundImage={division.heroImage}
       />
 
-      {/* Division Services Grid */}
-      <section className="w-full py-16 sm:py-24 px-4 sm:px-8 lg:px-12 max-w-[1580px] mx-auto border-b border-neutral-100">
-        <div className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      {/* Services Grid Section */}
+      <section className="w-full py-16 sm:py-24 px-4 sm:px-8 lg:px-12 max-w-[1580px] mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12 sm:mb-16">
           <div>
-            <span className="text-xs font-bold tracking-widest text-[#dfb141] uppercase block mb-3">
-              {isArabic ? "الباقات والحلول المتاحة" : "SERVICE OFFERINGS & PACKAGES"}
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-normal tracking-[-0.03em] text-neutral-950">
-              {isArabic ? "الخيارات المتوفرة في" : "Available Solutions in"}{" "}
-              <span className="font-bold">{divTitle}</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neutral-100 border border-neutral-200 text-neutral-800 text-xs font-semibold uppercase tracking-wider mb-4">
+              <span>{isArabic ? "قائمة الخدمات المتاحة" : "Available Offerings"}</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-neutral-950">
+              {isArabic ? "استكشف باقات" : "Explore Packages in"}{" "}
+              <span className="font-bold text-[#dfb141]">{divTitle}</span>
             </h2>
           </div>
-          <p className="text-xs sm:text-sm text-neutral-500 font-medium max-w-sm">
+
+          <p className="max-w-md text-xs sm:text-sm text-neutral-600 font-normal leading-relaxed">
             {isArabic
-              ? "اضغط على أي بطاقة لعرض المواصفات التفصيلية، الباقات والأسعار، ومعرض الصور."
-              : "Click any card to view detailed specifications, packages, pricing, and photo gallery."}
+              ? "اختر الخدمة المناسبة لمعرفة تفاصيل الباقات والأسعار والحجز الفوري."
+              : "Select any category below to view detailed pricing, options, and direct booking."}
           </p>
         </div>
 
+        {/* 3-Column Modern Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {servicesList.map((item) => (
-            <Link
-              key={item.slug}
-              href={`/services/${division.slug}/${item.slug}`}
-              className="group rounded-[28px] overflow-hidden bg-white border border-neutral-200/90 hover:border-[#dfb141] hover:shadow-2xl transition-all duration-300 flex flex-col justify-between p-3.5 block"
-            >
-              <div>
-                {/* Card Thumbnail Image */}
-                <div className="relative aspect-[16/10] rounded-[22px] overflow-hidden bg-neutral-200 mb-4">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className={`absolute top-3 ${isArabic ? "right-3" : "left-3"} px-3 py-1 rounded-full bg-black/70 backdrop-blur-md text-white text-[11px] font-semibold border border-white/20`}>
-                    {item.tag}
+          {servicesList.map((item) => {
+            const localizedPrice = getLocalizedPrice(
+              {
+                pricePkr: (item as any).pricePkr,
+                priceBhd: (item as any).priceBhd,
+                price: item.price,
+              },
+              isPakistan
+            );
+
+            return (
+              <Link
+                key={item.slug}
+                href={`/services/${division.slug}/${item.slug}`}
+                className="rounded-3xl bg-[#f8f9fc] border border-neutral-200/80 hover:border-[#dfb141] p-4 sm:p-5 flex flex-col justify-between group transition-all duration-300 hover:shadow-xl hover:bg-white"
+              >
+                <div>
+                  {/* Card Thumbnail Image */}
+                  <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-5 bg-neutral-900">
+                    <img
+                      src={item.image || division.heroImage}
+                      alt={item.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+
+                    {/* Badge */}
+                    <div
+                      className={`absolute top-3 ${
+                        isArabic ? "right-3" : "left-3"
+                      } px-3 py-1 rounded-full bg-black/70 backdrop-blur-md text-white text-[11px] font-semibold border border-white/20`}
+                    >
+                      {item.tag}
+                    </div>
+
+                    {/* Starting Price Pill (Pakistan in PKR, Bahrain in BHD) */}
+                    {localizedPrice && (
+                      <div
+                        className={`absolute bottom-3 ${
+                          isArabic ? "left-3" : "right-3"
+                        } px-3 py-1 rounded-full bg-[#dfb141] text-white text-[11px] font-bold shadow-md`}
+                      >
+                        {localizedPrice}
+                      </div>
+                    )}
                   </div>
 
-                  {/* Starting Price Pill */}
-                  {item.price && (
-                    <div className={`absolute bottom-3 ${isArabic ? "left-3" : "right-3"} px-3 py-1 rounded-full bg-[#dfb141] text-white text-[11px] font-bold shadow-md`}>
-                      {item.price}
-                    </div>
-                  )}
+                  {/* Card Title & Desc */}
+                  <div className="px-2 pb-2">
+                    <h3 className="text-lg sm:text-xl font-bold text-neutral-950 tracking-tight group-hover:text-[#dfb141] transition-colors">
+                      {item.name}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-neutral-600 font-normal mt-2 leading-relaxed line-clamp-2">
+                      {item.desc}
+                    </p>
+                  </div>
                 </div>
 
-                {/* Card Title & Desc */}
-                <div className="px-2 pb-2">
-                  <h3 className="text-lg sm:text-xl font-bold text-neutral-950 tracking-tight group-hover:text-[#dfb141] transition-colors">
-                    {item.name}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-neutral-600 font-normal mt-2 leading-relaxed line-clamp-2">
-                    {item.desc}
-                  </p>
+                {/* Card Action Link */}
+                <div className="mt-4 pt-3 border-t border-neutral-100 px-2 pb-1 flex items-center justify-between">
+                  <span className="text-xs font-semibold text-neutral-500">
+                    {isArabic ? "عرض الباقات والتفاصيل" : "View Packages & Details"}
+                  </span>
+                  <div className="w-8 h-8 rounded-full bg-neutral-100 group-hover:bg-[#dfb141] group-hover:text-white text-neutral-800 flex items-center justify-center transition-all">
+                    <ArrowUpRight
+                      className={`w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform ${
+                        isArabic ? "rotate-[-90deg]" : ""
+                      }`}
+                    />
+                  </div>
                 </div>
-              </div>
-
-              {/* Card Action Link */}
-              <div className="mt-4 pt-3 border-t border-neutral-100 px-2 pb-1 flex items-center justify-between">
-                <span className="text-xs font-semibold text-neutral-500">
-                  {isArabic ? "عرض الباقات والتفاصيل" : "View Packages & Details"}
-                </span>
-                <div className="w-8 h-8 rounded-full bg-neutral-100 group-hover:bg-[#dfb141] group-hover:text-white text-neutral-800 flex items-center justify-center transition-all">
-                  <ArrowUpRight className={`w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform ${isArabic ? "rotate-[-90deg]" : ""}`} />
-                </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </section>
 

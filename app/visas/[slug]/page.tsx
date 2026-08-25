@@ -63,10 +63,13 @@ export default async function VisaDetailPage({
         cardImage: dbVisa.cardImage || "",
         tagline: dbVisa.tagline || "",
         overview: dbVisa.overview || "",
+        pricePkr: dbVisa.pricePkr || "",
+        priceBhd: dbVisa.priceBhd || "",
+        options: Array.isArray(dbVisa.options) ? (dbVisa.options as any[]) : [],
         requirements: Array.isArray(dbVisa.requirements) ? (dbVisa.requirements as string[]) : [],
         processSteps: Array.isArray(dbVisa.processSteps) ? (dbVisa.processSteps as any[]) : [],
         included: Array.isArray(dbVisa.included) ? (dbVisa.included as string[]) : [],
-      };
+      } as any;
     }
   } catch (err) {
     console.error("DB error fetching visa detail:", err);

@@ -42,6 +42,8 @@ export default function ServiceItemDetailClient({
               tag: match.tag || initialItem.tag,
               image: match.image || initialItem.image,
               price: match.basePrice || match.price || initialItem.price,
+              pricePkr: match.pricePkr || (initialItem as any).pricePkr || "",
+              priceBhd: match.priceBhd || (initialItem as any).priceBhd || "",
               gallery: Array.isArray(match.gallery) && match.gallery.length > 0 ? match.gallery : initialItem.gallery,
               options: Array.isArray(match.options) && match.options.length > 0 ? match.options : initialItem.options,
               about: match.about || initialItem.about,
@@ -69,6 +71,8 @@ export default function ServiceItemDetailClient({
         categoryTag={`${division.title} • ${item.tag}`}
         locationOrTagline={`${division.title} — ${isArabic ? "معتمد من أريزونا" : "Arizona Certified"}`}
         startingPrice={item.price || (isArabic ? "تواصل لمعرفة السعر" : "Contact for Price")}
+        startingPricePkr={(item as any).pricePkr}
+        startingPriceBhd={(item as any).priceBhd}
         rating={isArabic ? "5.0 ★ خدمة معتمدة وموثقة" : "5.0 ★ Verified Facility"}
         overviewText={item.about || item.desc}
         heroImage={item.image}

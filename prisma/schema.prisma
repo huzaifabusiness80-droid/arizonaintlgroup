@@ -48,6 +48,9 @@ model VisaListing {
   cardImage      String
   tagline        String
   overview       String   @db.Text
+  pricePkr       String?  @default("")
+  priceBhd       String?  @default("")
+  options        Json?    @default("[]") // { name, pricePkr, priceBhd, price, period, capacity, badge, desc }[]
   requirements   Json     // string[]
   processSteps   Json     // { step, title, desc }[]
   included       Json     // string[]
@@ -68,9 +71,11 @@ model CarService {
   description String   @db.Text
   tag         String
   image       String
-  basePrice   String
+  basePrice   String   @default("")
+  pricePkr    String?  @default("")
+  priceBhd    String?  @default("")
   about       String   @db.Text
-  options     Json     // { name, price, period, capacity, badge, desc }[]
+  options     Json     // { name, price, pricePkr, priceBhd, period, capacity, badge, desc }[]
   gallery     Json     // string[]
   isActive    Boolean  @default(true)
   sortOrder   Int      @default(0)
@@ -89,9 +94,11 @@ model TourService {
   description String   @db.Text
   tag         String
   image       String
-  basePrice   String
+  basePrice   String   @default("")
+  pricePkr    String?  @default("")
+  priceBhd    String?  @default("")
   about       String   @db.Text
-  options     Json     // { name, price, period, capacity, badge, desc }[]
+  options     Json     // { name, price, pricePkr, priceBhd, period, capacity, badge, desc }[]
   gallery     Json     // string[]
   isActive    Boolean  @default(true)
   sortOrder   Int      @default(0)
@@ -111,9 +118,11 @@ model MobileProduct {
   description String   @db.Text
   tag         String
   image       String
-  basePrice   String
+  basePrice   String   @default("")
+  pricePkr    String?  @default("")
+  priceBhd    String?  @default("")
   about       String   @db.Text
-  options     Json     // { name, price, period, capacity, badge, desc }[]
+  options     Json     // { name, price, pricePkr, priceBhd, period, capacity, badge, desc }[]
   gallery     Json     // string[]
   isActive    Boolean  @default(true)
   sortOrder   Int      @default(0)
@@ -132,9 +141,11 @@ model BahrainService {
   description String   @db.Text
   tag         String
   image       String
-  basePrice   String
+  basePrice   String   @default("")
+  pricePkr    String?  @default("")
+  priceBhd    String?  @default("")
   about       String   @db.Text
-  options     Json     // { name, price, period, capacity, badge, desc }[]
+  options     Json     // { name, price, pricePkr, priceBhd, period, capacity, badge, desc }[]
   gallery     Json     // string[]
   isActive    Boolean  @default(true)
   sortOrder   Int      @default(0)
