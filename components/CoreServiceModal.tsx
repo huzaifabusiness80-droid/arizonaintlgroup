@@ -124,7 +124,6 @@ export default function CoreServiceModal({ service, onClose }: CoreServiceModalP
               </p>
             </div>
 
-            {/* Checklist Sections */}
             <div className="space-y-6">
               <h3 className="text-sm sm:text-base font-bold text-neutral-950 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#dfb141]" />
