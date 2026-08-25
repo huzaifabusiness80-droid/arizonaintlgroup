@@ -24,6 +24,8 @@ export default function EditVisaPage() {
   // Map visa fields to ServiceForm initialData
   const initialData = {
     ...item,
+    pricePkr: item.pricePkr || "",
+    priceBhd: item.priceBhd || "",
     description: item.tagline || item.overview || "",
     basePrice: item.basePrice || "",
     image: item.cardImage || item.heroImage || "",

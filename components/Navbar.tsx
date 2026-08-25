@@ -123,11 +123,89 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [regionOpen, setRegionOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const [navItems, setNavItems] = useState<NavCategory[]>(navCategories);
+
+  // Fetch real database items for all categories dynamically
+  React.useEffect(() => {
+    Promise.all([
+      fetch("/api/admin/bahrain").then((r) => r.json()).catch(() => null),
+      fetch("/api/admin/visas").then((r) => r.json()).catch(() => null),
+      fetch("/api/admin/tours").then((r) => r.json()).catch(() => null),
+      fetch("/api/admin/cars").then((r) => r.json()).catch(() => null),
+      fetch("/api/admin/mobiles").then((r) => r.json()).catch(() => null),
+    ]).then(([bahrainRes, visasRes, toursRes, carsRes, mobilesRes]) => {
+      setNavItems((prev) =>
+        prev.map((cat) => {
+          if (cat.titleEn === "Business in Bahrain" && bahrainRes?.success && Array.isArray(bahrainRes.items) && bahrainRes.items.length > 0) {
+            return {
+              ...cat,
+              items: bahrainRes.items
+                .filter((it: any) => it.isActive !== false)
+                .map((it: any) => ({
+                  nameEn: it.name,
+                  nameAr: it.name,
+                  href: `/services/business-bahrain/${it.slug}`,
+                })),
+            };
+          }
+          if (cat.titleEn === "Worldwide Visas" && visasRes?.success && Array.isArray(visasRes.items) && visasRes.items.length > 0) {
+            return {
+              ...cat,
+              items: visasRes.items
+                .filter((it: any) => it.isActive !== false)
+                .map((it: any) => ({
+                  nameEn: it.name,
+                  nameAr: it.name,
+                  href: `/visas/${it.slug}`,
+                })),
+            };
+          }
+          if (cat.titleEn === "Travel & Tours" && toursRes?.success && Array.isArray(toursRes.items) && toursRes.items.length > 0) {
+            return {
+              ...cat,
+              items: toursRes.items
+                .filter((it: any) => it.isActive !== false)
+                .map((it: any) => ({
+                  nameEn: it.name,
+                  nameAr: it.name,
+                  href: `/services/travel-tours/${it.slug}`,
+                })),
+            };
+          }
+          if (cat.titleEn === "Rent A Car" && carsRes?.success && Array.isArray(carsRes.items) && carsRes.items.length > 0) {
+            return {
+              ...cat,
+              items: carsRes.items
+                .filter((it: any) => it.isActive !== false)
+                .map((it: any) => ({
+                  nameEn: it.name,
+                  nameAr: it.name,
+                  href: `/services/rent-a-car/${it.slug}`,
+                })),
+            };
+          }
+          if (cat.titleEn === "Mobiles & Tech" && mobilesRes?.success && Array.isArray(mobilesRes.items) && mobilesRes.items.length > 0) {
+            return {
+              ...cat,
+              items: mobilesRes.items
+                .filter((it: any) => it.isActive !== false)
+                .map((it: any) => ({
+                  nameEn: it.name,
+                  nameAr: it.name,
+                  href: `/services/mobiles-tech/${it.slug}`,
+                })),
+            };
+          }
+          return cat;
+        })
+      );
+    });
+  }, []);
 
   // Filter based on GeoLocation (Hide Rent A Car and Mobiles & Tech if outside Pakistan)
   const filteredNavCategories = isPakistan
-    ? navCategories
-    : navCategories.filter(
+    ? navItems
+    : navItems.filter(
         (cat) => cat.titleEn !== "Rent A Car" && cat.titleEn !== "Mobiles & Tech"
       );
 
@@ -301,7 +379,7 @@ export default function Navbar() {
 
                   {/* Dropdown Menu */}
                   {hasDropdown && isOpen && (
-                    <div className={`absolute ${isArabic ? "right-0" : "left-0"} top-full -mt-1 w-64 bg-white rounded-2xl shadow-2xl border border-neutral-100 p-2.5 z-50 animate-fade-scale`}>
+                    <div className={`absolute ${isArabic ? "right-0" : "left-0"} top-full -mt-1 w-72 max-h-[82vh] overflow-y-auto bg-white rounded-2xl shadow-2xl border border-neutral-100 p-2.5 z-50 animate-fade-scale custom-scrollbar`}>
                       <Link
                         href={cat.href}
                         onClick={() => setActiveDropdown(null)}

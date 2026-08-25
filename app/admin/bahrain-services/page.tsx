@@ -20,7 +20,21 @@ const COLUMNS = [
   },
   { key: "name", label: "Business Service" },
   { key: "tag", label: "Tag / Category" },
-  { key: "basePrice", label: "Starting Fee" },
+  {
+    key: "basePrice",
+    label: "Pricing (PKR / BHD)",
+    render: (_: any, row: any) => {
+      if (row.pricePkr || row.priceBhd) {
+        return (
+          <div style={{ fontSize: 11, lineHeight: 1.4 }}>
+            {row.pricePkr && <span style={{ color: "#007700", fontWeight: 600, display: "block" }}>🇵🇰 {row.pricePkr}</span>}
+            {row.priceBhd && <span style={{ color: "#b38600", fontWeight: 600, display: "block" }}>🇧🇭 {row.priceBhd}</span>}
+          </div>
+        );
+      }
+      return row.basePrice || "—";
+    },
+  },
   {
     key: "options",
     label: "Packages",
@@ -52,7 +66,7 @@ export default function AdminBahrainPage() {
         Bahrain Business & Corporate Services
       </div>
       <div style={{ fontSize: 13, color: "#888", marginBottom: 24 }}>
-        Manage Commercial Registration (CR), 100% foreign ownership setups, LMRA work permits, EWA offices, and corporate banking.
+        Manage Commercial Registration (CR), 100% foreign ownership setups, LMRA work permits, Workload/Inspection offenses, and ceiling increases.
       </div>
       {loading ? (
         <div style={{ color: "#aaa", fontSize: 13 }}>Loading...</div>

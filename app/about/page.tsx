@@ -116,22 +116,22 @@ export default function AboutPage() {
         {/* ========================================================================= */}
         <section className="w-full py-12 sm:py-20 px-4 sm:px-8 lg:px-12 max-w-[1580px] mx-auto border-t border-neutral-100">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-14 items-center">
-            {/* Leadership Image */}
-            <div className="lg:col-span-5">
-              <div className="relative rounded-[32px] overflow-hidden shadow-2xl bg-neutral-950 border-4 border-white/80 group">
+            {/* Leadership Image - Full Wide Presentation */}
+            <div className="lg:col-span-6">
+              <div className="relative rounded-[32px] overflow-hidden shadow-2xl bg-neutral-900 border-2 border-neutral-200/90 group">
                 <img
                   src="/images/image.png"
                   alt="Ali Jabbar - CEO & Founder | Arizona International Group"
-                  className="w-full h-auto object-cover object-top aspect-[4/5] group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-auto object-cover block"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none" />
 
                 {/* Floating Name & Title on Photo */}
-                <div className="absolute bottom-6 left-6 right-6 text-white">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#dfb141] text-neutral-950 text-[11px] font-bold uppercase tracking-wider mb-2">
+                <div className="absolute bottom-6 left-6 right-6 text-white z-10">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#dfb141] text-neutral-950 text-xs font-bold uppercase tracking-wider mb-2 shadow-md">
                     <span>{isArabic ? "المؤسس والرئيس التنفيذي" : "CEO & Founder"}</span>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
                     Ali Jabbar
                   </h3>
                   <p className="text-xs sm:text-sm text-neutral-300 font-normal mt-0.5">
@@ -142,7 +142,7 @@ export default function AboutPage() {
             </div>
 
             {/* Leadership Message & Vision */}
-            <div className="lg:col-span-7 space-y-6">
+            <div className="lg:col-span-6 space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#dfb141]/15 text-neutral-950 text-xs font-semibold uppercase tracking-wider">
                 <span>{isArabic ? "رسالة الإدارة والخبرة الراسخة" : "20+ Years Leadership & Expertise"}</span>
               </div>
@@ -239,9 +239,8 @@ export default function AboutPage() {
                       {isArabic ? "عرض كافة التفاصيل والمجالات" : "View Full Scope & Checklist"}
                     </span>
                     <ArrowUpRight
-                      className={`w-4 h-4 text-[#dfb141] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform ${
-                        isArabic ? "rotate-[-90deg]" : ""
-                      }`}
+                      className={`w-4 h-4 text-[#dfb141] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform ${isArabic ? "rotate-[-90deg]" : ""
+                        }`}
                     />
                   </div>
                 </div>

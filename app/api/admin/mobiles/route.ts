@@ -1,9 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+function formatMobileItem(item: any) {
+  if (!item) return item;
+  let pricePkr = "";
+  let priceBhd = "";
+  let displayPrice = item.basePrice || "";
+
+  try {
+    if (item.basePrice && item.basePrice.startsWith("{")) {
+      const parsed = JSON.parse(item.basePrice);
+      pricePkr = parsed.pkr || "";
+      priceBhd = parsed.bhd || "";
+      displayPrice = parsed.text || parsed.pkr || parsed.bhd || "";
+    }
+  } catch {}
+
+  return {
+    ...item,
+    pricePkr,
+    priceBhd,
+    basePrice: displayPrice,
+  };
+}
+
 function sanitizeMobileData(body: any) {
   const name = body.name || "Untitled Product";
   const slug = (body.slug || name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")) || "mobile-product";
+
+  let basePrice = body.basePrice || "";
+  if (body.pricePkr || body.priceBhd) {
+    basePrice = JSON.stringify({
+      pkr: body.pricePkr || "",
+      bhd: body.priceBhd || "",
+      text: body.basePrice || "",
+    });
+  }
 
   return {
     slug,
@@ -12,7 +44,7 @@ function sanitizeMobileData(body: any) {
     description: body.description || "",
     tag: body.tag || "",
     image: body.image || "",
-    basePrice: body.basePrice || "",
+    basePrice,
     about: body.about || body.description || "",
     options: Array.isArray(body.options) ? body.options : [],
     gallery: Array.isArray(body.gallery) ? body.gallery : [],
@@ -23,9 +55,10 @@ function sanitizeMobileData(body: any) {
 
 export async function GET() {
   try {
-    const items = await prisma.mobileProduct.findMany({
+    const rawItems = await prisma.mobileProduct.findMany({
       orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     });
+    const items = rawItems.map(formatMobileItem);
     return NextResponse.json({ success: true, items });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error?.message || "Failed to fetch products" }, { status: 500 });
@@ -37,9 +70,9 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const data = sanitizeMobileData(body);
     const item = await prisma.mobileProduct.create({ data });
-    return NextResponse.json({ success: true, item });
+    return NextResponse.json({ success: true, item: formatMobileItem(item) });
   } catch (error: any) {
-    console.error("Error creating product:", error);
+    console.error("Error creating mobile product:", error);
     return NextResponse.json({ success: false, error: error?.message || "Failed to create product" }, { status: 500 });
   }
 }

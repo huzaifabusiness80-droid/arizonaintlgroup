@@ -18,12 +18,26 @@ const COLUMNS = [
         "—"
       ),
   },
-  { key: "name", label: "Tour / Travel Package" },
-  { key: "tag", label: "Tag / Category" },
-  { key: "basePrice", label: "Starting Price" },
+  { key: "name", label: "Tour / Service" },
+  { key: "tag", label: "Tag" },
+  {
+    key: "basePrice",
+    label: "Pricing (PKR / BHD)",
+    render: (_: any, row: any) => {
+      if (row.pricePkr || row.priceBhd) {
+        return (
+          <div style={{ fontSize: 11, lineHeight: 1.4 }}>
+            {row.pricePkr && <span style={{ color: "#007700", fontWeight: 600, display: "block" }}>🇵🇰 {row.pricePkr}</span>}
+            {row.priceBhd && <span style={{ color: "#b38600", fontWeight: 600, display: "block" }}>🇧🇭 {row.priceBhd}</span>}
+          </div>
+        );
+      }
+      return row.basePrice || "—";
+    },
+  },
   {
     key: "options",
-    label: "Packages / Tiers",
+    label: "Packages",
     render: (opts: any) => (Array.isArray(opts) ? `${opts.length} packages` : "0 packages"),
   },
 ];
@@ -52,13 +66,13 @@ export default function AdminToursPage() {
         Travel & Tours Packages
       </div>
       <div style={{ fontSize: 13, color: "#888", marginBottom: 24 }}>
-        Manage flight ticket services, holiday packages, Umrah tours, safari itineraries, and resorts.
+        Manage Umrah packages, flight tickets, hotel reservations, and custom holiday tours.
       </div>
       {loading ? (
         <div style={{ color: "#aaa", fontSize: 13 }}>Loading...</div>
       ) : (
         <AdminTable
-          title="All Travel & Tour Packages"
+          title="All Tour Offerings"
           section="travel-tours"
           apiPath="/api/admin/tours"
           columns={COLUMNS as any}

@@ -24,6 +24,9 @@ export default function VisaDetailClient({ visa: initialVisa }: { visa: VisaDeta
           if (match) {
             setVisa({
               ...match,
+              pricePkr: match.pricePkr || (initialVisa as any).pricePkr || "",
+              priceBhd: match.priceBhd || (initialVisa as any).priceBhd || "",
+              options: Array.isArray(match.options) && match.options.length > 0 ? match.options : (initialVisa as any).options || [],
               time: match.processingTime || match.time || initialVisa.time,
               heroImage: match.heroImage || match.image || initialVisa.heroImage,
               cardImage: match.cardImage || match.image || initialVisa.cardImage,

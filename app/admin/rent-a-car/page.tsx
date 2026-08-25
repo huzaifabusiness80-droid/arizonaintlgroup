@@ -18,13 +18,27 @@ const COLUMNS = [
         "—"
       ),
   },
-  { key: "name", label: "Vehicle / Service Name" },
-  { key: "tag", label: "Tag / Category" },
-  { key: "basePrice", label: "Rate" },
+  { key: "name", label: "Car Service" },
+  { key: "tag", label: "Category" },
+  {
+    key: "basePrice",
+    label: "Pricing (PKR / BHD)",
+    render: (_: any, row: any) => {
+      if (row.pricePkr || row.priceBhd) {
+        return (
+          <div style={{ fontSize: 11, lineHeight: 1.4 }}>
+            {row.pricePkr && <span style={{ color: "#007700", fontWeight: 600, display: "block" }}>🇵🇰 {row.pricePkr}</span>}
+            {row.priceBhd && <span style={{ color: "#b38600", fontWeight: 600, display: "block" }}>🇧🇭 {row.priceBhd}</span>}
+          </div>
+        );
+      }
+      return row.basePrice || "—";
+    },
+  },
   {
     key: "options",
-    label: "Tiers / Fleet",
-    render: (opts: any) => (Array.isArray(opts) ? `${opts.length} options` : "0 options"),
+    label: "Packages",
+    render: (opts: any) => (Array.isArray(opts) ? `${opts.length} vehicles/rates` : "0"),
   },
 ];
 
@@ -49,16 +63,16 @@ export default function AdminCarsPage() {
   return (
     <div style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
       <div style={{ fontSize: 18, fontWeight: 700, color: "#111", marginBottom: 4 }}>
-        Rent A Car Services & Fleet
+        Rent A Car & Chauffeur Services
       </div>
       <div style={{ fontSize: 13, color: "#888", marginBottom: 24 }}>
-        Manage all rental vehicle packages, pricing tiers, and daily/monthly fleets.
+        Manage daily, weekly, monthly rental rates, chauffeur services, SUVs, and luxury sedans.
       </div>
       {loading ? (
         <div style={{ color: "#aaa", fontSize: 13 }}>Loading...</div>
       ) : (
         <AdminTable
-          title="All Car Rental Services"
+          title="All Car Services"
           section="rent-a-car"
           apiPath="/api/admin/cars"
           columns={COLUMNS as any}
