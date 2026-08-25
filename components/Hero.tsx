@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { useGeoLocation } from "@/context/GeoContext";
 import { useLanguage } from "@/context/LanguageContext";
+import CountrySearchInput from "@/components/CountrySearchInput";
 
 export interface ServiceSlide {
   id: string;
@@ -422,42 +423,28 @@ export default function Hero() {
             onSubmit={handleSearch}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 items-center "
           >
-            {/* Field 1: Departure City */}
-            <div className="lg:col-span-3 p-3.5 rounded-2xl bg-[#f8f9fc] border border-neutral-200/80 hover:border-neutral-400 transition-colors">
-              <label className="block text-[11px] font-normal uppercase tracking-wider text-neutral-500 mb-1">
-                {t("widget.from")}
-              </label>
-              <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-[#dfb141] shrink-0" />
-                <input
-                  type="text"
-                  value={fromCity}
-                  onChange={(e) => setFromCity(e.target.value)}
-                  className="w-full bg-transparent text-xs sm:text-sm font-normal text-neutral-900 focus:outline-none placeholder:text-neutral-400"
-                  placeholder="Departure city"
-                />
-              </div>
+            {/* Field 1: Departure Country / City with Live Search API */}
+            <div className="lg:col-span-3">
+              <CountrySearchInput
+                label={t("widget.from")}
+                value={fromCity}
+                onChange={(val) => setFromCity(val)}
+                placeholder={isArabic ? "بلد أو مدينة المغادرة..." : "Departure country / city..."}
+                icon={MapPin}
+                id="hero-from-country"
+              />
             </div>
 
-            {/* Field 2: Destination */}
-            <div className="lg:col-span-3 p-3.5 rounded-2xl bg-[#f8f9fc] border border-neutral-200/80 hover:border-neutral-400 transition-colors">
-              <label className="block text-[11px] font-normal uppercase tracking-wider text-neutral-500 mb-1">
-                {t("widget.to")}
-              </label>
-              <div className="flex items-center gap-2">
-                <Globe2 className="w-4 h-4 text-[#dfb141] shrink-0" />
-                <select
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                  className="w-full bg-transparent text-xs sm:text-sm font-normal text-neutral-900 focus:outline-none cursor-pointer max-h-48"
-                >
-                  {countryList.map((c) => (
-                    <option key={`${c.code}-${c.name}`} value={`${c.flag} ${isArabic ? c.nameAr : c.name}`}>
-                      {c.flag} {isArabic ? c.nameAr : c.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            {/* Field 2: Destination Country with Live Search API */}
+            <div className="lg:col-span-3">
+              <CountrySearchInput
+                label={t("widget.to")}
+                value={destination}
+                onChange={(val) => setDestination(val)}
+                placeholder={isArabic ? "بلد أو وجهة السفر..." : "Destination country..."}
+                icon={Globe2}
+                id="hero-to-country"
+              />
             </div>
 
             {/* Field 3: Date */}

@@ -1,28 +1,51 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+function sanitizeCarData(body: any) {
+  const data: any = {};
+  if (body.name !== undefined) data.name = body.name || "Untitled Car Service";
+  if (body.slug !== undefined) data.slug = body.slug;
+  if (body.description !== undefined) data.description = body.description || "";
+  if (body.tag !== undefined) data.tag = body.tag || "";
+  if (body.image !== undefined) data.image = body.image || "";
+  if (body.basePrice !== undefined) data.basePrice = body.basePrice || "";
+  if (body.about !== undefined) data.about = body.about || "";
+  if (body.options !== undefined) data.options = Array.isArray(body.options) ? body.options : [];
+  if (body.gallery !== undefined) data.gallery = Array.isArray(body.gallery) ? body.gallery : [];
+  if (body.isActive !== undefined) data.isActive = Boolean(body.isActive);
+  if (body.sortOrder !== undefined) data.sortOrder = typeof body.sortOrder === "number" ? body.sortOrder : 0;
+  return data;
+}
+
 export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const item = await prisma.carService.findUnique({ where: { id } });
   if (!item) return NextResponse.json({ success: false, error: "Not found" }, { status: 404 });
   return NextResponse.json({ success: true, item });
 }
+
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
     const body = await request.json();
-    const item = await prisma.carService.update({ where: { id }, data: { ...body, updatedAt: new Date() } });
+    const cleanData = sanitizeCarData(body);
+    const item = await prisma.carService.update({
+      where: { id },
+      data: { ...cleanData, updatedAt: new Date() },
+    });
     return NextResponse.json({ success: true, item });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Error updating car service:", error);
+    return NextResponse.json({ success: false, error: error?.message || "Failed to update car service" }, { status: 500 });
   }
 }
+
 export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
     await prisma.carService.delete({ where: { id } });
     return NextResponse.json({ success: true });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: error?.message || "Failed to delete car service" }, { status: 500 });
   }
 }

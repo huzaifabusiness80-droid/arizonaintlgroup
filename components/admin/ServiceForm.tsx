@@ -278,12 +278,22 @@ export default function ServiceForm({
     setSaving(true);
     setStatus(null);
     try {
+      const finalSlug = (form.slug || form.name || `item-${Date.now()}`)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+
+      const payload = {
+        ...form,
+        slug: finalSlug,
+      };
+
       const url = mode === "edit" ? `${apiPath}/${itemId}` : apiPath;
       const method = mode === "edit" ? "PATCH" : "POST";
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (data.success) {
@@ -293,10 +303,10 @@ export default function ServiceForm({
         });
         setTimeout(() => router.push(backPath), 1000);
       } else {
-        setStatus({ type: "error", msg: data.error || "Failed to save." });
+        setStatus({ type: "error", msg: data.error || "Failed to save. Please review the inputs." });
       }
-    } catch {
-      setStatus({ type: "error", msg: "Network error." });
+    } catch (err: any) {
+      setStatus({ type: "error", msg: err?.message || "Network error. Please try again." });
     } finally {
       setSaving(false);
     }

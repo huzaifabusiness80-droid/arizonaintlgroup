@@ -1,137 +1,50 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageBanner from "@/components/PageBanner";
+import CoreServiceModal from "@/components/CoreServiceModal";
+import { CORE_SERVICES_DATA, CoreServiceItem } from "@/lib/core-services";
 import {
   Sparkles,
   CheckCircle2,
   ArrowUpRight,
   PhoneCall,
   Building2,
+  Globe2,
   FileCheck2,
   Landmark,
-  Globe2,
-  Users,
-  ShieldCheck,
-  Plane,
-  Briefcase,
-  Scale,
-  CreditCard,
-  BadgePercent,
-  Award,
-  Headphones,
   Compass,
+  Award,
+  Users2,
+  ShieldCheck,
+  Scale,
+  Rocket,
+  Briefcase,
+  Layers,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useGeoLocation } from "@/context/GeoContext";
 
+const iconMap: Record<string, any> = {
+  Building2,
+  FileCheck2,
+  Landmark,
+  Users2,
+  Compass,
+  Scale,
+  ShieldCheck,
+  Rocket,
+  Briefcase,
+};
+
 export default function AboutPage() {
   const { isArabic, t } = useLanguage();
   const { contact } = useGeoLocation();
-
-  const coreServices = [
-    {
-      icon: Building2,
-      titleEn: "Company Formation & Business Setup",
-      titleAr: "تأسيس الشركات وإطلاق الأعمال",
-      descEn: "Turnkey company formation in Bahrain with up to 100% foreign ownership rights.",
-      descAr: "تأسيس متكامل للشركات في البحرين بحقوق ملكية أجنبية كاملة تصل إلى 100%.",
-    },
-    {
-      icon: FileCheck2,
-      titleEn: "Commercial Registration (CR) Services",
-      titleAr: "خدمات السجل التجاري (CR)",
-      descEn: "Fast CR issuance, activity additions, branch registrations, and legal renewals.",
-      descAr: "إصدار السجل التجاري، إضافة الأنشطة، تسجيل الفروع، وتجديد التراخيص.",
-    },
-    {
-      icon: Landmark,
-      titleEn: "MOIC & Government Services",
-      titleAr: "خدمات وزارة الصناعة والتجارة MOIC",
-      descEn: "Direct liaison and swift approvals with the Ministry of Industry and Commerce.",
-      descAr: "تنسيق مباشر وموافقات سريعة مع وزارة الصناعة والتجارة والجهات الحكومية.",
-    },
-    {
-      icon: Users,
-      titleEn: "LMRA Services & Labour Market Solutions",
-      titleAr: "خدمات هيئة تنظيم سوق العمل LMRA",
-      descEn: "Work permit ceilings, investor visas, employee visas, and labour compliance.",
-      descAr: "تخصيص سقف تصاريح العمل، إقامات المستثمر، وتأشيرات الموظفين المعتمدة.",
-    },
-    {
-      icon: Compass,
-      titleEn: "Immigration & Visa Consultancy",
-      titleAr: "استشارات الهجرة والتأشيرات",
-      descEn: "Strategic residency planning, golden visas, and investor immigration guidance.",
-      descAr: "تخطيط استراتيجي للإقامة، الإقامة الذهبية، واستشارات الهجرة للمستثمرين.",
-    },
-    {
-      icon: Globe2,
-      titleEn: "Worldwide Visit Visa Services",
-      titleAr: "خدمات تأشيرات الزيارة حول العالم",
-      descEn: "End-to-end documentation and application processing for global visit visas.",
-      descAr: "معالجة شاملة للمستندات والطلبات لتأشيرات الزيارة والسياحة العالمية.",
-    },
-    {
-      icon: Plane,
-      titleEn: "Global Travel & Visa Assistance",
-      titleAr: "خدمات السفر والتأشيرات العالمية",
-      descEn: "Flight bookings, itinerary planning, hotel reservations, and embassy submissions.",
-      descAr: "حجوزات طيران وفنادق وجداول سياحية متكاملة وحجز مواعيد السفارات.",
-    },
-    {
-      icon: Scale,
-      titleEn: "Legal & Corporate Support Services",
-      titleAr: "الدعم القانوني والخدمات المؤسسية",
-      descEn: "Corporate agreements, power of attorney, legal translations, and attestations.",
-      descAr: "صياغة العقود التجارية، الوكالات القانونية، الترجمة المعتمدة، والتصديقات.",
-    },
-    {
-      icon: CreditCard,
-      titleEn: "Bank Account & Banking Assistance",
-      titleAr: "فتح الحسابات البنكية والمصرفية",
-      descEn: "Smooth opening of corporate and commercial accounts with leading banks in Bahrain.",
-      descAr: "تسهيل فتح الحسابات البنكية التجارية للشركات لدى كبرى البنوك في البحرين.",
-    },
-    {
-      icon: BadgePercent,
-      titleEn: "Cooperative & Financial Solutions",
-      titleAr: "الحلول المالية والتعاونية",
-      descEn: "Bookkeeping advisory, financial feasibility reviews, and structured advisory.",
-      descAr: "استشارات الدفاتر المحاسبية، دراسات الجدوى المالية، والحلول المنظمة.",
-    },
-    {
-      icon: ShieldCheck,
-      titleEn: "Business Licensing & Regulatory Support",
-      titleAr: "التراخيص التجارية والدعم التنظيمي",
-      descEn: "Special ministry approvals (Health, Tourism, Education, Transport & Municipal).",
-      descAr: "استخراج الموافقات الخاصة من الوزارات (الصحة، السياحة، التعليم، والبلديات).",
-    },
-    {
-      icon: Award,
-      titleEn: "Investor & Entrepreneur Support",
-      titleAr: "دعم المستثمرين ورواد الأعمال",
-      descEn: "Dedicated concierge assistance for foreign investors entering Bahrain and GCC.",
-      descAr: "خدمات كبار الشخصيات لدخول المستثمرين الأجانب إلى سوق البحرين والخليج.",
-    },
-    {
-      icon: Briefcase,
-      titleEn: "Corporate Consultancy & Business Advisory",
-      titleAr: "الاستشارات المؤسسية وتطوير الأعمال",
-      descEn: "Market entry strategies, operational restructuring, and ongoing growth advisory.",
-      descAr: "استراتيجيات دخول السوق، إعادة الهيكلة المؤسسية، واستشارات النمو المستدام.",
-    },
-    {
-      icon: Headphones,
-      titleEn: "Ongoing Corporate & Government Services",
-      titleAr: "المتابعة المؤسسية والخدمات الحكومية الدائمة",
-      descEn: "Annual audit compliance, CR renewals, address updates, and statutory filings.",
-      descAr: "الامتثال للتدقيق السنوي، تجديد السجلات، تعديل العناوين، والإقرارات الرسمية.",
-    },
-  ];
+  const [selectedService, setSelectedService] = useState<CoreServiceItem | null>(null);
 
   return (
     <div className="min-h-screen bg-white text-neutral-900 flex flex-col justify-between">
@@ -143,8 +56,8 @@ export default function AboutPage() {
           title={isArabic ? "عن مجموعة أريزونا الدولية" : "About Arizona International"}
           subtitle={
             isArabic
-              ? "شريكك الموثوق في مملكة البحرين لتأسيس الشركات، خدمات الهجرة، التأشيرات والحلول المؤسسية."
-              : "Your Trusted Partner in Bahrain for Business, Immigration, Visas & Corporate Solutions."
+              ? "شريكك الموثوق في مملكة البحرين لتأسيس الشركات، خدمات الهيئة، التأشيرات والحلول المؤسسية."
+              : "Your Trusted Partner in Bahrain for Business Setup, LMRA, MOIC, Visas & Corporate Solutions."
           }
           breadcrumbCurrent={t("nav.about_us")}
           backgroundImage="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=85&auto=format&fit=crop"
@@ -213,7 +126,7 @@ export default function AboutPage() {
                   className="w-full h-auto object-cover object-top aspect-[4/5] group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                
+
                 {/* Floating Badge on Photo */}
                 <div className="absolute bottom-6 left-6 right-6 text-white">
                   <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#dfb141] text-neutral-950 text-[11px] font-bold uppercase tracking-wider mb-2">
@@ -252,25 +165,21 @@ export default function AboutPage() {
 
               <p className="text-sm sm:text-base text-neutral-600 font-normal leading-relaxed">
                 {isArabic
-                  ? "تعد أريزونا – مملكة البحرين شركة استشارات وخدمات أعمال راسخة ومهنية بخبرة تزيد عن 20 عاماً في هذا المجال، حيث تقدم حلولاً موثوقة وشاملة للأفراد ورواد الأعمال والمستثمرين والشركات."
-                  : "Arizona – Kingdom of Bahrain is a professionally established consultancy and business services firm with over 20 years of industry experience, providing reliable and comprehensive solutions to individuals, entrepreneurs, investors, and businesses."}
-              </p>
-
-              <p className="text-sm sm:text-base text-neutral-600 font-normal leading-relaxed">
-                {isArabic
-                  ? "لأكثر من عقدين من الزمن، ساعدنا عملاءنا في تأسيس الأعمال، تسجيل الشركات، إجراءات الهجرة، خدمات تأشيرات الزيارة العالمية، المعاملات القانونية والحكومية، خدمات LMRA، خدمات MOIC، الحلول المصرفية، والاستشارات المؤسسية."
-                  : "For more than two decades, we have assisted clients with business setup, company formation, immigration, worldwide visit visa services, legal and government-related procedures, LMRA services, MOIC services, banking solutions, and corporate consultancy."}
+                  ? "على مدى أكثر من عقدين من الزمان، قمنا بتمكين آلاف المستثمرين ورجال الأعمال والعائلات من تأسيس وإدارة شركاتهم في مملكة البحرين، إلى جانب تسهيل إجراءات السفر والتأشيرات إلى أكثر من 50 دولة حول العالم."
+                  : "For over two decades, we have empowered thousands of international investors, entrepreneurs, and families to successfully incorporate, manage, and scale businesses in Bahrain, while enabling smooth travel to 50+ countries worldwide."}
               </p>
 
               <div className="pt-2 flex flex-wrap gap-4">
                 <a
-                  href={contact.whatsappLink("Hi Arizona, I would like to consult with your leadership team regarding business & visas.")}
+                  href={contact.whatsappLink(
+                    "Hi Arizona International Group, I would like to consult regarding your Bahrain business and visa services."
+                  )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#dfb141] text-white text-xs sm:text-sm font-bold hover:bg-[#c49725] transition-all shadow-md active:scale-95"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
                 >
-                  <PhoneCall className="w-4 h-4" />
-                  <span>{isArabic ? "استشارة مباشرة مع المستشار" : "Direct WhatsApp Consultation"}</span>
+                  <PhoneCall className="w-4 h-4 text-[#dfb141]" />
+                  <span>{isArabic ? "تواصل مع الإدارة عبر الواتساب" : "Direct WhatsApp Consultation"}</span>
                 </a>
               </div>
             </div>
@@ -278,47 +187,65 @@ export default function AboutPage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* 14 CORE SERVICES GRID */}
+        {/* 10 CORE SERVICES IN BAHRAIN & WORLDWIDE WITH FULL DETAIL MODAL */}
         {/* ========================================================================= */}
-        <section className="w-full py-16 sm:py-24 px-4 sm:px-8 lg:px-12 max-w-[1580px] mx-auto border-t border-neutral-100 bg-[#fbfbfe]">
-          <div className="mb-12 sm:mb-16 text-center max-w-3xl mx-auto">
-            <span className="text-xs font-bold tracking-widest text-[#dfb141] uppercase block mb-3">
-              {isArabic ? "خدماتنا الأساسية والمتكاملة" : "OUR CORE SERVICES"}
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-normal tracking-[-0.03em] text-neutral-950">
-              {isArabic ? "حلول شاملة للشركات و" : "Comprehensive Solutions for"}{" "}
-              <span className="font-bold">{isArabic ? "التأشيرات العالمية" : "Business & Global Mobility"}</span>
+        <section className="w-full py-16 sm:py-24 px-4 sm:px-8 lg:px-12 max-w-[1580px] mx-auto border-t border-neutral-100">
+          <div className="max-w-3xl mb-12 sm:mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neutral-100 border border-neutral-200 text-neutral-800 text-xs font-semibold uppercase tracking-wider mb-4">
+              <Layers className="w-3.5 h-3.5 text-[#dfb141]" />
+              <span>{isArabic ? "قطاعات خدماتنا الرئيسية" : "Our 10 Core Service Divisions"}</span>
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[-0.03em] text-neutral-950 leading-[1.18]">
+              {isArabic ? "حلول شاملة لتأسيس الشركات و" : "Comprehensive Solutions for"} <br />
+              <span className="font-bold text-[#dfb141]">
+                {isArabic ? "الخدمات الحكومية والتأشيرات" : "Business, LMRA, MOIC & Visas"}
+              </span>
             </h2>
             <p className="mt-4 text-xs sm:text-sm text-neutral-600 font-normal leading-relaxed">
               {isArabic
-                ? "خبرة ممتدة لأكثر من 20 عاماً تغطي كافة الإجراءات الحكومية، السجلات التجارية، وتأشيرات السفر حول العالم."
-                : "Backed by 20+ years of institutional mastery across Bahrain government procedures, corporate structuring, and worldwide visas."}
+                ? "خبرة ممتدة لأكثر من 20 عاماً تغطي كافة الإجراءات الحكومية، السجلات التجارية، وتأشيرات السفر حول العالم. اضغط على أي بطاقة لعرض كافة التفاصيل وقائمة المتطلبات."
+                : "Backed by 20+ years of institutional mastery across Bahrain government procedures, corporate structuring, and worldwide visas. Click on any card to view the full scope of services and capabilities."}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {coreServices.map((service, index) => {
-              const ServiceIcon = service.icon;
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+            {CORE_SERVICES_DATA.map((service) => {
+              const ServiceIcon = iconMap[service.iconName] || Building2;
               return (
                 <div
-                  key={index}
-                  className="p-6 sm:p-7 rounded-[26px] bg-white border border-neutral-200/80 hover:border-[#dfb141] hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+                  key={service.id}
+                  onClick={() => setSelectedService(service)}
+                  className="p-6 sm:p-7 rounded-[28px] bg-white border border-neutral-200/90 hover:border-[#dfb141] hover:shadow-xl transition-all duration-300 flex flex-col justify-between group cursor-pointer"
                 >
                   <div>
-                    <div className="w-12 h-12 rounded-2xl bg-[#f5f6fa] group-hover:bg-[#dfb141] group-hover:text-white text-neutral-800 flex items-center justify-center mb-5 transition-colors">
-                      <ServiceIcon className="w-6 h-6" />
+                    {/* Top Row: Icon + Number Badge */}
+                    <div className="flex items-center justify-between mb-5">
+                      <div className="w-12 h-12 rounded-2xl bg-[#f5f6fa] group-hover:bg-[#dfb141] group-hover:text-white text-neutral-800 flex items-center justify-center transition-colors shadow-2xs">
+                        <ServiceIcon className="w-6 h-6" />
+                      </div>
+                      <span className="text-[11px] font-bold text-neutral-400 group-hover:text-[#dfb141] transition-colors uppercase tracking-widest">
+                        0{service.number}
+                      </span>
                     </div>
+
                     <h3 className="text-base sm:text-lg font-bold text-neutral-950 group-hover:text-[#dfb141] transition-colors leading-snug">
                       {isArabic ? service.titleAr : service.titleEn}
                     </h3>
-                    <p className="text-xs sm:text-sm text-neutral-600 font-normal mt-2.5 leading-relaxed">
-                      {isArabic ? service.descAr : service.descEn}
+                    <p className="text-xs sm:text-sm text-neutral-600 font-normal mt-2.5 leading-relaxed line-clamp-3">
+                      {isArabic ? service.taglineAr : service.taglineEn}
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-neutral-100 flex items-center justify-between text-[11px] font-semibold text-neutral-400 group-hover:text-neutral-900 transition-colors">
-                    <span>{isArabic ? "خدمة معتمدة 100%" : "Certified Service"}</span>
-                    <ArrowUpRight className={`w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform ${isArabic ? "rotate-[-90deg]" : ""}`} />
+                  <div className="mt-6 pt-4 border-t border-neutral-100 flex items-center justify-between text-xs font-semibold text-neutral-500 group-hover:text-neutral-950 transition-colors">
+                    <span className="text-[#dfb141] group-hover:underline">
+                      {isArabic ? "عرض كافة التفاصيل والمجالات" : "View Full Scope & Checklist"}
+                    </span>
+                    <ArrowUpRight
+                      className={`w-4 h-4 text-[#dfb141] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform ${
+                        isArabic ? "rotate-[-90deg]" : ""
+                      }`}
+                    />
                   </div>
                 </div>
               );
@@ -337,7 +264,9 @@ export default function AboutPage() {
               </span>
               <h2 className="text-3xl sm:text-5xl font-normal tracking-[-0.03em] text-neutral-950 leading-[1.18]">
                 {isArabic ? "تأشيرات الزيارة والسفر" : "Worldwide Visit Visas &"} <br />
-                <span className="font-bold">{isArabic ? "لكافة الوجهات العالمية" : "Seamless Travel Guidance"}</span>
+                <span className="font-bold text-[#dfb141]">
+                  {isArabic ? "لكافة الوجهات العالمية" : "Seamless Travel Guidance"}
+                </span>
               </h2>
               <p className="mt-6 text-sm sm:text-base text-neutral-600 font-normal leading-relaxed">
                 {isArabic
@@ -353,7 +282,7 @@ export default function AboutPage() {
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link
                   href="/visas"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white text-xs sm:text-sm font-semibold transition-colors"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
                 >
                   <span>{isArabic ? "استكشف وجهات التأشيرات" : "Explore Visa Destinations"}</span>
                   <ArrowUpRight className={`w-4 h-4 ${isArabic ? "rotate-[-90deg]" : ""}`} />
@@ -362,7 +291,7 @@ export default function AboutPage() {
                   href={contact.whatsappLink("Hi Arizona, I need assistance with a Worldwide Visit Visa.")}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#dfb141] hover:bg-[#c49725] text-white text-xs sm:text-sm font-bold transition-colors"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#dfb141] hover:bg-[#c49725] text-white text-xs sm:text-sm font-bold transition-colors cursor-pointer shadow-sm"
                 >
                   <PhoneCall className="w-4 h-4" />
                   <span>{isArabic ? "استفسر عن تأشيرتك" : "Inquire Visa on WhatsApp"}</span>
@@ -434,7 +363,9 @@ export default function AboutPage() {
               </span>
               <h3 className="text-2xl sm:text-4xl font-normal tracking-tight text-neutral-950 leading-tight">
                 {isArabic ? "خبرة تفوق 20 عاماً في" : "Over 20 Years of"}{" "}
-                <span className="font-bold">{isArabic ? "الريادة والمصداقية" : "Excellence & Local Mastery"}</span>
+                <span className="font-bold text-[#dfb141]">
+                  {isArabic ? "الريادة والمصداقية" : "Excellence & Local Mastery"}
+                </span>
               </h3>
               <p className="mt-4 text-xs sm:text-sm text-neutral-600 font-normal leading-relaxed">
                 {isArabic
@@ -450,7 +381,9 @@ export default function AboutPage() {
                       {isArabic ? "الاحترافية والشفافية التامة" : "Professionalism & Transparency"}
                     </h5>
                     <p className="text-xs text-neutral-500 mt-0.5">
-                      {isArabic ? "وضوح تام في الخطوات والرسوم بدون مفاجآت." : "Clear timelines, transparent procedures, and zero hidden costs."}
+                      {isArabic
+                        ? "معاملات واضحة، خطوات محددة، وبدون أي تكاليف خفية."
+                        : "Clear milestones, predictable timelines, and no hidden surprises."}
                     </p>
                   </div>
                 </div>
@@ -459,10 +392,12 @@ export default function AboutPage() {
                   <CheckCircle2 className="w-5 h-5 text-[#dfb141] shrink-0 mt-0.5" />
                   <div>
                     <h5 className="text-xs sm:text-sm font-bold text-neutral-900">
-                      {isArabic ? "السرية والكفاءة العالية" : "Confidentiality & Swift Execution"}
+                      {isArabic ? "سرعة الإنجاز والمتابعة المباشرة" : "Efficiency & Continuous Follow-Up"}
                     </h5>
                     <p className="text-xs text-neutral-500 mt-0.5">
-                      {isArabic ? "حماية بيانات المستثمرين وسرعة إتمام المعاملات." : "Secure client handling and prompt government turnaround."}
+                      {isArabic
+                        ? "فريق متابعة مخصص لتسريع الموافقات الحكومية ومعالجة الطلبات."
+                        : "Dedicated consultants proactively expediting government approvals."}
                     </p>
                   </div>
                 </div>
@@ -471,84 +406,90 @@ export default function AboutPage() {
                   <CheckCircle2 className="w-5 h-5 text-[#dfb141] shrink-0 mt-0.5" />
                   <div>
                     <h5 className="text-xs sm:text-sm font-bold text-neutral-900">
-                      {isArabic ? "علاقات استراتيجية طويلة الأمد" : "Long-Term Strategic Partnerships"}
+                      {isArabic ? "حلول مصممة خصيصاً لاحتياجاتك" : "Personalized Practical Solutions"}
                     </h5>
                     <p className="text-xs text-neutral-500 mt-0.5">
-                      {isArabic ? "نرافقك من خطوة التأسيس وحتى نمو وتوسع أعمالك." : "We support your journey from startup to enterprise scaling."}
+                      {isArabic
+                        ? "استشارات مخصصة تناسب أهداف عملك وميزانيتك بدقة."
+                        : "Tailored strategies aligned with your specific business goals and scale."}
                     </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Our Vision Card */}
-            <div className="p-8 sm:p-10 rounded-3xl bg-neutral-950 text-white flex flex-col justify-between h-full space-y-8 shadow-xl">
-              <div>
-                <span className="text-xs font-bold tracking-widest text-[#dfb141] uppercase block mb-3">
-                  {isArabic ? "رؤيتنا المستقبلية" : "OUR VISION"}
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-white leading-snug">
-                  {isArabic ? "الريادة العالمية في استشارات الأعمال والتأشيرات" : "Leading Excellence in Global Consulting & Mobility"}
-                </h3>
-                <p className="mt-4 text-xs sm:text-sm text-neutral-300 font-normal leading-relaxed">
-                  {isArabic
-                    ? "أن نكون الاسم الرائد والموثوق به في مجال استشارات الأعمال، الخدمات المؤسسية، الهجرة، المساعدة في التأشيرات العالمية، وحلول الأعمال المتكاملة، مع تقديم التميز والقيمة لعملائنا في مملكة البحرين وحول العالم."
-                    : "To become a leading and trusted name in business consultancy, corporate services, immigration, global visa assistance, and business solutions, delivering excellence and value to clients in Bahrain and around the world."}
-                </p>
-              </div>
-
-              <div className="pt-6 border-t border-neutral-800">
-                <div className="text-xs text-[#dfb141] font-semibold uppercase tracking-wider mb-1">
-                  Arizona – Kingdom of Bahrain
-                </div>
-                <div className="text-xs text-neutral-400">
-                  20+ Years of Experience | Global Visa Services | Business Consultancy | Immigration | Company Formation | Corporate Solutions
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ========================================================================= */}
-        {/* FINAL EXECUTIVE CTA STRIP */}
-        {/* ========================================================================= */}
-        <section className="w-full py-16 px-4 sm:px-8 lg:px-12 max-w-[1580px] mx-auto">
-          <div className="p-8 sm:p-14 rounded-3xl bg-gradient-to-r from-neutral-950 via-neutral-900 to-neutral-950 text-white flex flex-col lg:flex-row lg:items-center justify-between gap-8 border border-neutral-800 shadow-2xl">
-            <div className="space-y-2">
-              <span className="text-xs font-bold tracking-widest text-[#dfb141] uppercase block">
-                {isArabic ? "مجموعة أريزونا – مملكة البحرين" : "ARIZONA – KINGDOM OF BAHRAIN"}
+            {/* Vision & Values */}
+            <div>
+              <span className="text-xs font-bold tracking-widest text-[#dfb141] uppercase block mb-3">
+                {isArabic ? "رؤيتنا وقيمنا الراسخة" : "OUR VISION & CORE VALUES"}
               </span>
-              <h3 className="text-2xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
-                {isArabic ? "أعمالك. رحلتك. خبرتنا." : "Your Business. Your Journey. Our Expertise."}
+              <h3 className="text-2xl sm:text-4xl font-normal tracking-tight text-neutral-950 leading-tight">
+                {isArabic ? "بناء شراكات طويلة الأمد" : "Building Long-Term"}{" "}
+                <span className="font-bold text-[#dfb141]">
+                  {isArabic ? "قائمة على الثقة والنتائج" : "Trust & Client Success"}
+                </span>
               </h3>
-              <p className="text-xs sm:text-sm text-neutral-300 max-w-2xl font-normal leading-relaxed">
+              <p className="mt-4 text-xs sm:text-sm text-neutral-600 font-normal leading-relaxed">
                 {isArabic
-                  ? "سواء كنت ترغب في تأسيس شركة في البحرين، إدارة إجراءات LMRA أو MOIC، الحصول على دعم مصرفي وقانوني، أو التقدم لتأشيرة زيارة عالمية، أريزونا هي شريكك المهني الموثوق."
-                  : "Whether you are looking to establish a company in Bahrain, manage LMRA or MOIC procedures, obtain corporate and banking assistance, explore immigration solutions, or apply for a worldwide visit visa, Arizona is committed to being your trusted professional partner."}
+                  ? "رؤيتنا هي أن نكون الشريك المفضل والأول لكافة رواد الأعمال والمستثمرين في البحرين، من خلال تقديم خدمات مؤسسية واستشارية متكاملة تتجاوز التوقعات."
+                  : "Our vision is to remain the premier gateway and trusted corporate partner for businesses, investors, and travelers in Bahrain and beyond."}
               </p>
-            </div>
 
-            <div className="flex flex-wrap gap-4 shrink-0">
-              <a
-                href={contact.whatsappLink("Hi Arizona, I would like to inquire about your corporate setup and visa services.")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-[#dfb141] text-white text-xs sm:text-sm font-bold hover:bg-[#c49725] transition-all shadow-md active:scale-95"
-              >
-                <PhoneCall className="w-4 h-4" />
-                <span>{isArabic ? "تواصل عبر الواتساب" : "Inquire on WhatsApp"}</span>
-              </a>
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-semibold transition-colors"
-              >
-                <span>{isArabic ? "عرض قطاعات الأعمال" : "View Business Divisions"}</span>
-                <ArrowUpRight className={`w-4 h-4 ${isArabic ? "rotate-[-90deg]" : ""}`} />
-              </Link>
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="p-5 rounded-2xl bg-white border border-neutral-200/80">
+                  <h4 className="text-sm font-bold text-neutral-950 mb-1">
+                    {isArabic ? "السرية والأمان" : "Confidentiality"}
+                  </h4>
+                  <p className="text-xs text-neutral-500">
+                    {isArabic
+                      ? "أعلى معايير الحماية لبيانات الشركات والمستثمرين."
+                      : "Total privacy and strict data protection at every stage."}
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-white border border-neutral-200/80">
+                  <h4 className="text-sm font-bold text-neutral-950 mb-1">
+                    {isArabic ? "الالتزام بالنتائج" : "Result-Driven"}
+                  </h4>
+                  <p className="text-xs text-neutral-500">
+                    {isArabic
+                      ? "تركيز كامل على إنجاز المعاملات بنجاح من المرة الأولى."
+                      : "Focused on getting your approvals right from the very first filing."}
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-white border border-neutral-200/80">
+                  <h4 className="text-sm font-bold text-neutral-950 mb-1">
+                    {isArabic ? "الخبرة الموثوقة" : "Deep Expertise"}
+                  </h4>
+                  <p className="text-xs text-neutral-500">
+                    {isArabic
+                      ? "فهم عميق لقوانين السجلات وهيئة سوق العمل بالبحرين."
+                      : "Mastery of Bahrain commercial law, LMRA, MOIC & NPRA."}
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-white border border-neutral-200/80">
+                  <h4 className="text-sm font-bold text-neutral-950 mb-1">
+                    {isArabic ? "دعم مستمر 24/7" : "Always Available"}
+                  </h4>
+                  <p className="text-xs text-neutral-500">
+                    {isArabic
+                      ? "قنوات تواصل مباشرة للإجابة على استفساراتك في أي وقت."
+                      : "Continuous WhatsApp and hotline support for urgent filings."}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
       </main>
+
+      {/* Interactive Core Service Detail Modal */}
+      <CoreServiceModal
+        service={selectedService}
+        onClose={() => setSelectedService(null)}
+      />
 
       <Footer />
     </div>
