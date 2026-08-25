@@ -3,9 +3,11 @@
 import React, { useState } from "react";
 import { PhoneCall, Mail, MapPin, Clock, ArrowUpRight, Check } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useGeoLocation } from "@/context/GeoContext";
 
 export default function ContactSection() {
   const { isArabic, t } = useLanguage();
+  const { contact, isPakistan } = useGeoLocation();
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -15,10 +17,33 @@ export default function ContactSection() {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          service: formData.service,
+          message: formData.message,
+          country: isPakistan ? "Pakistan" : "Bahrain / International",
+        }),
+      });
+    } catch {
+      // ignore
+    }
     setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
+    setFormData({
+      name: "",
+      phone: "",
+      email: "",
+      service: "Travel & Tours",
+      message: "",
+    });
+    setTimeout(() => setSubmitted(false), 5000);
   };
 
   return (
@@ -40,7 +65,7 @@ export default function ContactSection() {
 
           <div className="mt-8 space-y-4">
             <a
-              href="https://wa.me/923135921434"
+              href={contact.whatsappLink()}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-neutral-200/80 hover:border-neutral-400 transition-colors group"
@@ -52,8 +77,25 @@ export default function ContactSection() {
                 <span className="block text-xs font-semibold text-neutral-500 uppercase">
                   {t("contact.whatsapp_label")}
                 </span>
-                <span className="text-sm font-medium text-neutral-900 group-hover:text-black" dir="ltr">
-                  +92 313 5921434
+                <span className="text-sm font-bold text-neutral-900 group-hover:text-[#c49725] transition-colors" dir="ltr">
+                  {contact.phone} {contact.phoneSecondary ? ` / ${contact.phoneSecondary}` : ""}
+                </span>
+              </div>
+            </a>
+
+            <a
+              href={contact.emailLink}
+              className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-neutral-200/80 hover:border-neutral-400 transition-colors group"
+            >
+              <div className="w-10 h-10 rounded-xl bg-neutral-100 text-neutral-800 flex items-center justify-center shrink-0">
+                <Mail className="w-4 h-4" />
+              </div>
+              <div className="min-w-0">
+                <span className="block text-xs font-semibold text-neutral-500 uppercase">
+                  {t("contact.email_label")}
+                </span>
+                <span className="text-sm font-semibold text-neutral-900 group-hover:text-[#c49725] transition-colors" dir="ltr">
+                  {contact.email}
                 </span>
               </div>
             </a>
@@ -81,7 +123,7 @@ export default function ContactSection() {
                   {t("contact.location_label")}
                 </span>
                 <span className="text-sm font-normal text-neutral-800">
-                  {t("contact.location_val")}
+                  {isArabic ? contact.locationAr : contact.locationEn}
                 </span>
               </div>
             </div>

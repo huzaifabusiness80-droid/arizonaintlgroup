@@ -6,9 +6,11 @@ import Footer from "@/components/Footer";
 import PageBanner from "@/components/PageBanner";
 import { PhoneCall, Mail, MapPin, Clock, ArrowUpRight, Check, Send } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useGeoLocation } from "@/context/GeoContext";
 
 export default function ContactPage() {
   const { isArabic, t } = useLanguage();
+  const { contact, isPakistan } = useGeoLocation();
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -18,9 +20,32 @@ export default function ContactPage() {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          service: formData.service,
+          message: formData.message,
+          country: isPakistan ? "Pakistan" : "Bahrain / International",
+        }),
+      });
+    } catch {
+      // ignore
+    }
     setSubmitted(true);
+    setFormData({
+      name: "",
+      phone: "",
+      email: "",
+      service: "Travel & Tours",
+      message: "",
+    });
     setTimeout(() => setSubmitted(false), 5000);
   };
 
@@ -61,8 +86,9 @@ export default function ContactPage() {
               </div>
 
               <div className="space-y-4">
+                {/* Primary Contact Number */}
                 <a
-                  href="https://wa.me/923135921434"
+                  href={contact.whatsappLink()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-5 rounded-2xl bg-[#f8f9fc] border border-neutral-200 hover:border-neutral-400 transition-colors group"
@@ -72,10 +98,50 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <span className="block text-xs font-semibold text-neutral-500 uppercase">
-                      {t("contact.whatsapp_label")}
+                      {t("contact.whatsapp_label")} {isPakistan ? "(1)" : ""}
                     </span>
                     <span className="text-base font-bold text-neutral-950 group-hover:text-[#c49725] transition-colors" dir="ltr">
-                      +92 313 5921434
+                      {contact.phone}
+                    </span>
+                  </div>
+                </a>
+
+                {/* Secondary Contact Number for Pakistan */}
+                {isPakistan && contact.phoneSecondary && contact.whatsappSecondaryLink && (
+                  <a
+                    href={contact.whatsappSecondaryLink()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-4 p-5 rounded-2xl bg-[#f8f9fc] border border-neutral-200 hover:border-neutral-400 transition-colors group"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-neutral-950 text-white flex items-center justify-center shrink-0">
+                      <PhoneCall className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <span className="block text-xs font-semibold text-neutral-500 uppercase">
+                        {t("contact.whatsapp_label")} (2)
+                      </span>
+                      <span className="text-base font-bold text-neutral-950 group-hover:text-[#c49725] transition-colors" dir="ltr">
+                        {contact.phoneSecondary}
+                      </span>
+                    </div>
+                  </a>
+                )}
+
+                {/* Direct Email Address */}
+                <a
+                  href={contact.emailLink}
+                  className="flex items-center gap-4 p-5 rounded-2xl bg-[#f8f9fc] border border-neutral-200 hover:border-neutral-400 transition-colors group"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-neutral-100 text-neutral-800 flex items-center justify-center shrink-0">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="block text-xs font-semibold text-neutral-500 uppercase">
+                      {t("contact.email_label")}
+                    </span>
+                    <span className="text-sm sm:text-base font-bold text-neutral-950 group-hover:text-[#c49725] transition-colors" dir="ltr">
+                      {contact.email}
                     </span>
                   </div>
                 </a>
@@ -103,7 +169,7 @@ export default function ContactPage() {
                       {t("contact.location_label")}
                     </span>
                     <span className="text-sm font-semibold text-neutral-900">
-                      {t("contact.location_val")}
+                      {isArabic ? contact.locationAr : contact.locationEn}
                     </span>
                   </div>
                 </div>

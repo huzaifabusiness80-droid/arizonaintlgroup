@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageBanner from "@/components/PageBanner";
 import CtaSection from "@/components/CtaSection";
 import Link from "next/link";
-import { allVisasData } from "@/lib/data";
+import { allVisasData, VisaDetail } from "@/lib/data";
 import { ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useGeoLocation } from "@/context/GeoContext";
 import { arabicVisaNames } from "@/lib/localizedData";
 
 const regionFilters = [
@@ -22,12 +23,40 @@ const regionFilters = [
 
 export default function VisasPage() {
   const { isArabic, t } = useLanguage();
+  const { contact } = useGeoLocation();
   const [selectedRegion, setSelectedRegion] = useState("all");
+  const [visas, setVisas] = useState<VisaDetail[]>(allVisasData);
+
+  useEffect(() => {
+    fetch("/api/admin/visas")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success && Array.isArray(d.items) && d.items.length > 0) {
+          const active = d.items
+            .filter((item: any) => item.isActive !== false)
+            .map((item: any) => ({
+              ...item,
+              time: item.processingTime || item.time || "3 - 5 Days",
+              heroImage: item.heroImage || item.image || "",
+              cardImage: item.cardImage || item.image || "",
+              tagline: item.tagline || "",
+              overview: item.overview || item.description || "",
+              requirements: Array.isArray(item.requirements) ? item.requirements : [],
+              processSteps: Array.isArray(item.processSteps) ? item.processSteps : [],
+              included: Array.isArray(item.included) ? item.included : [],
+            }));
+          if (active.length > 0) {
+            setVisas(active);
+          }
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const filteredVisas =
     selectedRegion === "all"
-      ? allVisasData
-      : allVisasData.filter((v) => v.region === selectedRegion);
+      ? visas
+      : visas.filter((v) => v.region === selectedRegion);
 
   return (
     <div className="min-h-screen bg-white text-neutral-900 flex flex-col justify-between">
@@ -159,7 +188,7 @@ export default function VisasPage() {
               : "We facilitate transit, tourist, business, and investor visas worldwide. Chat directly with our dedicated visa desk."
           }
           buttonText={isArabic ? "تواصل مع مكتب التأشيرات" : "Contact Visa Desk"}
-          buttonHref="https://wa.me/923135921434"
+          buttonHref={contact.whatsappLink("Hi Arizona, I need visa assistance. Please guide me.")}
           backgroundImage="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=85&auto=format&fit=crop"
         />
       </main>

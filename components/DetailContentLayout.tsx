@@ -16,6 +16,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useGeoLocation } from "@/context/GeoContext";
 
 export interface ServiceOptionItem {
   name: string;
@@ -56,6 +57,7 @@ export default function DetailContentLayout({
   whatsAppText,
 }: DetailContentLayoutProps) {
   const { isArabic, t } = useLanguage();
+  const { contact } = useGeoLocation();
   const imagesList = galleryImages && galleryImages.length > 0 ? galleryImages : [heroImage];
   const [currentPhotoIdx, setCurrentPhotoIdx] = useState(0);
 
@@ -241,7 +243,7 @@ export default function DetailContentLayout({
             <div className="space-y-3 pt-2">
               {/* WhatsApp Us Button */}
               <a
-                href={`https://wa.me/923135921434?text=${encodeURIComponent(whatsAppText)}`}
+                href={contact.whatsappLink(whatsAppText)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-3.5 px-4 rounded-2xl bg-[#25d366] hover:bg-[#20ba59] text-white font-bold text-sm shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-95"
@@ -252,7 +254,7 @@ export default function DetailContentLayout({
 
               {/* Call to Book Button */}
               <a
-                href="tel:+923135921434"
+                href={`tel:${contact.phoneTel}`}
                 className="w-full py-3.5 px-4 rounded-2xl bg-[#dfb141] hover:bg-[#c49725] text-white font-bold text-sm shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-95"
                 dir="ltr"
               >
@@ -284,18 +286,18 @@ export default function DetailContentLayout({
 
             <div className="space-y-2 text-xs font-semibold text-neutral-800 pt-1" dir="ltr">
               <a
-                href="tel:+923135921434"
+                href={`tel:${contact.phoneTel}`}
                 className="flex items-center gap-2 hover:text-[#dfb141] transition-colors"
               >
                 <PhoneCall className="w-3.5 h-3.5 text-[#dfb141]" />
-                <span>+92 313 5921434</span>
+                <span>{contact.phone}</span>
               </a>
               <a
-                href="mailto:info@arizonaintlgroup.com"
+                href={contact.emailLink}
                 className="flex items-center gap-2 hover:text-[#dfb141] transition-colors"
               >
                 <HelpCircle className="w-3.5 h-3.5 text-[#dfb141]" />
-                <span>info@arizonaintlgroup.com</span>
+                <span>{contact.email}</span>
               </a>
             </div>
 

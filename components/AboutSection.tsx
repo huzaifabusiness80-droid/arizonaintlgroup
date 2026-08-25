@@ -1,7 +1,20 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import {
+  Sparkles,
+  CheckCircle2,
+  ArrowUpRight,
+  PhoneCall,
+  Building2,
+  Globe2,
+  FileCheck2,
+  Landmark,
+  Compass,
+} from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useGeoLocation } from "@/context/GeoContext";
 
 interface StatItem {
   value: string;
@@ -11,7 +24,7 @@ interface StatItem {
 
 const statsData: StatItem[] = [
   {
-    value: "15,000+",
+    value: "20+ Years",
     labelKey: "about.stat1_lbl",
     isHighlighted: false,
   },
@@ -21,7 +34,7 @@ const statsData: StatItem[] = [
     isHighlighted: true,
   },
   {
-    value: "5.0 ★",
+    value: "15,000+",
     labelKey: "about.stat3_lbl",
     isHighlighted: false,
   },
@@ -34,6 +47,7 @@ const statsData: StatItem[] = [
 
 export default function AboutSection() {
   const { isArabic, t } = useLanguage();
+  const { contact } = useGeoLocation();
 
   return (
     <section id="about" className="w-full bg-white py-16 sm:py-24 border-b border-neutral-100">
@@ -49,19 +63,19 @@ export default function AboutSection() {
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[-0.03em] text-neutral-950 leading-[1.18]">
               {t("about.title1")} <br />
-              <span className="font-bold text-neutral-950">{t("about.title2")}</span>
+              <span className="font-bold text-[#dfb141]">{t("about.title2")}</span>
             </h2>
           </div>
 
-          <div className="max-w-md lg:max-w-lg">
-            <p className="text-sm sm:text-base text-neutral-500 font-normal leading-relaxed">
+          <div className="max-w-md lg:max-w-xl">
+            <p className="text-sm sm:text-base text-neutral-600 font-normal leading-relaxed">
               {t("about.desc")}
             </p>
           </div>
         </div>
 
-        {/* 4 Large Stat Cards (Exact Matching Reference Image) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+        {/* 4 Large Stat Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 mb-16">
           {statsData.map((stat, idx) => {
             if (stat.isHighlighted) {
               return (
@@ -72,7 +86,7 @@ export default function AboutSection() {
                   <span className="text-4xl sm:text-5xl font-bold tracking-tight text-neutral-950 font-sans" dir="ltr">
                     {stat.value}
                   </span>
-                  <p className="mt-3 text-xs sm:text-sm font-medium text-neutral-900/95 max-w-[195px] leading-snug">
+                  <p className="mt-3 text-xs sm:text-sm font-semibold text-neutral-900/95 max-w-[210px] leading-snug">
                     {t(stat.labelKey)}
                   </p>
                 </div>
@@ -82,12 +96,12 @@ export default function AboutSection() {
             return (
               <div
                 key={idx}
-                className="rounded-[28px] sm:rounded-[32px] bg-[#f4f5f8] p-8 sm:p-10 flex flex-col justify-center items-center text-center hover:bg-[#ebedf1] transition-all duration-200 min-h-[210px]"
+                className="rounded-[28px] sm:rounded-[32px] bg-[#f4f5f8] p-8 sm:p-10 flex flex-col justify-center items-center text-center hover:bg-[#ebedf1] transition-all duration-200 min-h-[210px] border border-neutral-200/60"
               >
                 <span className="text-4xl sm:text-5xl font-bold tracking-tight text-neutral-950 font-sans" dir="ltr">
                   {stat.value}
                 </span>
-                <p className="mt-3 text-xs sm:text-sm font-normal text-neutral-500 max-w-[195px] leading-snug">
+                <p className="mt-3 text-xs sm:text-sm font-normal text-neutral-600 max-w-[210px] leading-snug">
                   {t(stat.labelKey)}
                 </p>
               </div>

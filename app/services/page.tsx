@@ -43,7 +43,7 @@ const arabicDivisionMeta: { [slug: string]: { title: string; category: string; t
 };
 
 export default function ServicesPage() {
-  const { isPakistan } = useGeoLocation();
+  const { isPakistan, contact } = useGeoLocation();
   const { isArabic, t } = useLanguage();
 
   // If outside Pakistan, filter out Rent A Car and Mobiles & Tech
@@ -116,7 +116,7 @@ export default function ServicesPage() {
                       <ArrowUpRight className={`w-4 h-4 ${isArabic ? "rotate-[-90deg]" : ""}`} />
                     </Link>
                     <a
-                      href="https://wa.me/923135921434"
+                      href={contact.whatsappLink(`Hi Arizona, I want to inquire about ${division.title}.`)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white hover:bg-neutral-100 text-neutral-900 border border-neutral-300 text-xs sm:text-sm font-medium transition-all"

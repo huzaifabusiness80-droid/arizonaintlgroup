@@ -16,7 +16,7 @@ const faqTabs = [
 ];
 
 export default function FaqSection() {
-  const { isPakistan } = useGeoLocation();
+  const { isPakistan, contact } = useGeoLocation();
   const { language, isArabic, t } = useLanguage();
   const [activeTab, setActiveTab] = useState<string>("all");
   const [openId, setOpenId] = useState<string | null>("cr-setup");
@@ -29,73 +29,75 @@ export default function FaqSection() {
     ? faqTabs
     : faqTabs.filter((tab) => tab.id !== "cars" && tab.id !== "tech");
 
-  // Filter questions for non-Pakistan visitors
-  const availableFaqs = isPakistan
-    ? activeFaqs
-    : activeFaqs.filter((item) => item.category !== "cars" && item.category !== "tech");
-
   const filteredFaqs =
     activeTab === "all"
-      ? availableFaqs
-      : availableFaqs.filter((item) => item.category === activeTab);
+      ? activeFaqs.filter((f) => {
+          if (!isPakistan && (f.category === "cars" || f.category === "tech")) {
+            return false;
+          }
+          return true;
+        })
+      : activeFaqs.filter((f) => f.category === activeTab);
 
   const toggleFaq = (id: string) => {
     setOpenId(openId === id ? null : id);
   };
 
   return (
-    <section id="faqs" className="w-full bg-white py-20 sm:py-28 border-b border-neutral-100">
-      <div className="w-full max-w-[1580px] mx-auto px-4 sm:px-8 lg:px-12">
-        {/* Header Row (Left: Heading & Badge, Right: Subtext) */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-10 mb-12 sm:mb-16">
-          <div>
-            {/* Top Badge / Category Tab */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neutral-100 border border-neutral-200/90 text-neutral-800 text-xs font-semibold uppercase tracking-wider mb-4 shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-[#dfb141] ring-2 ring-[#dfb141]/30" />
-              <span>{t("faq.badge")}</span>
-            </div>
-
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[-0.03em] text-neutral-950 leading-[1.18]">
-              {t("faq.title1")} <br />
-              <span className="font-bold text-neutral-950">{t("faq.title2")}</span>
-            </h2>
+    <section className="w-full  py-16 sm:py-24 px-4 sm:px-8 lg:px-12 max-w-[1580px] mx-auto border-b border-neutral-200/80">
+      <div className="w-full">
+        {/* Section Header */}
+        <div className="mb-10 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neutral-100 border border-neutral-200/90 text-neutral-800 text-xs font-semibold uppercase tracking-wider mb-4 shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-[#dfb141] ring-2 ring-[#dfb141]/30" />
+            <span>{t("faq.badge")}</span>
           </div>
-
-          <div className="max-w-md lg:max-w-lg">
-            <p className="text-sm sm:text-base text-neutral-500 font-normal leading-relaxed md:text-right">
-              {t("faq.desc")}
-            </p>
-          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-normal tracking-[-0.03em] text-neutral-950 mt-1 leading-[1.18]">
+            {t("faq.title1")} <br />
+            <span className="font-bold text-neutral-950">{t("faq.title2")}</span>
+          </h2>
+          <p className="mt-4 text-sm sm:text-base text-neutral-600 font-normal max-w-2xl leading-relaxed">
+            {t("faq.desc")}
+          </p>
         </div>
 
-        {/* Category Tabs Filter */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
-          {availableTabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-4 sm:px-5 py-2 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer whitespace-nowrap ${
-                activeTab === tab.id
-                  ? "bg-neutral-950 text-white shadow-xs"
-                  : "bg-[#f4f5f8] text-neutral-600 hover:bg-neutral-200 hover:text-neutral-950"
-              }`}
-            >
-              {t(tab.labelKey)}
-            </button>
-          ))}
+        {/* Category Pills Strip */}
+        <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto pb-4 mb-8 no-scrollbar">
+          {availableTabs.map((tab) => {
+            const isSelected = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${
+                  isSelected
+                    ? "bg-[#dfb141] text-white shadow-sm"
+                    : "bg-white text-neutral-600 hover:bg-neutral-100 border border-neutral-200"
+                }`}
+              >
+                {t(tab.labelKey)}
+              </button>
+            );
+          })}
         </div>
 
-        {/* Clean Accordion List with Horizontal Dividers */}
-        <div className="border-t border-neutral-200 divide-y divide-neutral-200">
+        {/* FAQ Accordion List */}
+        <div className="space-y-4">
           {filteredFaqs.map((faq) => {
             const isOpen = openId === faq.id;
+
             return (
-              <div key={faq.id} className="py-6 sm:py-8 transition-colors">
-                {/* Question Row */}
+              <div
+                key={faq.id}
+                className={`rounded-2xl sm:rounded-3xl border transition-all duration-200 p-6 sm:p-7 ${
+                  isOpen
+                    ? "bg-white border-neutral-300 shadow-sm"
+                    : "bg-white/80 border-neutral-200/90 hover:border-neutral-300"
+                }`}
+              >
                 <button
                   onClick={() => toggleFaq(faq.id)}
-                  className="w-full flex items-center justify-between gap-6 text-left cursor-pointer group"
-                  aria-expanded={isOpen}
+                  className="w-full flex items-center justify-between gap-4 text-left cursor-pointer group"
                 >
                   {/* Question Heading */}
                   <span className="text-base sm:text-xl lg:text-[21px] font-normal tracking-tight text-neutral-900 group-hover:text-neutral-950">
@@ -135,13 +137,13 @@ export default function FaqSection() {
             {t("faq.bottom_text")}
           </p>
           <a
-            href="https://wa.me/923135921434"
+            href={contact.whatsappLink("Hi Arizona, I have a question.")}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-neutral-950 hover:text-[#dfb141] transition-colors"
           >
             <PhoneCall className="w-4 h-4 text-[#dfb141]" />
-            <span>{t("faq.chat_whatsapp")}</span>
+            <span>{isArabic ? `تحدث معنا عبر الواتساب (${contact.phone})` : `Chat Directly on WhatsApp (${contact.phone})`}</span>
           </a>
         </div>
       </div>

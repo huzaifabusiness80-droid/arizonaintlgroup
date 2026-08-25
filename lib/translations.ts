@@ -56,17 +56,17 @@ export const translations: { [lang: string]: { [key: string]: string } } = {
 
     // About Section
     "about.badge": "About Arizona",
-    "about.title1": "Get to know more",
-    "about.title2": "about ARIZONA",
-    "about.desc": "With a commitment to security, speed, and precision, our services ensure your flight tickets, worldwide visas, car rentals, and Bahrain business formations are seamless.",
-    "about.stat1_val": "15,000+",
-    "about.stat1_lbl": "Supporting worldwide travelers with tailored bookings.",
+    "about.title1": "Over 20 Years of",
+    "about.title2": "Excellence & Trust",
+    "about.desc": "With over 20 years of industry experience, Arizona is your trusted partner in Bahrain for company formation, LMRA & MOIC services, worldwide visit visas, banking, and comprehensive corporate advisory.",
+    "about.stat1_val": "20+ Years",
+    "about.stat1_lbl": "Proven industry experience and corporate excellence.",
     "about.stat2_val": "100%",
-    "about.stat2_lbl": "CR setup and business compliance approval rate.",
-    "about.stat3_val": "5.0 ★",
-    "about.stat3_lbl": "High star ratings from satisfied global clients.",
+    "about.stat2_lbl": "Success rate in CR & government compliance.",
+    "about.stat3_val": "15,000+",
+    "about.stat3_lbl": "Clients, investors & global travelers assisted.",
     "about.stat4_val": "24/7",
-    "about.stat4_lbl": "Direct customer service and emergency support.",
+    "about.stat4_lbl": "Direct professional advisory & ongoing client care.",
 
     // Services Overview Section
     "services.badge": "Our Business Divisions",
@@ -147,7 +147,7 @@ export const translations: { [lang: string]: { [key: string]: string } } = {
     "contact.success_msg": "Inquiry Submitted Successfully! An advisor will reach out shortly.",
 
     // Footer
-    "footer.desc": "Arizona International Group is a trusted multi-sector enterprise providing worldwide travel & visa solutions, car rentals, Bahrain business formation, and mobile technology distribution.",
+    "footer.desc": "Arizona International Group – Kingdom of Bahrain. Over 20 years of excellence in company formation, LMRA & MOIC government services, worldwide visit visas, and corporate solutions.",
     "footer.col_travel": "Travel & Visas",
     "footer.col_business": "Business in Bahrain",
     "footer.col_business_pk": "Rentals & Business",
@@ -218,17 +218,17 @@ export const translations: { [lang: string]: { [key: string]: string } } = {
 
     // About Section
     "about.badge": "عن مجموعة أريزونا",
-    "about.title1": "تعرف أكثر على",
-    "about.title2": "مجموعة أريزونا الدولية",
-    "about.desc": "بالتزامنا العالي بالأمان والسرعة والاحترافية، نضمن لك حجوزات طيران ميسرة، تأشيرات سريعة، سيارات فاخرة، وتأسيس شركات بحرينية بدون أي تعقيدات.",
-    "about.stat1_val": "15,000+",
-    "about.stat1_lbl": "مسافر تمت خدمتهم بحجوزات طيران مخصصة.",
+    "about.title1": "أكثر من 20 عاماً من",
+    "about.title2": "الخبرة والمصداقية والريادة",
+    "about.desc": "بخبرة تتجاوز عقدين من الزمن، تعد أريزونا شريكك الموثوق في مملكة البحرين لتأسيس الشركات، خدمات الهيئة والوزارات، تأشيرات الزيارة العالمية، والحلول المؤسسية المتكاملة.",
+    "about.stat1_val": "20+ عاماً",
+    "about.stat1_lbl": "خبرة مهنية راسخة وريادة في تقديم الخدمات.",
     "about.stat2_val": "100%",
-    "about.stat2_lbl": "نسبة نجاح استخراج السجلات التجارية والتراخيص.",
-    "about.stat3_val": "5.0 ★",
-    "about.stat3_lbl": "تقييمات متميزة من عملائنا في دول الخليج والعالم.",
+    "about.stat2_lbl": "نسبة نجاح استخراج السجلات والتراخيص المؤسسية.",
+    "about.stat3_val": "15,000+",
+    "about.stat3_lbl": "عميل ومستثمر ومسافر تمت خدمتهم بنجاح.",
     "about.stat4_val": "24/7",
-    "about.stat4_lbl": "خدمة عملاء ودعم طوارئ على مدار الساعة.",
+    "about.stat4_lbl": "استشارات مباشرة ودعم مستمر على مدار الساعة.",
 
     // Services Overview Section
     "services.badge": "قطاعات الأعمال لدينا",
@@ -309,7 +309,7 @@ export const translations: { [lang: string]: { [key: string]: string } } = {
     "contact.success_msg": "تم استلام استفسارك بنجاح! سيتواصل معك مستشارنا فوراً.",
 
     // Footer
-    "footer.desc": "مجموعة أريزونا الدولية مؤسسة متعددة القطاعات تقدم خدمات السفر والتأشيرات العالمية، تأجير السيارات، تأسيس الشركات بالبحرين، وتوزيع التقنيات الحديثة.",
+    "footer.desc": "مجموعة أريزونا الدولية – مملكة البحرين. أكثر من 20 عاماً من الريادة في تأسيس الشركات، خدمات الهيئة والوزارات، تأشيرات الزيارة العالمية، والحلول المؤسسية.",
     "footer.col_travel": "السياحة والتأشيرات",
     "footer.col_business": "الأعمال في البحرين",
     "footer.col_business_pk": "السيارات والشركات",

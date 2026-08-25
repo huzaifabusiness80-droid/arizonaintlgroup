@@ -114,7 +114,7 @@ const navCategories: NavCategory[] = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { isPakistan, setCountryCode } = useGeoLocation();
+  const { isPakistan, contact, setCountryCode } = useGeoLocation();
   const { language, isArabic, setLanguage, toggleLanguage, t } = useLanguage();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -134,22 +134,22 @@ export default function Navbar() {
       <div className="w-full bg-[#dfb141] text-white border-b border-[#cca030]/60">
         <div className="w-full max-w-[1580px] mx-auto px-4 sm:px-8 lg:px-12 py-2.5 flex items-center justify-between gap-4">
           {/* Left Contact: Phone & Email */}
-          <div className="flex items-center gap-6 text-xs sm:text-[13px] font-medium tracking-wide">
+          <div className="flex items-center gap-4 sm:gap-6 text-xs sm:text-[13px] font-medium tracking-wide">
             <a
-              href="tel:+923135921434"
+              href={`tel:${contact.phoneTel}`}
               className="inline-flex items-center gap-2 hover:opacity-90 transition-opacity"
               dir="ltr"
             >
               <Phone className="w-3.5 h-3.5" />
-              <span className="font-semibold">+92 313 5921434</span>
+              <span className="font-semibold">{contact.phone}</span>
             </a>
             <a
-              href="mailto:info@arizonaintlgroup.com"
+              href={contact.emailLink}
               className="hidden sm:inline-flex items-center gap-2 hover:opacity-90 transition-opacity"
               dir="ltr"
             >
               <Mail className="w-3.5 h-3.5" />
-              <span>info@arizonaintlgroup.com</span>
+              <span>{contact.email}</span>
             </a>
           </div>
 
@@ -194,7 +194,7 @@ export default function Navbar() {
             {/* 4 Social Circular Buttons Matching Screenshot */}
             <div className="flex items-center gap-2" dir="ltr">
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/share/19FGoU1QWA/?mibextid=wwXIfr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-7 h-7 rounded-full bg-white/20 hover:bg-white text-white hover:text-[#dfb141] flex items-center justify-center transition-all shadow-xs"
@@ -216,7 +216,7 @@ export default function Navbar() {
                 </svg>
               </a>
               <a
-                href="https://wa.me/923135921434"
+                href={contact.whatsappLink()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-7 h-7 rounded-full bg-white/20 hover:bg-white text-white hover:text-[#dfb141] flex items-center justify-center transition-all shadow-xs"
@@ -378,7 +378,7 @@ export default function Navbar() {
 
             {/* Book Now Golden Button */}
             <a
-              href="https://wa.me/923135921434"
+              href={contact.whatsappLink("Hi Arizona, I would like to book a service.")}
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-2.5 rounded-full bg-[#dfb141] hover:bg-[#c49725] text-white text-xs font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
@@ -465,7 +465,7 @@ export default function Navbar() {
 
           <div className="pt-3">
             <a
-              href="https://wa.me/923135921434"
+              href={contact.whatsappLink("Hi Arizona, I would like to book a service.")}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full flex items-center justify-center py-3 rounded-full bg-[#dfb141] hover:bg-[#c49725] text-white text-xs font-bold"

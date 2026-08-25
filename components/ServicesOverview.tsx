@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ChevronLeft,
@@ -135,11 +135,100 @@ export default function ServicesOverview() {
   const { isPakistan } = useGeoLocation();
   const { isArabic, t } = useLanguage();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [services, setServices] = useState<CuratedServiceCard[]>(curatedServices);
+
+  useEffect(() => {
+    // Fetch live services from all modules to keep homepage 100% dynamic
+    Promise.all([
+      fetch("/api/admin/tours").then((r) => r.json()).catch(() => ({ success: false })),
+      fetch("/api/admin/bahrain").then((r) => r.json()).catch(() => ({ success: false })),
+      fetch("/api/admin/cars").then((r) => r.json()).catch(() => ({ success: false })),
+      fetch("/api/admin/mobiles").then((r) => r.json()).catch(() => ({ success: false })),
+    ]).then(([toursRes, bahrainRes, carsRes, mobilesRes]) => {
+      const combined: CuratedServiceCard[] = [];
+
+      if (toursRes.success && Array.isArray(toursRes.items)) {
+        toursRes.items.filter((it: any) => it.isActive !== false).forEach((it: any) => {
+          combined.push({
+            nameEn: it.name,
+            nameAr: it.name,
+            itemSlug: it.slug,
+            divisionNameEn: "Travel & Tours",
+            divisionNameAr: "السياحة والسفر",
+            divisionSlug: "travel-tours",
+            descEn: it.description || it.about || "",
+            descAr: it.description || it.about || "",
+            tagEn: it.tag || "Travel",
+            tagAr: it.tag || "سياحة",
+            image: it.image || "",
+          });
+        });
+      }
+
+      if (bahrainRes.success && Array.isArray(bahrainRes.items)) {
+        bahrainRes.items.filter((it: any) => it.isActive !== false).forEach((it: any) => {
+          combined.push({
+            nameEn: it.name,
+            nameAr: it.name,
+            itemSlug: it.slug,
+            divisionNameEn: "Business in Bahrain",
+            divisionNameAr: "تأسيس الشركات بالبحرين",
+            divisionSlug: "business-bahrain",
+            descEn: it.description || it.about || "",
+            descAr: it.description || it.about || "",
+            tagEn: it.tag || "Corporate",
+            tagAr: it.tag || "شركات",
+            image: it.image || "",
+          });
+        });
+      }
+
+      if (carsRes.success && Array.isArray(carsRes.items)) {
+        carsRes.items.filter((it: any) => it.isActive !== false).forEach((it: any) => {
+          combined.push({
+            nameEn: it.name,
+            nameAr: it.name,
+            itemSlug: it.slug,
+            divisionNameEn: "Rent A Car",
+            divisionNameAr: "تأجير السيارات",
+            divisionSlug: "rent-a-car",
+            descEn: it.description || it.about || "",
+            descAr: it.description || it.about || "",
+            tagEn: it.tag || "Fleet",
+            tagAr: it.tag || "سيارات",
+            image: it.image || "",
+          });
+        });
+      }
+
+      if (mobilesRes.success && Array.isArray(mobilesRes.items)) {
+        mobilesRes.items.filter((it: any) => it.isActive !== false).forEach((it: any) => {
+          combined.push({
+            nameEn: it.name,
+            nameAr: it.name,
+            itemSlug: it.slug,
+            divisionNameEn: "Mobiles & Tech",
+            divisionNameAr: "الهواتف والتكنولوجيا",
+            divisionSlug: "mobiles-tech",
+            descEn: it.description || it.about || "",
+            descAr: it.description || it.about || "",
+            tagEn: it.tag || "Tech",
+            tagAr: it.tag || "تكنولوجيا",
+            image: it.image || "",
+          });
+        });
+      }
+
+      if (combined.length > 0) {
+        setServices(combined);
+      }
+    });
+  }, []);
 
   // Filter curated services for non-Pakistan visitors
   const displayServices = isPakistan
-    ? curatedServices
-    : curatedServices.filter(
+    ? services
+    : services.filter(
         (s) => s.divisionSlug !== "rent-a-car" && s.divisionSlug !== "mobiles-tech"
       );
 

@@ -7,7 +7,7 @@ import { useGeoLocation } from "@/context/GeoContext";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
-  const { isPakistan } = useGeoLocation();
+  const { isPakistan, contact } = useGeoLocation();
   const { isArabic, t } = useLanguage();
 
   return (
@@ -28,14 +28,14 @@ export default function Footer() {
 
             <div className="mt-6 flex items-center gap-3">
               <a
-                href="https://wa.me/923135921434"
+                href={contact.whatsappLink()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white hover:text-neutral-950 text-xs font-medium transition-all"
                 dir="ltr"
               >
                 <PhoneCall className="w-3.5 h-3.5" />
-                <span>+92 313 5921434</span>
+                <span>{contact.phone}</span>
               </a>
             </div>
           </div>

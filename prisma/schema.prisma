@@ -1,0 +1,198 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── ADMIN AUTH ────────────────────────────────────────────────────────────────
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admin_users")
+}
+
+model AdminSession {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("admin_sessions")
+}
+
+// ─── VISAS ────────────────────────────────────────────────────────────────────
+
+model VisaListing {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  name           String
+  country        String
+  flag           String
+  region         String   // europe, gcc, asia, americas, africa
+  regionName     String
+  type           String
+  processingTime String
+  entryType      String
+  validity       String
+  heroImage      String
+  cardImage      String
+  tagline        String
+  overview       String   @db.Text
+  requirements   Json     // string[]
+  processSteps   Json     // { step, title, desc }[]
+  included       Json     // string[]
+  isActive       Boolean  @default(true)
+  sortOrder      Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("visa_listings")
+}
+
+// ─── RENT A CAR ───────────────────────────────────────────────────────────────
+
+model CarService {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String   @db.Text
+  tag         String
+  image       String
+  basePrice   String
+  about       String   @db.Text
+  options     Json     // { name, price, period, capacity, badge, desc }[]
+  gallery     Json     // string[]
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("car_services")
+}
+
+// ─── TRAVEL & TOURS ───────────────────────────────────────────────────────────
+
+model TourService {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String   @db.Text
+  tag         String
+  image       String
+  basePrice   String
+  about       String   @db.Text
+  options     Json     // { name, price, period, capacity, badge, desc }[]
+  gallery     Json     // string[]
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("tour_services")
+}
+
+// ─── MOBILES & TECH ───────────────────────────────────────────────────────────
+
+model MobileProduct {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  brand       String
+  description String   @db.Text
+  tag         String
+  image       String
+  basePrice   String
+  about       String   @db.Text
+  options     Json     // { name, price, period, capacity, badge, desc }[]
+  gallery     Json     // string[]
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("mobile_products")
+}
+
+// ─── BAHRAIN BUSINESS SERVICES ────────────────────────────────────────────────
+
+model BahrainService {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String   @db.Text
+  tag         String
+  image       String
+  basePrice   String
+  about       String   @db.Text
+  options     Json     // { name, price, period, capacity, badge, desc }[]
+  gallery     Json     // string[]
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("bahrain_services")
+}
+
+// ─── INQUIRIES (from contact forms) ──────────────────────────────────────────
+
+model Inquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  service   String
+  message   String?  @db.Text
+  country   String?
+  status    String   @default("NEW") // NEW, IN_PROGRESS, RESOLVED
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("inquiries")
+}
+
+// ─── BOOKINGS (from booking widget) ──────────────────────────────────────────
+
+model Booking {
+  id            String   @id @default(cuid())
+  category      String
+  fromCity      String?
+  destination   String
+  date          String?
+  passengers    String?
+  customerName  String?
+  customerPhone String?
+  customerEmail String?
+  notes         String?  @db.Text
+  status        String   @default("PENDING")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("bookings")
+}
+
+// ─── CONTACT MESSAGES ─────────────────────────────────────────────────────────
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("contact_messages")
+}

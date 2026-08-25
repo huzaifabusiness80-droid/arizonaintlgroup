@@ -1,16 +1,44 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Clock } from "lucide-react";
-import { allVisasData } from "@/lib/data";
+import { allVisasData, VisaDetail } from "@/lib/data";
 import { useLanguage } from "@/context/LanguageContext";
 import { arabicVisaNames } from "@/lib/localizedData";
 
 export default function VisaDestinations() {
   const { isArabic, t } = useLanguage();
-  // Show exactly 6 curated popular destinations on homepage
-  const homeVisas = allVisasData.slice(0, 6);
+  const [visas, setVisas] = useState<VisaDetail[]>(allVisasData);
+
+  useEffect(() => {
+    fetch("/api/admin/visas")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success && Array.isArray(d.items) && d.items.length > 0) {
+          const active = d.items
+            .filter((item: any) => item.isActive !== false)
+            .map((item: any) => ({
+              ...item,
+              time: item.processingTime || item.time || "3 - 5 Days",
+              heroImage: item.heroImage || item.image || "",
+              cardImage: item.cardImage || item.image || "",
+              tagline: item.tagline || "",
+              overview: item.overview || item.description || "",
+              requirements: Array.isArray(item.requirements) ? item.requirements : [],
+              processSteps: Array.isArray(item.processSteps) ? item.processSteps : [],
+              included: Array.isArray(item.included) ? item.included : [],
+            }));
+          if (active.length > 0) {
+            setVisas(active);
+          }
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  // Show top curated active destinations on homepage in clean sequence
+  const homeVisas = visas.slice(0, 6);
 
   return (
     <section id="visas" className="w-full bg-white py-16 sm:py-24 border-b border-neutral-100">

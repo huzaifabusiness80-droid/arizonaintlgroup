@@ -3,12 +3,14 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Menu, X, Globe, PhoneCall } from "lucide-react";
+import { useGeoLocation } from "@/context/GeoContext";
 
 interface PageHeaderProps {
   currentPath?: string;
 }
 
 export default function PageHeader({ currentPath }: PageHeaderProps) {
+  const { contact } = useGeoLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
@@ -60,13 +62,13 @@ export default function PageHeader({ currentPath }: PageHeaderProps) {
         {/* Right Action Buttons */}
         <div className="hidden sm:flex items-center gap-3">
           <a
-            href="https://wa.me/923135921434"
+            href={contact.whatsappLink()}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white text-xs font-medium transition-all shadow-xs"
           >
             <PhoneCall className="w-3.5 h-3.5" />
-            <span>+92 313 5921434</span>
+            <span>{contact.phone}</span>
           </a>
         </div>
 
@@ -95,7 +97,7 @@ export default function PageHeader({ currentPath }: PageHeaderProps) {
           ))}
           <div className="pt-4 border-t border-neutral-100">
             <a
-              href="https://wa.me/923135921434"
+              href={contact.whatsappLink()}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-neutral-950 text-white text-xs font-medium"

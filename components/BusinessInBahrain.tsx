@@ -12,6 +12,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useGeoLocation } from "@/context/GeoContext";
 
 const businessStepsData = [
   {
@@ -54,6 +55,7 @@ const businessStepsData = [
 
 export default function BusinessInBahrain() {
   const { isArabic, t } = useLanguage();
+  const { contact } = useGeoLocation();
 
   return (
     <section id="business-bahrain" className="w-full py-16 sm:py-24 px-4 sm:px-8 lg:px-12 max-w-[1580px] mx-auto">
@@ -110,7 +112,7 @@ export default function BusinessInBahrain() {
 
           <div className="flex items-center gap-3">
             <a
-              href="https://wa.me/923135921434"
+              href={`https://wa.me/97332306963?text=${encodeURIComponent("Hi Arizona, I want to inquire about Business Formation in Bahrain.")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 rounded-full bg-white text-neutral-950 font-medium text-xs sm:text-sm hover:bg-neutral-100 transition-all flex items-center gap-2"

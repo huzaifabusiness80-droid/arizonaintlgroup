@@ -19,6 +19,10 @@ const cairo = Cairo({
 export const metadata: Metadata = {
   title: "Arizona - Experience The World With Arizona",
   description: "Curating seamless worldwide voyages, private escapes, and bespoke itineraries. From exotic tropical retreats to alpine adventures, travel with unmatched elegance.",
+  icons: {
+    icon: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 import { GeoProvider } from "@/context/GeoContext";

@@ -1,12 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { BusinessDivision } from "@/lib/data";
+import { BusinessDivision, ServiceItemDetail } from "@/lib/data";
 import { ArrowUpRight } from "lucide-react";
 import PageBanner from "@/components/PageBanner";
 import CtaSection from "@/components/CtaSection";
 import { useLanguage } from "@/context/LanguageContext";
+import { useGeoLocation } from "@/context/GeoContext";
 
 const arabicDivisionInfo: { [slug: string]: { title: string; overview: string } } = {
   "travel-tours": {
@@ -29,10 +30,47 @@ const arabicDivisionInfo: { [slug: string]: { title: string; overview: string } 
 
 export default function DivisionDetailClient({ division }: { division: BusinessDivision }) {
   const { isArabic, t } = useLanguage();
+  const { contact } = useGeoLocation();
   const arInfo = arabicDivisionInfo[division.slug];
 
   const divTitle = isArabic && arInfo ? arInfo.title : division.title;
   const divOverview = isArabic && arInfo ? arInfo.overview : division.overview;
+
+  const [servicesList, setServicesList] = useState<ServiceItemDetail[]>(division.servicesList || []);
+
+  useEffect(() => {
+    let apiEndpoint = "";
+    if (division.slug === "travel-tours") apiEndpoint = "/api/admin/tours";
+    else if (division.slug === "rent-a-car") apiEndpoint = "/api/admin/cars";
+    else if (division.slug === "business-bahrain") apiEndpoint = "/api/admin/bahrain";
+    else if (division.slug === "mobiles-tech") apiEndpoint = "/api/admin/mobiles";
+
+    if (!apiEndpoint) return;
+
+    fetch(apiEndpoint)
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success && Array.isArray(d.items) && d.items.length > 0) {
+          const active = d.items
+            .filter((item: any) => item.isActive !== false)
+            .map((item: any) => ({
+              slug: item.slug,
+              name: item.name,
+              desc: item.description || item.desc || "",
+              tag: item.tag || "",
+              image: item.image || "",
+              price: item.basePrice || item.price || "",
+              gallery: Array.isArray(item.gallery) ? item.gallery : [item.image || ""],
+              options: Array.isArray(item.options) ? item.options : [],
+              about: item.about || "",
+            }));
+          if (active.length > 0) {
+            setServicesList(active);
+          }
+        }
+      })
+      .catch(() => {});
+  }, [division.slug]);
 
   return (
     <>
@@ -64,7 +102,7 @@ export default function DivisionDetailClient({ division }: { division: BusinessD
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {division.servicesList.map((item) => (
+          {servicesList.map((item) => (
             <Link
               key={item.slug}
               href={`/services/${division.slug}/${item.slug}`}
@@ -125,7 +163,11 @@ export default function DivisionDetailClient({ division }: { division: BusinessD
             : "Contact Arizona International advisors today for customized quotes, fast processing, and 24/7 dedicated support."
         }
         buttonText={isArabic ? "استفسر عبر الواتساب" : "Inquire on WhatsApp"}
-        buttonHref={`https://wa.me/923135921434?text=${encodeURIComponent(`Hi Arizona, I want to book ${division.title}. Please guide me.`)}`}
+        buttonHref={
+          division.slug === "business-bahrain"
+            ? `https://wa.me/97332306963?text=${encodeURIComponent(`Hi Arizona Bahrain, I want to book ${division.title}. Please guide me.`)}`
+            : contact.whatsappLink(`Hi Arizona, I want to book ${division.title}. Please guide me.`)
+        }
         backgroundImage={division.heroImage}
       />
     </>
