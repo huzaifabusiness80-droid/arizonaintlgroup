@@ -79,6 +79,9 @@ const navCategories: NavCategory[] = [
     href: "/services/business-bahrain",
     items: [
       { nameEn: "100% Foreign Ownership (CR)", nameAr: "ملكية أجنبية 100% (السجل التجاري)", href: "/services/business-bahrain/foreign-ownership-cr" },
+      { nameEn: "Workload Offense Clearance", nameAr: "إزالة مخالفات عبء العمل (Workload Offense)", href: "/services/business-bahrain/workload-offense" },
+      { nameEn: "Inspection Offense Resolution", nameAr: "إزالة مخالفات التفتيش (Inspection Offense)", href: "/services/business-bahrain/inspection-offense" },
+      { nameEn: "Ceiling Visa Increase", nameAr: "زيادة سقف وتأشيرات العمل (Ceiling Visa)", href: "/services/business-bahrain/ceiling-visa-increase" },
       { nameEn: "Turnkey Office with EWA", nameAr: "مكتب مرخص مع الكهرباء والماء", href: "/services/business-bahrain/turnkey-office-ewa" },
       { nameEn: "Corporate Bank Account", nameAr: "فتح حساب بنكي تجاري", href: "/services/business-bahrain/corporate-bank-account" },
       { nameEn: "LMRA & Investor Visas", nameAr: "تأشيرات وإقامة المستثمر LMRA", href: "/services/business-bahrain/lmra-work-permits" },

@@ -784,6 +784,55 @@ export const businessDivisionsData: BusinessDivision[] = [
         ],
         about: "Ensure full compliance with Bahrain tax regulations and statutory corporate financial reporting with our certified chartered accountants.",
       },
+      {
+        slug: "workload-offense",
+        name: "Workload Offense Clearance",
+        desc: "Resolution of LMRA workload ratio violations, labour quota reconciliation, and offence removal.",
+        tag: "LMRA Offence Removal",
+        image: "https://images.unsplash.com/photo-1450133064473-71024230f91b?w=800&q=80&auto=format&fit=crop",
+        price: "Case-by-Case Assessment",
+        gallery: [
+          "https://images.unsplash.com/photo-1450133064473-71024230f91b?w=1600&q=85&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85&auto=format&fit=crop",
+        ],
+        options: [
+          { name: "Workload Case Review & Audit", price: "BHD 75", period: "initial audit", capacity: "Full CR Audit", badge: "Express Review", desc: "Complete analysis of company labor files, employee ratios, and LMRA records." },
+          { name: "Complete Workload Offense Removal", price: "Custom Quote", period: "per case", capacity: "Direct Filing", badge: "Guaranteed Submission", desc: "Drafting appeals, reconciliation documentation, and securing LMRA clearance." },
+        ],
+        about: "Clear LMRA workload offences swiftly with Arizona International. We handle case reviews, client documentation, legal justification letters, and direct coordination with the Labour Market Regulatory Authority to normalize your company file.",
+      },
+      {
+        slug: "inspection-offense",
+        name: "Inspection Offense Resolution",
+        desc: "Legal rectifications for LMRA & Ministry of Industry and Commerce (MOIC) onsite inspection violations.",
+        tag: "Inspection Clearance",
+        image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80&auto=format&fit=crop",
+        price: "Fast Compliance Support",
+        gallery: [
+          "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&q=85&auto=format&fit=crop",
+        ],
+        options: [
+          { name: "Onsite Inspection Compliance Rectification", price: "BHD 120", period: "case assistance", capacity: "Commercial Site", badge: "Fast Action", desc: "Physical premise alignment, signboard compliance, EWA validation, and re-inspection filing." },
+          { name: "MOIC Sijilat & LMRA Re-Opening", price: "Custom Quote", period: "per CR", capacity: "Full Status Unlock", badge: "Official Removal", desc: "Removal of inspection flags and restoring your CR to normal active standing." },
+        ],
+        about: "Resolve LMRA, Municipality, and MOIC inspection violations promptly. We assist in rectifying office discrepancies, organizing physical site compliance, and scheduling follow-up inspections to clear all administrative holds.",
+      },
+      {
+        slug: "ceiling-visa-increase",
+        name: "Ceiling Visa Increase",
+        desc: "Expand your company's foreign worker quota and obtain additional LMRA work permit approvals.",
+        tag: "Visa Quota Expansion",
+        image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80&auto=format&fit=crop",
+        price: "Starting from BHD 150",
+        gallery: [
+          "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=85&auto=format&fit=crop",
+        ],
+        options: [
+          { name: "Visa Ceiling Increase Assessment", price: "BHD 50", period: "pre-evaluation", capacity: "Company Size", badge: "Quota Check", desc: "Evaluation of office size, contracts, and business volume against LMRA formula." },
+          { name: "Additional Work Permit Ceiling Filing", price: "BHD 150", period: "per submission", capacity: "Multiple Permits", badge: "High Success", desc: "Submission of business expansion proof, project contracts, and securing expanded visa ceiling." },
+        ],
+        about: "Grow your workforce in Bahrain without restrictions. We prepare justification files, corporate contracts, office space verification, and handle complete LMRA ceiling increase applications to secure the work permits your business requires.",
+      },
     ],
     faqs: [
       { q: "Can a foreigner own 100% of a company in Bahrain?", a: "Yes, under Bahrain law, foreign investors can own 100% of most commercial activities without a local sponsor." },

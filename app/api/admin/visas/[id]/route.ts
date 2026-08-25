@@ -17,9 +17,6 @@ function sanitizeVisaData(body: any) {
   if (body.cardImage !== undefined) data.cardImage = body.cardImage || "";
   if (body.tagline !== undefined) data.tagline = body.tagline || "";
   if (body.overview !== undefined) data.overview = body.overview || "";
-  if (body.pricePkr !== undefined) data.pricePkr = body.pricePkr || "";
-  if (body.priceBhd !== undefined) data.priceBhd = body.priceBhd || "";
-  if (body.options !== undefined) data.options = Array.isArray(body.options) ? body.options : [];
   if (body.requirements !== undefined) data.requirements = Array.isArray(body.requirements) ? body.requirements : [];
   if (body.processSteps !== undefined) data.processSteps = Array.isArray(body.processSteps) ? body.processSteps : [];
   if (body.included !== undefined) data.included = Array.isArray(body.included) ? body.included : [];
