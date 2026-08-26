@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans, Cairo } from "next/font/google";
 import Script from "next/script";
+import JsonLd from "@/components/JsonLd";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -17,12 +18,152 @@ const cairo = Cairo({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#dfb141",
+};
+
+const siteUrl = "https://arizonaintlgroup.com";
+
 export const metadata: Metadata = {
-  title: "Arizona - Experience The World With Arizona",
-  description: "Curating seamless worldwide voyages, private escapes, and bespoke itineraries. From exotic tropical retreats to alpine adventures, travel with unmatched elegance.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Arizona International Group | Bahrain Business Setup, LMRA, Visas & Luxury Travel",
+    template: "%s | Arizona International Group",
+  },
+  description:
+    "Arizona International Group is the leading corporate gateway in Bahrain & Pakistan. Specializing in CR Company Formation in Bahrain, LMRA Work Permits, Investor Visas, Legal Clearances, Worldwide Visa Facilitation (Schengen, UK, USA, Gulf), Luxury Travel, and Rent a Car.",
+  applicationName: "Arizona International Group",
+  authors: [{ name: "Arizona International Group", url: siteUrl }],
+  generator: "Next.js",
+  keywords: [
+    // Bahrain Target Keywords
+    "Bahrain company formation",
+    "CR registration Bahrain",
+    "LMRA work permit Bahrain",
+    "Bahrain investor visa",
+    "PRO services Bahrain",
+    "business setup in Bahrain",
+    "Sijilat Bahrain commercial registration",
+    "LMRA runaway offense clearance",
+    "workload offense Bahrain",
+    "inspection clearance Bahrain",
+    "ceiling visa increase Bahrain",
+    "commercial bank account Bahrain",
+    "audit and VAT services Bahrain",
+    "rent a car Bahrain",
+    "luxury car rental Manama",
+    "travel agency Bahrain",
+    "Manama business consultants",
+    "Bahrain visa for Pakistani",
+    // Pakistan Target Keywords
+    "visa consultancy Islamabad",
+    "visa consultants Pakistan",
+    "Schengen visa from Pakistan",
+    "UK visa consultancy Rawalpindi",
+    "USA tourist visa Pakistan",
+    "Canada visa assistance Islamabad",
+    "Dubai visit visa Pakistan",
+    "Malaysia eVisa Pakistan",
+    "Turkey visa Pakistan",
+    "Bahrain visit visa from Pakistan",
+    "flight booking Pakistan",
+    "cheap airline tickets Islamabad",
+    "Umrah packages Islamabad Rawalpindi",
+    "rent a car Islamabad Rawalpindi",
+    "luxury tour packages Pakistan",
+    // Brand & Global Keywords
+    "Arizona International Group",
+    "مجموعة أريزونا الدولية",
+    "Arizona Travel & Tours",
+    "Arizona Consultancy Bahrain",
+    "worldwide visa processing",
+    "5 star hotel booking",
+    "corporate travel management",
+    "foreign direct investment Bahrain",
+  ],
+  referrer: "origin-when-cross-origin",
+  creator: "Arizona International Group",
+  publisher: "Arizona International Group",
+  category: "Business, Travel & Corporate Services",
+  formatDetection: {
+    email: true,
+    address: true,
+    telephone: true,
+  },
+  alternates: {
+    canonical: siteUrl,
+    languages: {
+      "en-BH": siteUrl,
+      "ar-BH": `${siteUrl}?lang=ar`,
+      "en-PK": siteUrl,
+      "en-US": siteUrl,
+      "x-default": siteUrl,
+    },
+  },
+  openGraph: {
+    title: "Arizona International Group | Bahrain Business Setup, LMRA, Visas & Travel",
+    description:
+      "Premier corporate partner in Bahrain & Pakistan for CR Company Formation, LMRA Visas, PRO solutions, Worldwide Visa Processing, Luxury Travel, and Rent a Car.",
+    url: siteUrl,
+    siteName: "Arizona International Group",
+    images: [
+      {
+        url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&h=630&q=85&auto=format&fit=crop",
+        width: 1200,
+        height: 630,
+        alt: "Arizona International Group Corporate Headquarters",
+      },
+    ],
+    locale: "en_US",
+    alternateLocale: ["ar_BH", "en_PK", "ur_PK"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Arizona International Group | Bahrain Business Setup & Global Visas",
+    description:
+      "Your trusted gateway for Bahrain Company Formation (CR/LMRA), Worldwide Visas, Flights, and Luxury Travel in Bahrain & Pakistan.",
+    images: [
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&h=630&q=85&auto=format&fit=crop",
+    ],
+    creator: "@arizonaintl",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: "/icon.svg",
+    shortcut: "/icon.svg",
     apple: "/icon.svg",
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "google-site-verification-placeholder",
+    yandex: "yandex-verification-placeholder",
+    other: {
+      "msvalidate.01": "bing-verification-placeholder",
+    },
+  },
+  other: {
+    "geo.region": "BH-13;PK-IS",
+    "geo.placename": "Manama, Bahrain; Islamabad, Pakistan",
+    "geo.position": "26.2285;50.5860",
+    ICBM: "26.2285, 50.5860",
+    "revisit-after": "1 days",
+    "rating": "General",
+    "distribution": "Global",
   },
 };
 
@@ -37,12 +178,15 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${dmSans.variable} ${cairo.variable} font-sans antialiased scroll-smooth`}>
       <head>
+        {/* Google AdSense Script */}
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2984910261301996"
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        {/* Schema.org Structured Data (JSON-LD) */}
+        <JsonLd type="home" />
       </head>
       <body className="min-h-screen bg-[#f8f9fa] text-[#111827] font-sans font-normal selection:bg-[#dfb141] selection:text-white">
         <GeoProvider>
