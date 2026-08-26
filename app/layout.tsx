@@ -157,6 +157,7 @@ export const metadata: Metadata = {
     },
   },
   other: {
+    "google-adsense-account": "ca-pub-2984910261301996",
     "geo.region": "BH-13;PK-IS",
     "geo.placename": "Manama, Bahrain; Islamabad, Pakistan",
     "geo.position": "26.2285;50.5860",
@@ -178,12 +179,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${dmSans.variable} ${cairo.variable} font-sans antialiased scroll-smooth`}>
       <head>
-        {/* Google AdSense Script */}
-        <Script
+        {/* Google AdSense Meta & Script */}
+        <meta name="google-adsense-account" content="ca-pub-2984910261301996" />
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2984910261301996"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
         />
         {/* Schema.org Structured Data (JSON-LD) */}
         <JsonLd type="home" />
