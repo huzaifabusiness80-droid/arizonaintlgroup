@@ -150,7 +150,7 @@ export const metadata: Metadata = {
     apple: "/icon.svg",
   },
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "google-site-verification-placeholder",
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "ZMWf1V-7wXldw5Pu1QB5W_0rOicz3QwYpOiYMK7FK6M",
     yandex: "yandex-verification-placeholder",
     other: {
       "msvalidate.01": "bing-verification-placeholder",
