@@ -38,6 +38,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    {
+      url: `${siteUrl}/blogs`,
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.85,
+    },
   ];
 
   // Division category pages
@@ -85,12 +91,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic items from database
   try {
-    const [dbCars, dbTours, dbMobiles, dbBahrain] = await Promise.all([
+    const [dbCars, dbTours, dbMobiles, dbBahrain, dbBlogs] = await Promise.all([
       prisma.carService.findMany({ where: { isActive: true }, select: { slug: true } }),
       prisma.tourService.findMany({ where: { isActive: true }, select: { slug: true } }),
       prisma.mobileProduct.findMany({ where: { isActive: true }, select: { slug: true } }),
       prisma.bahrainService.findMany({ where: { isActive: true }, select: { slug: true } }),
+      prisma.blogPost.findMany({ where: { isPublished: true }, select: { slug: true, updatedAt: true } }),
     ]);
+
+    dbBlogs.forEach((b) => {
+      const url = `${siteUrl}/blogs/${b.slug}`;
+      if (!serviceItemPages.some((p) => p.url === url)) {
+        serviceItemPages.push({ url, lastModified: b.updatedAt || now, changeFrequency: "weekly", priority: 0.8 });
+      }
+    });
 
     dbCars.forEach((c) => {
       const url = `${siteUrl}/services/rent-a-car/${c.slug}`;

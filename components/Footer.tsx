@@ -73,6 +73,7 @@ export default function Footer() {
               <li><Link href="/services/business-bahrain" className="hover:text-white transition-colors">{isArabic ? "تأشيرات وإقامة المستثمر LMRA" : "LMRA & Investor Visas"}</Link></li>
               {!isPakistan && (
                 <>
+                  <li><Link href="/blogs" className="hover:text-white transition-colors">{isArabic ? "المقالات والأدلة" : "Articles & Guides"}</Link></li>
                   <li><Link href="/about" className="hover:text-white transition-colors">{isArabic ? "عن مجموعة أريزونا" : "About Arizona Group"}</Link></li>
                   <li><Link href="/contact" className="hover:text-white transition-colors">{isArabic ? "اتصل بفريق الدعم" : "Contact Support"}</Link></li>
                 </>
@@ -91,6 +92,7 @@ export default function Footer() {
                 <li><Link href="/services/mobiles-tech" className="hover:text-white transition-colors">{isArabic ? "شواحن سريعة وكابلات" : "Fast Chargers & Adapters"}</Link></li>
                 <li><Link href="/services/mobiles-tech" className="hover:text-white transition-colors">{isArabic ? "ساعات ذكية وسماعات" : "Smartwatches & Audio"}</Link></li>
                 <li><Link href="/services/mobiles-tech" className="hover:text-white transition-colors">{isArabic ? "توصيل منزلي سريع" : "Same-Day Home Delivery"}</Link></li>
+                <li><Link href="/blogs" className="hover:text-[#c9a227] transition-colors">{isArabic ? "المقالات والأدلة" : "Articles & Guides"}</Link></li>
                 <li><Link href="/about" className="hover:text-white transition-colors">{isArabic ? "عن مجموعة أريزونا" : "About Arizona Group"}</Link></li>
                 <li><Link href="/contact" className="hover:text-white transition-colors">{isArabic ? "اتصل بفريق الدعم" : "Contact Support"}</Link></li>
               </ul>

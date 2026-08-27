@@ -207,3 +207,28 @@ model ContactMessage {
 
   @@map("contact_messages")
 }
+
+// ─── BLOGS & ARTICLES ─────────────────────────────────────────────────────────
+
+model BlogPost {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  title           String
+  excerpt         String   @db.Text
+  content         String   @db.Text
+  coverImage      String
+  category        String   // Bahrain Business, Worldwide Visas, Travel & Tours, Rent A Car, Mobiles & Tech, General
+  author          String   @default("Arizona Editorial Team")
+  authorRole      String?  @default("Immigration & Travel Consultant")
+  readTime        String   @default("5 min read")
+  tags            Json?    @default("[]") // string[]
+  metaTitle       String?
+  metaDescription String?  @db.Text
+  isPublished     Boolean  @default(true)
+  isFeatured      Boolean  @default(false)
+  views           Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("blog_posts")
+}

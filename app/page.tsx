@@ -6,6 +6,7 @@ import Hero from "@/components/Hero";
 import ServicesOverview from "@/components/ServicesOverview";
 import VisaDestinations from "@/components/VisaDestinations";
 import BusinessInBahrain from "@/components/BusinessInBahrain";
+import BlogSection from "@/components/BlogSection";
 import AboutSection from "@/components/AboutSection";
 import FaqSection from "@/components/FaqSection";
 import CtaSection from "@/components/CtaSection";
@@ -34,6 +35,9 @@ export default function Home() {
 
         {/* Bahrain Business Setup & Company Formation */}
         <BusinessInBahrain />
+
+        {/* Latest Insights & Blogs Section */}
+        <BlogSection />
 
         {/* Frequently Asked Questions */}
         <FaqSection />

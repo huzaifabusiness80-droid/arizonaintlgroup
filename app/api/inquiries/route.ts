@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { sendInquiryEmail } from "@/lib/mailer";
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,22 +14,45 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const cleanName = name.trim();
+    const cleanPhone = phone.trim();
+    const cleanEmail = (email || "").trim();
+    const cleanService = service || "General Inquiry";
+    const cleanMessage = (message || "").trim();
+    const cleanCountry = country || "Unknown";
+
+    // 1. Save inquiry into Database
     const inquiry = await prisma.inquiry.create({
       data: {
-        name: name.trim(),
-        phone: phone.trim(),
-        email: (email || "").trim(),
-        service: service || "General Inquiry",
-        message: (message || "").trim(),
-        country: country || "Unknown",
+        name: cleanName,
+        phone: cleanPhone,
+        email: cleanEmail,
+        service: cleanService,
+        message: cleanMessage,
+        country: cleanCountry,
         status: "NEW",
         isRead: false,
       },
     });
 
+    // 2. Send instant email notification via Nodemailer
+    try {
+      await sendInquiryEmail({
+        name: cleanName,
+        phone: cleanPhone,
+        email: cleanEmail,
+        service: cleanService,
+        message: cleanMessage,
+        country: cleanCountry,
+      });
+    } catch (mailErr) {
+      console.error("Email notification dispatch error:", mailErr);
+      // Non-blocking so customer still gets success response
+    }
+
     return NextResponse.json({
       success: true,
-      message: "Inquiry saved successfully",
+      message: "Inquiry saved and notification dispatched successfully",
       inquiry,
     });
   } catch (error: any) {

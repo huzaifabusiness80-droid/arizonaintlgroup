@@ -15,6 +15,7 @@ export const translations: { [lang: string]: { [key: string]: string } } = {
     "nav.rent_a_car": "Rent A Car",
     "nav.business_bahrain": "Business in Bahrain",
     "nav.mobiles_tech": "Mobiles & Tech",
+    "nav.blogs": "Articles & Guides",
     "nav.about_us": "About Us",
     "nav.contact": "Contact",
     "nav.book_now": "Book Now",
@@ -22,6 +23,18 @@ export const translations: { [lang: string]: { [key: string]: string } } = {
     "nav.english": "English",
     "nav.arabic": "العربية",
     "nav.view_hub": "Hub",
+
+    // Blogs / Insights Section
+    "blogs.badge": "Insights & Official Guides",
+    "blogs.title1": "Latest Corporate Insights, Visa Updates",
+    "blogs.title2": "& Travel Blueprints",
+    "blogs.desc": "Stay informed with official regulatory updates, Bahrain company formation blueprints, and worldwide travel advisories from our certified consultants.",
+    "blogs.view_all": "View All Articles & Guides",
+    "blogs.read_guide": "Read Article",
+    "blogs.min_read": "min read",
+    "blogs.featured": "Featured Story",
+    "blogs.search_placeholder": "Search articles, guides, or keywords...",
+    "blogs.all_categories": "All Categories",
 
     // Hero Section
     "hero.badge": "Global Mobility & Enterprise Solutions",
@@ -177,6 +190,7 @@ export const translations: { [lang: string]: { [key: string]: string } } = {
     "nav.rent_a_car": "تأجير السيارات",
     "nav.business_bahrain": "تأسيس الشركات بالبحرين",
     "nav.mobiles_tech": "الهواتف والتكنولوجيا",
+    "nav.blogs": "المقالات والأدلة",
     "nav.about_us": "من نحن",
     "nav.contact": "اتصل بنا",
     "nav.book_now": "احجز الآن",
@@ -184,6 +198,18 @@ export const translations: { [lang: string]: { [key: string]: string } } = {
     "nav.english": "English",
     "nav.arabic": "العربية",
     "nav.view_hub": "مركز",
+
+    // Blogs Section (Arabic)
+    "blogs.badge": "المقالات والأدلة الرسمية",
+    "blogs.title1": "أحدث الرؤى المؤسسية ومستجدات التأشيرات",
+    "blogs.title2": "وأدلة السفر والأعمال",
+    "blogs.desc": "كن على اطلاع دائم بآخر المستجدات القانونية، خطوات تأسيس الشركات بالبحرين، وأدلة السفر والتأشيرات الموثوقة من خبرائنا.",
+    "blogs.view_all": "عرض جميع المقالات والأدلة",
+    "blogs.read_guide": "قراءة المقال",
+    "blogs.min_read": "دقيقة للقراءة",
+    "blogs.featured": "مقال مميز",
+    "blogs.search_placeholder": "ابحث عن المقالات أو الأدلة أو الكلمات المفتاحية...",
+    "blogs.all_categories": "جميع الأقسام",
 
     // Hero Section
     "hero.badge": "حلول التنقل العالمي وتأسيس الأعمال",
