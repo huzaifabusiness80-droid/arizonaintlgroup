@@ -48,7 +48,7 @@ export default async function BlogsPage() {
       where: { isPublished: true },
       orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
     });
-    posts = rawPosts.map((p) => ({
+    posts = rawPosts.map((p: any) => ({
       ...p,
       tags: Array.isArray(p.tags) ? p.tags : [],
       createdAt: p.createdAt ? p.createdAt.toISOString() : new Date().toISOString(),

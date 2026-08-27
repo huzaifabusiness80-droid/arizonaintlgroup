@@ -134,7 +134,7 @@ export default async function BlogDetailPage({ params }: Props) {
     tags: Array.isArray(post.tags) ? (post.tags as string[]) : [],
   };
 
-  const formattedRelated = relatedPosts.map((r) => ({
+  const formattedRelated = relatedPosts.map((r: any) => ({
     ...r,
     createdAt: r.createdAt.toISOString(),
     tags: Array.isArray(r.tags) ? (r.tags as string[]) : [],

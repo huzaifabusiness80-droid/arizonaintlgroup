@@ -99,37 +99,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       prisma.blogPost.findMany({ where: { isPublished: true }, select: { slug: true, updatedAt: true } }),
     ]);
 
-    dbBlogs.forEach((b) => {
+    dbBlogs.forEach((b: any) => {
       const url = `${siteUrl}/blogs/${b.slug}`;
-      if (!serviceItemPages.some((p) => p.url === url)) {
+      if (!serviceItemPages.some((p: any) => p.url === url)) {
         serviceItemPages.push({ url, lastModified: b.updatedAt || now, changeFrequency: "weekly", priority: 0.8 });
       }
     });
 
-    dbCars.forEach((c) => {
+    dbCars.forEach((c: any) => {
       const url = `${siteUrl}/services/rent-a-car/${c.slug}`;
-      if (!serviceItemPages.some((p) => p.url === url)) {
+      if (!serviceItemPages.some((p: any) => p.url === url)) {
         serviceItemPages.push({ url, lastModified: now, changeFrequency: "weekly", priority: 0.75 });
       }
     });
 
-    dbTours.forEach((t) => {
+    dbTours.forEach((t: any) => {
       const url = `${siteUrl}/services/travel-tours/${t.slug}`;
-      if (!serviceItemPages.some((p) => p.url === url)) {
+      if (!serviceItemPages.some((p: any) => p.url === url)) {
         serviceItemPages.push({ url, lastModified: now, changeFrequency: "weekly", priority: 0.75 });
       }
     });
 
-    dbMobiles.forEach((m) => {
+    dbMobiles.forEach((m: any) => {
       const url = `${siteUrl}/services/mobiles-tech/${m.slug}`;
-      if (!serviceItemPages.some((p) => p.url === url)) {
+      if (!serviceItemPages.some((p: any) => p.url === url)) {
         serviceItemPages.push({ url, lastModified: now, changeFrequency: "weekly", priority: 0.75 });
       }
     });
 
-    dbBahrain.forEach((b) => {
+    dbBahrain.forEach((b: any) => {
       const url = `${siteUrl}/services/business-bahrain/${b.slug}`;
-      if (!serviceItemPages.some((p) => p.url === url)) {
+      if (!serviceItemPages.some((p: any) => p.url === url)) {
         serviceItemPages.push({ url, lastModified: now, changeFrequency: "weekly", priority: 0.75 });
       }
     });

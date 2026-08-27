@@ -119,7 +119,7 @@ const servicesData: ServiceSlide[] = [
       "أحدث أجهزة الآيفون، سامسونج جالاكسي، وجوجل بكسل الأصلية 100%. شواحن GaN السريعة وملحقات الصوت مع توصيل سريع في نفس اليوم.",
     primaryBtn: { textEn: "Order on WhatsApp", textAr: "اطلب عبر الواتساب", href: "https://wa.me" },
     secondaryBtn: { textEn: "View Products", textAr: "عرض المنتجات", href: "/services/mobiles-tech" },
-    image: "/images/hero-mobiles.jpg",
+    image: "/images/hero-tech.jpg",
   },
 ];
 
