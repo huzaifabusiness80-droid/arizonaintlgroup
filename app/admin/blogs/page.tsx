@@ -122,17 +122,18 @@ export default function AdminBlogsPage() {
               alignItems: "center",
               gap: 8,
               padding: "10px 16px",
-              background: "#eff6ff",
-              color: "#1d4ed8",
+              background: "#2563eb",
+              color: "#ffffff",
               fontWeight: 600,
               fontSize: 13,
               borderRadius: "4px",
-              border: "1px solid #bfdbfe",
+              border: "none",
+              boxShadow: "0 1px 2px rgba(37, 99, 235, 0.2)",
               cursor: "pointer",
             }}
           >
-            <FileSpreadsheet size={16} color="#2563eb" />
-            Bulk Import (Excel / CSV)
+            <FileSpreadsheet size={16} />
+            Bulk Import
           </button>
 
           <Link

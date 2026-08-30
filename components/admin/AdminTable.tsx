@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FileSpreadsheet, Plus, Edit, Trash2, CheckCircle2, EyeOff } from "lucide-react";
+import { FileSpreadsheet, Plus, Edit, Trash2, CheckCircle2, EyeOff, Sparkles } from "lucide-react";
 import BulkImportModal from "./BulkImportModal";
 
 interface Column {
@@ -91,10 +91,10 @@ export default function AdminTable({ title, section, apiPath, columns, items, on
           <button
             onClick={() => setIsImportOpen(true)}
             style={{
-              padding: "8px 14px",
-              background: "#eff6ff",
-              color: "#1d4ed8",
-              border: "1px solid #bfdbfe",
+              padding: "8px 16px",
+              background: "#2563eb",
+              color: "#ffffff",
+              border: "none",
               fontSize: "12px",
               fontWeight: 600,
               cursor: "pointer",
@@ -102,12 +102,13 @@ export default function AdminTable({ title, section, apiPath, columns, items, on
               alignItems: "center",
               gap: "6px",
               borderRadius: "4px",
+              boxShadow: "0 1px 2px rgba(37, 99, 235, 0.2)",
               transition: "all 0.15s ease",
             }}
-            title="Upload Excel or CSV spreadsheet"
+            title="Bulk Import from Excel / CSV"
           >
-            <FileSpreadsheet size={15} color="#2563eb" />
-            Bulk Import (Excel / CSV)
+            <FileSpreadsheet size={15} />
+            Bulk Import
           </button>
 
           <button
@@ -145,9 +146,9 @@ export default function AdminTable({ title, section, apiPath, columns, items, on
               onClick={() => setIsImportOpen(true)}
               style={{
                 padding: "8px 16px",
-                background: "#eff6ff",
-                border: "1px solid #bfdbfe",
-                color: "#1d4ed8",
+                background: "#2563eb",
+                border: "none",
+                color: "#ffffff",
                 fontSize: "12px",
                 fontWeight: 600,
                 cursor: "pointer",
@@ -155,9 +156,10 @@ export default function AdminTable({ title, section, apiPath, columns, items, on
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "6px",
+                boxShadow: "0 1px 2px rgba(37, 99, 235, 0.2)",
               }}
             >
-              <FileSpreadsheet size={15} color="#2563eb" /> Bulk Import Spreadsheet
+              <FileSpreadsheet size={15} /> Bulk Import
             </button>
             <button
               onClick={() => router.push(addHref)}
