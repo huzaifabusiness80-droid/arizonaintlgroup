@@ -81,6 +81,7 @@ export default function ServiceItemDetailClient({
         backLinkHref={`/services/${division.slug}`}
         backLinkLabel={isArabic ? `عرض جميع خدمات ${division.title}` : `View All ${division.title}`}
         whatsAppText={`Hi Arizona, I am interested in booking "${item.name}" under ${division.title}. Please share available packages and pricing.`}
+        customizerServiceType={division.slug as any}
       />
 
       {/* Reusable Scenic CTA Banner */}

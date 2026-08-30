@@ -141,7 +141,7 @@ export default async function BlogDetailPage({ params }: Props) {
   }));
 
   return (
-    <div className="min-h-screen bg-white text-neutral-900 flex flex-col justify-between selection:bg-[#dfb141] selection:text-white">
+    <div className="min-h-screen bg-white text-neutral-900 flex flex-col justify-between selection:bg-[#2563eb] selection:text-white">
       {/* Article Schema */}
       <script
         type="application/ld+json"

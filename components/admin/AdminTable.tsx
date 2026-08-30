@@ -1,6 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { FileSpreadsheet, Plus, Edit, Trash2, CheckCircle2, EyeOff } from "lucide-react";
+import BulkImportModal from "./BulkImportModal";
 
 interface Column {
   key: string;
@@ -10,7 +13,7 @@ interface Column {
 
 interface AdminTableProps {
   title: string;
-  section: string; // e.g. "visas", "rent-a-car"
+  section: string; // e.g. "visas", "rent-a-car", "travel-tours", "mobiles-tech", "bahrain-services"
   apiPath: string; // e.g. "/api/admin/visas"
   columns: Column[];
   items: any[];
@@ -18,22 +21,10 @@ interface AdminTableProps {
   addHref: string;
 }
 
-const S: Record<string, React.CSSProperties> = {
-  container: { background: "#fff", border: "1px solid #e8e8e8" },
-  header: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", borderBottom: "1px solid #eee" },
-  title: { fontSize: 14, fontWeight: 600, color: "#111" },
-  addBtn: { padding: "7px 16px", background: "#111", color: "#fff", border: "none", fontSize: 12, cursor: "pointer", letterSpacing: "0.04em" },
-  table: { width: "100%", borderCollapse: "collapse" as const, fontSize: 13 },
-  th: { padding: "10px 16px", textAlign: "left" as const, fontSize: 11, fontWeight: 600, color: "#888", textTransform: "uppercase" as const, letterSpacing: "0.06em", borderBottom: "1px solid #eee", background: "#fafafa" },
-  td: { padding: "12px 16px", color: "#333", borderBottom: "1px solid #f0f0f0", verticalAlign: "middle" as const },
-  editBtn: { padding: "5px 12px", background: "transparent", border: "1px solid #ccc", color: "#555", fontSize: 12, cursor: "pointer", marginRight: 6 },
-  deleteBtn: { padding: "5px 12px", background: "transparent", border: "1px solid #ffcccc", color: "#c00", fontSize: 12, cursor: "pointer" },
-  toggle: { padding: "4px 10px", fontSize: 11, border: "none", cursor: "pointer" },
-  empty: { padding: "40px", textAlign: "center" as const, color: "#aaa", fontSize: 13 },
-};
-
 export default function AdminTable({ title, section, apiPath, columns, items, onRefresh, addHref }: AdminTableProps) {
   const router = useRouter();
+  const [isImportOpen, setIsImportOpen] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   async function handleToggle(item: any) {
     await fetch(`${apiPath}/${item.id}`, {
@@ -45,61 +36,296 @@ export default function AdminTable({ title, section, apiPath, columns, items, on
   }
 
   async function handleDelete(item: any) {
-    if (!confirm(`Delete "${item.name}"? This cannot be undone.`)) return;
-    await fetch(`${apiPath}/${item.id}`, { method: "DELETE" });
-    onRefresh();
+    if (!confirm(`Delete "${item.name}"? This action cannot be undone.`)) return;
+    setDeletingId(item.id);
+    try {
+      await fetch(`${apiPath}/${item.id}`, { method: "DELETE" });
+      onRefresh();
+    } finally {
+      setDeletingId(null);
+    }
   }
 
   return (
-    <div style={S.container}>
-      <div style={S.header}>
-        <span style={S.title}>{title} <span style={{ color: "#aaa", fontWeight: 400 }}>({items.length})</span></span>
-        <button style={S.addBtn} onClick={() => router.push(addHref)}>+ Add New</button>
+    <div
+      style={{
+        background: "#ffffff",
+        border: "1px solid #e2e8f0",
+        borderRadius: "6px",
+        overflow: "hidden",
+        boxShadow: "0 1px 3px rgba(0, 0, 0, 0.04)",
+        fontFamily: "system-ui, -apple-system, sans-serif",
+      }}
+    >
+      {/* Table Header Action Bar */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "16px 20px",
+          borderBottom: "1px solid #e2e8f0",
+          background: "#ffffff",
+          flexWrap: "wrap",
+          gap: "12px",
+        }}
+      >
+        <div>
+          <span style={{ fontSize: "15px", fontWeight: 700, color: "#0f172a" }}>{title}</span>{" "}
+          <span
+            style={{
+              fontSize: "11px",
+              background: "#f1f5f9",
+              color: "#475569",
+              padding: "2px 8px",
+              borderRadius: "12px",
+              fontWeight: 600,
+              marginLeft: "6px",
+            }}
+          >
+            {items.length} records
+          </span>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <button
+            onClick={() => setIsImportOpen(true)}
+            style={{
+              padding: "8px 14px",
+              background: "#eff6ff",
+              color: "#1d4ed8",
+              border: "1px solid #bfdbfe",
+              fontSize: "12px",
+              fontWeight: 600,
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+              borderRadius: "4px",
+              transition: "all 0.15s ease",
+            }}
+            title="Upload Excel or CSV spreadsheet"
+          >
+            <FileSpreadsheet size={15} color="#2563eb" />
+            Bulk Import (Excel / CSV)
+          </button>
+
+          <button
+            onClick={() => router.push(addHref)}
+            style={{
+              padding: "8px 16px",
+              background: "#2563eb",
+              color: "#ffffff",
+              border: "none",
+              fontSize: "12px",
+              fontWeight: 600,
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+              borderRadius: "4px",
+              transition: "all 0.15s ease",
+            }}
+          >
+            <Plus size={15} /> Add New
+          </button>
+        </div>
       </div>
 
       {items.length === 0 ? (
-        <div style={S.empty}>No items yet. Click "Add New" to get started.</div>
+        <div style={{ padding: "48px 24px", textAlign: "center", color: "#64748b", background: "#f8fafc" }}>
+          <div style={{ fontSize: "14px", fontWeight: 600, color: "#334155", marginBottom: "6px" }}>
+            No records found in this section
+          </div>
+          <p style={{ fontSize: "12px", color: "#94a3b8", margin: "0 0 16px 0" }}>
+            Get started by creating an individual record or importing from an Excel/CSV spreadsheet.
+          </p>
+          <div style={{ display: "inline-flex", gap: "10px" }}>
+            <button
+              onClick={() => setIsImportOpen(true)}
+              style={{
+                padding: "8px 16px",
+                background: "#eff6ff",
+                border: "1px solid #bfdbfe",
+                color: "#1d4ed8",
+                fontSize: "12px",
+                fontWeight: 600,
+                cursor: "pointer",
+                borderRadius: "4px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+              }}
+            >
+              <FileSpreadsheet size={15} color="#2563eb" /> Bulk Import Spreadsheet
+            </button>
+            <button
+              onClick={() => router.push(addHref)}
+              style={{
+                padding: "8px 16px",
+                background: "#2563eb",
+                color: "#ffffff",
+                border: "none",
+                fontSize: "12px",
+                fontWeight: 600,
+                cursor: "pointer",
+                borderRadius: "4px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+              }}
+            >
+              <Plus size={15} /> Add First Item
+            </button>
+          </div>
+        </div>
       ) : (
-        <table style={S.table}>
-          <thead>
-            <tr>
-              {columns.map((col) => (
-                <th key={col.key} style={S.th}>{col.label}</th>
-              ))}
-              <th style={S.th}>Status</th>
-              <th style={S.th}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((item) => (
-              <tr key={item.id} style={{ background: item.isActive ? "#fff" : "#fafafa" }}>
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
+            <thead>
+              <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0" }}>
                 {columns.map((col) => (
-                  <td key={col.key} style={S.td}>
-                    {col.render ? col.render(item[col.key], item) : (item[col.key] ?? "—")}
-                  </td>
-                ))}
-                <td style={S.td}>
-                  <button
-                    onClick={() => handleToggle(item)}
+                  <th
+                    key={col.key}
                     style={{
-                      ...S.toggle,
-                      background: item.isActive ? "#e6f4ea" : "#f5f5f5",
-                      color: item.isActive ? "#2e7d32" : "#999",
-                      border: `1px solid ${item.isActive ? "#c8e6c9" : "#e0e0e0"}`,
+                      padding: "11px 16px",
+                      textAlign: "left",
+                      fontSize: "11px",
+                      fontWeight: 600,
+                      color: "#64748b",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
                     }}
                   >
-                    {item.isActive ? "Active" : "Hidden"}
-                  </button>
-                </td>
-                <td style={S.td}>
-                  <button style={S.editBtn} onClick={() => router.push(`/admin/${section}/${item.id}`)}>Edit</button>
-                  <button style={S.deleteBtn} onClick={() => handleDelete(item)}>Delete</button>
-                </td>
+                    {col.label}
+                  </th>
+                ))}
+                <th
+                  style={{
+                    padding: "11px 16px",
+                    textAlign: "center",
+                    fontSize: "11px",
+                    fontWeight: 600,
+                    color: "#64748b",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  Status
+                </th>
+                <th
+                  style={{
+                    padding: "11px 16px",
+                    textAlign: "right",
+                    fontSize: "11px",
+                    fontWeight: 600,
+                    color: "#64748b",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {items.map((item) => (
+                <tr
+                  key={item.id}
+                  style={{
+                    borderBottom: "1px solid #f1f5f9",
+                    background: item.isActive ? "#ffffff" : "#fcfcfd",
+                  }}
+                >
+                  {columns.map((col) => (
+                    <td
+                      key={col.key}
+                      style={{
+                        padding: "12px 16px",
+                        color: "#1e293b",
+                        verticalAlign: "middle",
+                      }}
+                    >
+                      {col.render ? col.render(item[col.key], item) : (item[col.key] ?? "—")}
+                    </td>
+                  ))}
+                  <td style={{ padding: "12px 16px", textAlign: "center", verticalAlign: "middle" }}>
+                    <button
+                      onClick={() => handleToggle(item)}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "4px",
+                        padding: "4px 9px",
+                        fontSize: "11px",
+                        fontWeight: 600,
+                        borderRadius: "12px",
+                        cursor: "pointer",
+                        background: item.isActive ? "#ecfdf5" : "#f1f5f9",
+                        color: item.isActive ? "#059669" : "#64748b",
+                        border: `1px solid ${item.isActive ? "#a7f3d0" : "#cbd5e1"}`,
+                      }}
+                      title="Click to toggle publish status"
+                    >
+                      {item.isActive ? <CheckCircle2 size={12} /> : <EyeOff size={12} />}
+                      {item.isActive ? "Active" : "Hidden"}
+                    </button>
+                  </td>
+                  <td style={{ padding: "12px 16px", textAlign: "right", verticalAlign: "middle" }}>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                      <button
+                        onClick={() => router.push(`/admin/${section}/${item.id}`)}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
+                          padding: "5px 10px",
+                          background: "#ffffff",
+                          border: "1px solid #cbd5e1",
+                          color: "#0f172a",
+                          fontSize: "12px",
+                          fontWeight: 500,
+                          borderRadius: "3px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <Edit size={12} /> Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(item)}
+                        disabled={deletingId === item.id}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          padding: "5px 8px",
+                          background: "#fef2f2",
+                          border: "1px solid #fecaca",
+                          color: "#dc2626",
+                          fontSize: "12px",
+                          borderRadius: "3px",
+                          cursor: deletingId === item.id ? "not-allowed" : "pointer",
+                        }}
+                        title="Delete Record"
+                      >
+                        <Trash2 size={13} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
+
+      {/* Bulk Import Modal */}
+      <BulkImportModal
+        isOpen={isImportOpen}
+        onClose={() => setIsImportOpen(false)}
+        section={section}
+        title={title}
+        onSuccess={onRefresh}
+      />
     </div>
   );
 }

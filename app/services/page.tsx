@@ -1,15 +1,16 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageBanner from "@/components/PageBanner";
 import CtaSection from "@/components/CtaSection";
 import Link from "next/link";
 import { businessDivisionsData } from "@/lib/data";
-import { ArrowUpRight, CheckCircle2, PhoneCall } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, PhoneCall, Sliders } from "lucide-react";
 import { useGeoLocation } from "@/context/GeoContext";
 import { useLanguage } from "@/context/LanguageContext";
+import ServiceCustomizerModal, { CustomizerServiceType } from "@/components/ServiceCustomizerModal";
 
 const arabicDivisionMeta: { [slug: string]: { title: string; category: string; tagline: string; subtitle: string; overview: string } } = {
   "travel-tours": {
@@ -45,16 +46,22 @@ const arabicDivisionMeta: { [slug: string]: { title: string; category: string; t
 export default function ServicesPage() {
   const { isPakistan, contact } = useGeoLocation();
   const { isArabic, t } = useLanguage();
+  const [customizerOpen, setCustomizerOpen] = useState(false);
+  const [selectedDivision, setSelectedDivision] = useState<CustomizerServiceType>("business-bahrain");
 
-  // If outside Pakistan, filter out Rent A Car and Mobiles & Tech
   const visibleDivisions = isPakistan
     ? businessDivisionsData
     : businessDivisionsData.filter(
         (d) => d.slug !== "rent-a-car" && d.slug !== "mobiles-tech"
       );
 
+  const openCustomizer = (slug: string) => {
+    setSelectedDivision(slug as CustomizerServiceType);
+    setCustomizerOpen(true);
+  };
+
   return (
-    <div className="min-h-screen bg-white text-neutral-900 flex flex-col justify-between">
+    <div className="min-h-screen bg-white text-slate-900 flex flex-col justify-between">
       <Navbar />
 
       <main>
@@ -71,75 +78,77 @@ export default function ServicesPage() {
         />
 
         {/* Division Showcases */}
-        <section className="w-full py-16 sm:py-24 px-4 sm:px-8 lg:px-12 max-w-[1580px] mx-auto space-y-16">
+        <section className="w-full py-14 sm:py-18 px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto space-y-10">
           {visibleDivisions.map((division, idx) => {
             const arMeta = arabicDivisionMeta[division.slug];
             const divTitle = isArabic && arMeta ? arMeta.title : division.title;
             const divCategory = isArabic && arMeta ? arMeta.category : division.category;
             const divOverview = isArabic && arMeta ? arMeta.overview : division.overview;
-            const divTagline = isArabic && arMeta ? arMeta.tagline : division.tagline;
-            const divSubtitle = isArabic && arMeta ? arMeta.subtitle : division.subtitle;
 
             return (
               <div
                 key={division.slug}
-                className="p-8 sm:p-12 lg:p-16 rounded-[36px] bg-[#f8f9fc] border border-neutral-200/90 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center hover:border-neutral-300 transition-all"
+                className="p-6 sm:p-10 lg:p-12 rounded-xl bg-slate-50 border border-slate-200 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center hover:border-slate-300 transition-colors"
               >
                 {/* Left Details */}
-                <div className="lg:col-span-6 space-y-6">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-neutral-200 text-neutral-800 text-xs font-semibold uppercase tracking-wider">
+                <div className="lg:col-span-6 space-y-4">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 border border-blue-100 text-[#2563eb] text-xs font-medium uppercase tracking-wider">
                     <span>0{idx + 1} • {divCategory}</span>
                   </div>
-                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-950 leading-tight">
+                  <h2 className="text-2xl sm:text-4xl font-medium tracking-tight text-slate-900 leading-tight">
                     {divTitle}
                   </h2>
-                  <p className="text-sm sm:text-base text-neutral-600 font-normal leading-relaxed">
+                  <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed">
                     {divOverview}
                   </p>
 
                   {/* Features List */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
-                    {division.features.slice(0, 4).map((f) => (
-                      <div key={f.title} className="flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                        <span className="text-xs sm:text-sm font-medium text-neutral-800">{f.title}</span>
+                  <div className="space-y-2 pt-1">
+                    {division.features.slice(0, 4).map((f, fIdx) => (
+                      <div key={fIdx} className="flex items-center gap-2 text-xs sm:text-sm text-slate-700">
+                        <CheckCircle2 className="w-4 h-4 text-[#2563eb] shrink-0" />
+                        <span>{typeof f === "string" ? f : f.title}</span>
                       </div>
                     ))}
                   </div>
 
-                  <div className="pt-4 flex flex-wrap items-center gap-4">
+                  <div className="pt-2 flex flex-wrap items-center gap-3">
                     <Link
                       href={`/services/${division.slug}`}
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#dfb141] hover:bg-[#c49725] text-white text-xs sm:text-sm font-bold transition-all shadow-sm"
+                      className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-md bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-medium text-xs transition-colors cursor-pointer"
                     >
-                      <span>{isArabic ? `استكشف ${divCategory}` : `Explore ${division.title}`}</span>
-                      <ArrowUpRight className={`w-4 h-4 ${isArabic ? "rotate-[-90deg]" : ""}`} />
+                      <span>{isArabic ? "استكشف الخدمات والأسعار" : "Explore Services & Pricing"}</span>
+                      <ArrowUpRight className={`w-3.5 h-3.5 ${isArabic ? "rotate-[-90deg]" : ""}`} />
                     </Link>
+
+                    <button
+                      onClick={() => openCustomizer(division.slug)}
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-md bg-blue-50 hover:bg-blue-100 text-[#2563eb] text-xs font-semibold border border-blue-200 transition-colors cursor-pointer"
+                    >
+                      <Sliders className="w-3.5 h-3.5" />
+                      <span>{isArabic ? "تخصيص الباقة" : "Customize Package"}</span>
+                    </button>
+
                     <a
-                      href={contact.whatsappLink(`Hi Arizona, I want to inquire about ${division.title}.`)}
+                      href={contact.whatsappLink(`Hi Arizona, I want to inquire about ${division.title}`)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white hover:bg-neutral-100 text-neutral-900 border border-neutral-300 text-xs sm:text-sm font-medium transition-all"
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-md bg-white hover:bg-slate-100 text-slate-800 text-xs font-medium border border-slate-200 transition-colors cursor-pointer"
                     >
-                      <PhoneCall className="w-3.5 h-3.5" />
-                      <span>{isArabic ? "استفسار مباشر" : "Inquire Details"}</span>
+                      <PhoneCall className="w-3.5 h-3.5 text-[#2563eb]" />
+                      <span>{isArabic ? "واتساب مباشر" : "WhatsApp Inquiry"}</span>
                     </a>
                   </div>
                 </div>
 
-                {/* Right Media Banner */}
-                <div className="lg:col-span-6 relative aspect-[16/10] sm:aspect-[4/3] rounded-3xl overflow-hidden shadow-md">
-                  <img
-                    src={division.heroImage}
-                    alt={divTitle}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
-                  <div className="absolute bottom-6 left-6 right-6 text-white">
-                    <span className="text-xs font-semibold text-[#dfb141] uppercase tracking-wider block mb-1">
-                      {divTagline}
-                    </span>
-                    <h4 className="text-lg sm:text-xl font-bold">{divSubtitle}</h4>
+                {/* Right Image */}
+                <div className="lg:col-span-6">
+                  <div className="relative aspect-[16/10] rounded-lg overflow-hidden bg-slate-200 border border-slate-200">
+                    <img
+                      src={division.heroImage}
+                      alt={divTitle}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               </div>
@@ -147,21 +156,27 @@ export default function ServicesPage() {
           })}
         </section>
 
-        {/* Reusable Scenic CTA Banner */}
+        {/* CTA Banner */}
         <CtaSection
-          title={isArabic ? "انطلق بأعمالك وحقق أهداف سفرك" : "Empower Your Enterprise & Travel Goals"}
+          title={isArabic ? "هل تحتاج مساعدة في اختيار الخدمة؟" : "Need Help Choosing the Right Service?"}
           subtitle={
             isArabic
-              ? "تواصل مع مستشارينا للحصول على باقات مخصصة، إتمام إجراءات التأشيرات والسجلات، ودعم على مدار 24 ساعة."
-              : "Connect with our multi-sector advisors for customized packages, verified document submission, and 24/7 dedicated support."
+              ? "مستشارونا متاحون على مدار الساعة لتقديم الدعم والإجابة على استفساراتكم."
+              : "Our consultants are available 24/7 to provide expert guidance and custom quotes."
           }
-          buttonText={isArabic ? "استكشف الخدمات" : "Explore Services"}
-          buttonHref="/contact"
-          backgroundImage="https://images.unsplash.com/photo-1511578314322-379afb476865?w=1920&q=85&auto=format&fit=crop"
+          buttonText={isArabic ? "تحدث مع مستشار عبر الواتساب" : "Chat on WhatsApp"}
+          buttonHref={contact.whatsappLink("Hi Arizona International Group, I need guidance.")}
         />
       </main>
+
+      <ServiceCustomizerModal
+        isOpen={customizerOpen}
+        onClose={() => setCustomizerOpen(false)}
+        serviceType={selectedDivision}
+      />
 
       <Footer />
     </div>
   );
 }
+

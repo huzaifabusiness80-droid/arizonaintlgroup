@@ -197,7 +197,7 @@ export default function ImageUploadInput({
           }}
         >
           {uploading ? (
-            <div style={{ color: "#c9a227", fontSize: 13, fontWeight: 600 }}>
+            <div style={{ color: "#2563eb", fontSize: 13, fontWeight: 600 }}>
               ⏳ Uploading to Cloudinary... Please wait
             </div>
           ) : (

@@ -5,7 +5,7 @@ import { sendInquiryEmail } from "@/lib/mailer";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, phone, email, service, message, country } = body;
+    const { name, phone, email, service, message, country, userId } = body;
 
     if (!name || !phone) {
       return NextResponse.json(
@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
         service: cleanService,
         message: cleanMessage,
         country: cleanCountry,
+        userId: userId || null,
         status: "NEW",
         isRead: false,
       },

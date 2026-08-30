@@ -2,7 +2,8 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { Plus, Search, Eye, Edit, Trash2, ExternalLink, Sparkles, CheckCircle2, Clock } from "lucide-react";
+import { Plus, Search, Eye, Edit, Trash2, ExternalLink, Sparkles, CheckCircle2, Clock, FileSpreadsheet } from "lucide-react";
+import BulkImportModal from "@/components/admin/BulkImportModal";
 
 export default function AdminBlogsPage() {
   const [blogs, setBlogs] = useState<any[]>([]);
@@ -10,6 +11,7 @@ export default function AdminBlogsPage() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("ALL");
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [isImportOpen, setIsImportOpen] = useState(false);
 
   const CATEGORIES = [
     "ALL",
@@ -102,7 +104,7 @@ export default function AdminBlogsPage() {
   return (
     <div style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
       {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
         <div>
           <h1 style={{ fontSize: 22, fontWeight: 700, color: "#111", margin: "0 0 6px" }}>
             Articles & Blog Management
@@ -112,25 +114,47 @@ export default function AdminBlogsPage() {
           </p>
         </div>
 
-        <Link
-          href="/admin/blogs/new"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            padding: "10px 18px",
-            background: "#c9a227",
-            color: "#000",
-            fontWeight: 600,
-            fontSize: 13,
-            textDecoration: "none",
-            borderRadius: 0,
-            border: "1px solid #b38e1b",
-          }}
-        >
-          <Plus size={16} />
-          Create New Article
-        </Link>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <button
+            onClick={() => setIsImportOpen(true)}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "10px 16px",
+              background: "#eff6ff",
+              color: "#1d4ed8",
+              fontWeight: 600,
+              fontSize: 13,
+              borderRadius: "4px",
+              border: "1px solid #bfdbfe",
+              cursor: "pointer",
+            }}
+          >
+            <FileSpreadsheet size={16} color="#2563eb" />
+            Bulk Import (Excel / CSV)
+          </button>
+
+          <Link
+            href="/admin/blogs/new"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "10px 18px",
+              background: "#2563eb",
+              color: "#ffffff",
+              fontWeight: 600,
+              fontSize: 13,
+              textDecoration: "none",
+              borderRadius: "4px",
+              border: "none",
+            }}
+          >
+            <Plus size={16} />
+            Create New Article
+          </Link>
+        </div>
       </div>
 
       {/* Stats Counter Bar */}
@@ -266,11 +290,12 @@ export default function AdminBlogsPage() {
                       style={{
                         display: "inline-block",
                         padding: "3px 8px",
-                        fontSize: 11,
+                        fontSize: "11px",
                         fontWeight: 600,
-                        background: "#f4efe0",
-                        color: "#926806",
-                        border: "1px solid #e7d8b5",
+                        background: "#eff6ff",
+                        color: "#1d4ed8",
+                        border: "1px solid #bfdbfe",
+                        borderRadius: "3px",
                       }}
                     >
                       {item.category}
@@ -298,9 +323,9 @@ export default function AdminBlogsPage() {
                       onClick={() => toggleFeatured(item.id, item.isFeatured)}
                       title="Click to toggle featured"
                       style={{
-                        background: item.isFeatured ? "#fff8e1" : "#f9f9f9",
-                        border: item.isFeatured ? "1px solid #ffd54f" : "1px solid #eee",
-                        color: item.isFeatured ? "#f57f17" : "#aaa",
+                        background: item.isFeatured ? "#eff6ff" : "#f9f9f9",
+                        border: item.isFeatured ? "1px solid #bfdbfe" : "1px solid #eee",
+                        color: item.isFeatured ? "#2563eb" : "#aaa",
                         padding: "4px 8px",
                         fontSize: 11,
                         fontWeight: 600,
@@ -308,6 +333,7 @@ export default function AdminBlogsPage() {
                         display: "inline-flex",
                         alignItems: "center",
                         gap: 4,
+                        borderRadius: "3px",
                       }}
                     >
                       <Sparkles size={12} />
@@ -320,14 +346,15 @@ export default function AdminBlogsPage() {
                     <button
                       onClick={() => togglePublish(item.id, item.isPublished)}
                       style={{
-                        background: item.isPublished ? "#e8f5e9" : "#fff3e0",
-                        border: item.isPublished ? "1px solid #c8e6c9" : "1px solid #ffe0b2",
-                        color: item.isPublished ? "#2e7d32" : "#e65100",
+                        background: item.isPublished ? "#e8f5e9" : "#f1f5f9",
+                        border: item.isPublished ? "1px solid #c8e6c9" : "1px solid #cbd5e1",
+                        color: item.isPublished ? "#2e7d32" : "#64748b",
                         padding: "4px 10px",
                         fontSize: 11,
                         fontWeight: 600,
                         cursor: "pointer",
                         textTransform: "uppercase",
+                        borderRadius: "3px",
                       }}
                     >
                       {item.isPublished ? "Published" : "Draft"}
@@ -398,6 +425,15 @@ export default function AdminBlogsPage() {
           </table>
         </div>
       )}
+
+      {/* Bulk Import Modal */}
+      <BulkImportModal
+        isOpen={isImportOpen}
+        onClose={() => setIsImportOpen(false)}
+        section="blogs"
+        title="Articles & Blog Posts"
+        onSuccess={load}
+      />
     </div>
   );
 }

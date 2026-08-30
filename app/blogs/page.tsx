@@ -59,7 +59,7 @@ export default async function BlogsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-neutral-900 flex flex-col justify-between selection:bg-[#dfb141] selection:text-white">
+    <div className="min-h-screen bg-white text-neutral-900 flex flex-col justify-between selection:bg-[#2563eb] selection:text-white">
       {/* Sticky Header */}
       <Navbar />
 
@@ -73,7 +73,7 @@ export default async function BlogsPage() {
         />
 
         {/* Main Content Section */}
-        <section className="w-full py-12 sm:py-20 px-4 sm:px-8 lg:px-12 max-w-[1580px] mx-auto">
+        <section className="w-full py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto">
           <BlogListClient initialPosts={posts} />
         </section>
       </main>

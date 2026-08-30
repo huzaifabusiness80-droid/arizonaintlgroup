@@ -212,11 +212,12 @@ export default function BlogForm({ initialData, isEdit = false }: BlogFormProps)
               alignItems: "center",
               gap: 8,
               padding: "10px 24px",
-              background: "#c9a227",
-              color: "#000",
-              fontWeight: 700,
+              background: "#2563eb",
+              color: "#ffffff",
+              fontWeight: 600,
               fontSize: 13,
-              border: "1px solid #b38e1b",
+              border: "none",
+              borderRadius: "4px",
               cursor: saving ? "not-allowed" : "pointer",
             }}
           >

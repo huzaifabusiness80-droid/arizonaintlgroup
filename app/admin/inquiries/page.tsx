@@ -117,7 +117,7 @@ export default function AdminInquiriesPage() {
                     </td>
 
                     <td style={{ padding: "14px 16px", verticalAlign: "top", maxWidth: 320 }}>
-                      <div style={{ fontSize: 12, fontWeight: 600, color: "#c9a227", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: "#2563eb", textTransform: "uppercase", letterSpacing: "0.04em" }}>
                         {inq.service}
                       </div>
                       <div style={{ fontSize: 12, color: "#555", marginTop: 4, lineHeight: 1.5 }}>

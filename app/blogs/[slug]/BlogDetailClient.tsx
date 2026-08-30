@@ -67,78 +67,76 @@ export default function BlogDetailClient({ post, relatedPosts }: BlogDetailClien
     currentUrl
   )}`;
 
-  // Parse markdown-like content into clean HTML
   const formattedHtml = post.content
     .replace(
       /## (.*?)(?:\n|$)/g,
-      '<h2 class="text-xl sm:text-2xl font-bold text-neutral-950 mt-10 mb-4 pb-2 border-b border-neutral-200 flex items-center gap-2"><span class="text-[#c49725]">#</span> $1</h2>'
+      '<h2 class="text-lg sm:text-xl font-medium text-slate-900 mt-8 mb-3 pb-2 border-b border-slate-200 flex items-center gap-2"><span class="text-[#2563eb]">#</span> $1</h2>'
     )
     .replace(
       /### (.*?)(?:\n|$)/g,
-      '<h3 class="text-lg sm:text-xl font-semibold text-neutral-900 mt-8 mb-3 text-[#b58c1e]">$1</h3>'
+      '<h3 class="text-base sm:text-lg font-medium text-slate-900 mt-6 mb-2 text-[#2563eb]">$1</h3>'
     )
-    .replace(/\*\*(.*?)\*\*/g, '<strong class="text-neutral-950 font-semibold">$1</strong>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong class="text-slate-900 font-semibold">$1</strong>')
     .replace(
       /> (.*?)(?:\n|$)/g,
-      '<blockquote class="p-5 my-6 bg-amber-50/70 border-l-4 border-[#c49725] text-neutral-800 italic rounded-r-xl font-serif text-base leading-relaxed">$1</blockquote>'
+      '<blockquote class="p-4 my-5 bg-blue-50/60 border-l-4 border-[#2563eb] text-slate-800 italic rounded-r-md text-sm leading-relaxed">$1</blockquote>'
     )
-    .replace(/^\* (.*?)$/gm, '<li class="ml-5 list-disc text-neutral-700 leading-relaxed">$1</li>')
+    .replace(/^\* (.*?)$/gm, '<li class="ml-5 list-disc text-slate-700 leading-relaxed">$1</li>')
     .replace(
       /^(\d+)\. (.*?)$/gm,
-      '<li class="ml-5 list-decimal text-neutral-700 leading-relaxed">$2</li>'
+      '<li class="ml-5 list-decimal text-slate-700 leading-relaxed">$2</li>'
     );
 
   return (
-    <article className="pt-8 pb-20 sm:pt-12 sm:pb-28">
-      {/* Top Breadcrumb & Header Bar */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-        <div className="flex items-center gap-2 text-xs text-neutral-500 mb-6 flex-wrap">
-          <Link href="/" className="hover:text-neutral-900 transition-colors">
+    <article className="pt-6 pb-16 sm:pt-10 sm:pb-24">
+      {/* Breadcrumb */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
+        <div className="flex items-center gap-1.5 text-xs text-slate-500 mb-4 flex-wrap">
+          <Link href="/" className="hover:text-slate-900 transition-colors">
             Home
           </Link>
-          <ChevronRight className="w-3 h-3 text-neutral-400" />
-          <Link href="/blogs" className="hover:text-neutral-900 transition-colors">
+          <ChevronRight className="w-3 h-3 text-slate-400" />
+          <Link href="/blogs" className="hover:text-slate-900 transition-colors">
             Articles & Guides
           </Link>
-          <ChevronRight className="w-3 h-3 text-neutral-400" />
-          <span className="text-[#c49725] font-semibold">{post.category}</span>
+          <ChevronRight className="w-3 h-3 text-slate-400" />
+          <span className="text-[#2563eb] font-medium">{post.category}</span>
         </div>
 
         {/* Category Pill */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200/80 text-xs font-semibold text-[#c49725] uppercase tracking-wider mb-4 shadow-2xs">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#c49725]" />
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-blue-50 border border-blue-100 text-xs font-medium text-[#2563eb] uppercase tracking-wider mb-3">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#2563eb]" />
           <span>{post.category}</span>
         </div>
 
-        {/* Main Title */}
-        <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-neutral-950 leading-tight">
+        {/* Title */}
+        <h1 className="text-xl sm:text-3xl md:text-4xl font-medium tracking-tight text-slate-900 leading-tight">
           {post.title}
         </h1>
 
-        {/* Subtitle / Excerpt */}
         {post.excerpt && (
-          <p className="mt-4 text-base sm:text-lg text-neutral-600 leading-relaxed font-normal">
+          <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
             {post.excerpt}
           </p>
         )}
 
-        {/* Author & Meta Bar */}
-        <div className="mt-6 pt-6 border-t border-neutral-200 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-full bg-neutral-950 text-white flex items-center justify-center font-bold text-sm shadow-sm">
+        {/* Meta Bar */}
+        <div className="mt-4 pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-md bg-slate-900 text-white flex items-center justify-center font-medium text-xs">
               {post.author.charAt(0)}
             </div>
             <div>
-              <div className="text-sm font-bold text-neutral-950">{post.author}</div>
-              <div className="text-xs text-neutral-500">
+              <div className="text-xs font-medium text-slate-900">{post.author}</div>
+              <div className="text-[10px] text-slate-500">
                 {post.authorRole || "Senior Consultant"}
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 text-xs text-neutral-500">
-            <span className="flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-neutral-400" />
+          <div className="flex items-center gap-3 text-[11px] text-slate-500">
+            <span className="flex items-center gap-1">
+              <Calendar className="w-3 h-3 text-slate-400" />
               {new Date(post.createdAt).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
@@ -146,13 +144,13 @@ export default function BlogDetailClient({ post, relatedPosts }: BlogDetailClien
               })}
             </span>
             <span>•</span>
-            <span className="flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-neutral-400" />
+            <span className="flex items-center gap-1">
+              <Clock className="w-3 h-3 text-slate-400" />
               {post.readTime}
             </span>
             <span>•</span>
-            <span className="flex items-center gap-1.5">
-              <Eye className="w-3.5 h-3.5 text-neutral-400" />
+            <span className="flex items-center gap-1">
+              <Eye className="w-3 h-3 text-slate-400" />
               {post.views || 1} views
             </span>
           </div>
@@ -160,8 +158,8 @@ export default function BlogDetailClient({ post, relatedPosts }: BlogDetailClien
       </div>
 
       {/* Featured Cover Image */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-        <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-3xl overflow-hidden bg-neutral-100 border border-neutral-200 shadow-sm">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-lg overflow-hidden bg-slate-100 border border-slate-200">
           <img
             src={
               post.coverImage ||
@@ -173,29 +171,29 @@ export default function BlogDetailClient({ post, relatedPosts }: BlogDetailClien
         </div>
       </div>
 
-      {/* Article Content & Share Layout */}
+      {/* Article Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Share Buttons */}
-        <div className="flex items-center justify-between pb-6 mb-8 border-b border-neutral-200">
-          <div className="text-xs font-semibold text-neutral-500 uppercase tracking-wider flex items-center gap-2">
-            <Share2 className="w-3.5 h-3.5 text-[#c49725]" /> Share this guide:
+        <div className="flex items-center justify-between pb-4 mb-6 border-b border-slate-200">
+          <div className="text-xs font-medium text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+            <Share2 className="w-3 h-3 text-[#2563eb]" /> Share:
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <a
               href={waShareUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 text-xs font-medium flex items-center gap-1.5 transition-colors"
+              className="p-1.5 rounded-md bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 text-xs font-medium flex items-center gap-1 transition-colors"
               title="Share on WhatsApp"
             >
-              <MessageCircle className="w-3.5 h-3.5" /> WhatsApp
+              <MessageCircle className="w-3 h-3" /> WhatsApp
             </a>
             <a
               href={twShareUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 border border-neutral-200 text-neutral-700 text-xs font-medium transition-colors"
-              title="Share on X (Twitter)"
+              className="p-1.5 rounded-md bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 text-xs font-medium transition-colors"
+              title="Share on X"
             >
               X / Twitter
             </a>
@@ -203,45 +201,45 @@ export default function BlogDetailClient({ post, relatedPosts }: BlogDetailClien
               href={fbShareUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 border border-neutral-200 text-neutral-700 text-xs font-medium transition-colors"
+              className="p-1.5 rounded-md bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 text-xs font-medium transition-colors"
               title="Share on Facebook"
             >
               Facebook
             </a>
             <button
               onClick={handleCopyLink}
-              className="p-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 border border-neutral-200 text-neutral-700 text-xs font-medium flex items-center gap-1.5 transition-colors"
+              className="p-1.5 rounded-md bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 text-xs font-medium flex items-center gap-1 transition-colors cursor-pointer"
               title="Copy Link"
             >
               {copied ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-emerald-600" /> Copied!
+                  <Check className="w-3 h-3 text-emerald-600" /> Copied!
                 </>
               ) : (
                 <>
-                  <Copy className="w-3.5 h-3.5" /> Copy Link
+                  <Copy className="w-3 h-3" /> Copy Link
                 </>
               )}
             </button>
           </div>
         </div>
 
-        {/* Formatted Body Content */}
+        {/* Body */}
         <div
-          className="prose max-w-none text-neutral-700 text-base sm:text-lg leading-relaxed space-y-4 font-normal"
+          className="prose max-w-none text-slate-700 text-sm sm:text-base leading-relaxed space-y-3 font-normal"
           dangerouslySetInnerHTML={{ __html: formattedHtml }}
         />
 
         {/* Tags */}
         {post.tags && post.tags.length > 0 && (
-          <div className="mt-10 pt-6 border-t border-neutral-200 flex flex-wrap items-center gap-2">
-            <span className="text-xs text-neutral-500 font-medium flex items-center gap-1 mr-2">
-              <Tag className="w-3.5 h-3.5" /> Tags:
+          <div className="mt-8 pt-4 border-t border-slate-200 flex flex-wrap items-center gap-1.5">
+            <span className="text-xs text-slate-500 font-medium flex items-center gap-1 mr-1">
+              <Tag className="w-3 h-3" /> Tags:
             </span>
             {post.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1 rounded-full bg-[#f8f9fc] border border-neutral-200 text-xs text-neutral-600 font-medium"
+                className="px-2.5 py-0.5 rounded-md bg-slate-50 border border-slate-200 text-xs text-slate-600 font-normal"
               >
                 #{tag}
               </span>
@@ -249,116 +247,44 @@ export default function BlogDetailClient({ post, relatedPosts }: BlogDetailClien
           </div>
         )}
 
-        {/* Consultation Callout Box */}
-        <div className="mt-12 p-8 sm:p-10 rounded-3xl bg-neutral-950 text-white shadow-xl relative overflow-hidden">
-          <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-            <div>
-              <span className="text-xs font-bold tracking-widest text-[#dfb141] uppercase block mb-2">
-                OFFICIAL ADVISORY
-              </span>
-              <h3 className="text-xl sm:text-2xl font-bold text-white">
-                Have inquiries regarding {post.category}?
-              </h3>
-              <p className="mt-2 text-xs sm:text-sm text-neutral-300 max-w-lg leading-relaxed">
-                Arizona International Group provides step-by-step documentation, government submissions, and dedicated support.
-              </p>
+        {/* Author Box */}
+        <div className="mt-8 p-5 rounded-lg bg-slate-50 border border-slate-200 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-md bg-slate-900 text-white flex items-center justify-center font-semibold text-base shrink-0">
+            {post.author.charAt(0)}
+          </div>
+          <div>
+            <div className="text-sm font-medium text-slate-900">{post.author}</div>
+            <div className="text-xs text-[#2563eb] font-medium mb-1">
+              {post.authorRole || "Senior Consultant | Arizona International Group"}
             </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-              <a
-                href={contact.whatsappLink()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-5 py-3 rounded-full bg-white text-neutral-950 font-semibold text-xs text-center transition-colors flex items-center justify-center gap-2 whitespace-nowrap shadow-xs hover:bg-neutral-100"
-              >
-                <PhoneCall className="w-3.5 h-3.5" /> WhatsApp Support
-              </a>
-              <Link
-                href="/contact"
-                className="px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-xs text-center transition-colors flex items-center justify-center gap-2 whitespace-nowrap border border-white/20"
-              >
-                Book Consultation
-              </Link>
-            </div>
+            <p className="text-xs text-slate-600 leading-relaxed font-normal">
+              Specialist in corporate setup, government clearances, and international travel management at Arizona International Group.
+            </p>
           </div>
         </div>
 
-        {/* Back Link */}
-        <div className="mt-10 text-center">
-          <Link
-            href="/blogs"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-neutral-600 hover:text-neutral-950 transition-colors"
+        {/* Direct WhatsApp Call to Action Box */}
+        <div className="mt-8 p-5 sm:p-6 rounded-lg bg-[#0f172a] text-white flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <h3 className="text-base sm:text-lg font-medium text-white">
+              Have Questions About This Guide?
+            </h3>
+            <p className="text-xs text-slate-400 mt-1">
+              Chat directly with our senior consultants on WhatsApp for instant guidance.
+            </p>
+          </div>
+
+          <a
+            href={contact.whatsappLink(`Hi Arizona, I have a question regarding: "${post.title}".`)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-5 py-2.5 rounded-md bg-[#2563eb] hover:bg-[#1d4ed8] text-white text-xs font-medium transition-colors shrink-0 flex items-center gap-1.5 cursor-pointer"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to All Articles & Guides
-          </Link>
+            <PhoneCall className="w-3.5 h-3.5" />
+            <span>Chat on WhatsApp</span>
+          </a>
         </div>
       </div>
-
-      {/* Related Articles Section */}
-      {relatedPosts.length > 0 && (
-        <section className="mt-20 pt-16 border-t border-neutral-200 bg-[#f8f9fc]">
-          <div className="max-w-[1580px] mx-auto px-4 sm:px-8 lg:px-12">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-neutral-950">
-                  Related Guides in {post.category}
-                </h3>
-                <p className="text-xs sm:text-sm text-neutral-500 mt-1">
-                  Continue reading expert insights from our team.
-                </p>
-              </div>
-              <Link
-                href="/blogs"
-                className="text-xs font-bold text-[#c49725] hover:underline flex items-center gap-1"
-              >
-                View All <ArrowUpRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {relatedPosts.map((rel) => (
-                <Link
-                  key={rel.id}
-                  href={`/blogs/${rel.slug}`}
-                  className="group rounded-3xl overflow-hidden bg-white border border-neutral-200/90 hover:border-neutral-400/80 transition-all flex flex-col justify-between shadow-xs hover:shadow-xl"
-                >
-                  <div className="relative aspect-[16/10] overflow-hidden bg-neutral-100">
-                    <img
-                      src={
-                        rel.coverImage ||
-                        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600&auto=format&fit=crop"
-                      }
-                      alt={rel.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full bg-white/95 text-[10px] font-semibold text-[#c49725] uppercase">
-                      {rel.category}
-                    </div>
-                  </div>
-                  <div className="p-6 flex-1 flex flex-col justify-between">
-                    <div>
-                      <div className="text-[11px] text-neutral-500 mb-2 flex items-center gap-2">
-                        <Calendar className="w-3 h-3 text-neutral-400" />
-                        {new Date(rel.createdAt).toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                        })}
-                      </div>
-                      <h4 className="text-sm font-bold text-neutral-950 group-hover:text-[#c49725] transition-colors line-clamp-2">
-                        {rel.title}
-                      </h4>
-                    </div>
-                    <div className="mt-4 pt-3 border-t border-neutral-100 text-xs font-bold text-[#c49725] flex items-center gap-1">
-                      Read Guide <ArrowUpRight className="w-3.5 h-3.5" />
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
     </article>
   );
 }

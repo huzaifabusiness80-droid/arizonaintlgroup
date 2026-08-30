@@ -4,20 +4,22 @@ import React, { useState } from "react";
 import Link from "next/link";
 import {
   MapPin,
-  Star,
-  MessageCircle,
   PhoneCall,
-  HelpCircle,
   ChevronLeft,
   ChevronRight,
   CheckCircle2,
   ArrowLeft,
   Building2,
   ShieldCheck,
+  Sliders,
+  Sparkles,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useGeoLocation } from "@/context/GeoContext";
 import { getLocalizedPrice } from "@/lib/pricing-helper";
+import ServiceCustomizerModal, { CustomizerServiceType } from "@/components/ServiceCustomizerModal";
+
+import ProductOrderModal from "@/components/ProductOrderModal";
 
 export interface ServiceOptionItem {
   name: string;
@@ -45,6 +47,7 @@ interface DetailContentLayoutProps {
   backLinkHref: string;
   backLinkLabel: string;
   whatsAppText: string;
+  customizerServiceType?: CustomizerServiceType;
 }
 
 export default function DetailContentLayout({
@@ -54,7 +57,6 @@ export default function DetailContentLayout({
   startingPrice,
   startingPricePkr,
   startingPriceBhd,
-  rating = "5.0 Verified",
   overviewText,
   heroImage,
   galleryImages = [],
@@ -62,9 +64,12 @@ export default function DetailContentLayout({
   backLinkHref,
   backLinkLabel,
   whatsAppText,
+  customizerServiceType,
 }: DetailContentLayoutProps) {
-  const { isArabic, t } = useLanguage();
+  const { isArabic } = useLanguage();
   const { contact, isPakistan } = useGeoLocation();
+  const [customizerOpen, setCustomizerOpen] = useState(false);
+  const [orderModalOpen, setOrderModalOpen] = useState(false);
   const imagesList = galleryImages && galleryImages.length > 0 ? galleryImages : [heroImage];
   const [currentPhotoIdx, setCurrentPhotoIdx] = useState(0);
 
@@ -76,64 +81,62 @@ export default function DetailContentLayout({
     setCurrentPhotoIdx((prev) => (prev + 1) % imagesList.length);
   };
 
-  // Localize starting price based on visitor location (Pakistan vs Bahrain/Global)
   const displayStartingPrice = isPakistan
     ? startingPricePkr || getLocalizedPrice({ price: startingPrice }, true)
     : startingPriceBhd || getLocalizedPrice({ price: startingPrice }, false);
 
   return (
-    <section className="w-full py-12 sm:py-20 px-4 sm:px-8 lg:px-12 max-w-[1580px] mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-start">
-        {/* ================= LEFT MAIN CONTENT (70% WIDTH) ================= */}
-        <div className="lg:col-span-8 space-y-10">
-          {/* 1. Main Featured Photo Gallery Carousel */}
-          <div className="space-y-4">
-            <div className="relative aspect-[16/10] sm:aspect-[16/9] rounded-3xl overflow-hidden shadow-xl border border-neutral-200/80 bg-neutral-900 group">
+    <section className="w-full py-10 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-start">
+        {/* LEFT MAIN CONTENT */}
+        <div className="lg:col-span-8 space-y-8">
+          {/* Gallery Carousel */}
+          <div className="space-y-3">
+            <div className="relative aspect-[16/10] sm:aspect-[16/9] rounded-lg overflow-hidden border border-slate-200 bg-slate-900 group">
               <img
                 src={imagesList[currentPhotoIdx] || heroImage}
                 alt={title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
               />
 
-              {/* Slider Arrow Controls */}
               {imagesList.length > 1 && (
                 <div dir="ltr">
                   <button
                     onClick={prevPhoto}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-md bg-black/60 hover:bg-black text-white flex items-center justify-center backdrop-blur-md transition-colors cursor-pointer"
                     aria-label="Previous Photo"
                   >
-                    <ChevronLeft className="w-5 h-5" />
+                    <ChevronLeft className="w-4 h-4" />
                   </button>
                   <button
                     onClick={nextPhoto}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-md bg-black/60 hover:bg-black text-white flex items-center justify-center backdrop-blur-md transition-colors cursor-pointer"
                     aria-label="Next Photo"
                   >
-                    <ChevronRight className="w-5 h-5" />
+                    <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
               )}
 
-              {/* Category Tag Badge */}
+              {/* Category Tag */}
               <div
-                className={`absolute top-4 ${
-                  isArabic ? "right-4" : "left-4"
-                } px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-semibold border border-white/20`}
+                className={`absolute top-3 ${
+                  isArabic ? "right-3" : "left-3"
+                } px-2.5 py-1 rounded-md bg-slate-950/80 backdrop-blur-md text-white text-xs font-medium border border-slate-700`}
               >
                 {categoryTag}
               </div>
             </div>
 
-            {/* Gallery Indicator Dots */}
+            {/* Dots */}
             {imagesList.length > 1 && (
               <div className="flex items-center justify-center gap-1.5 pt-1">
                 {imagesList.map((_, idx) => (
                   <button
                     key={idx}
                     onClick={() => setCurrentPhotoIdx(idx)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      currentPhotoIdx === idx ? "w-6 bg-[#dfb141]" : "w-2 bg-neutral-300"
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      currentPhotoIdx === idx ? "w-5 bg-[#2563eb]" : "w-1.5 bg-slate-300"
                     }`}
                   />
                 ))}
@@ -141,12 +144,12 @@ export default function DetailContentLayout({
             )}
           </div>
 
-          {/* 2. Service Options & Pricing Grid */}
+          {/* Service Options & Pricing Grid */}
           {serviceOptions.length > 0 && (
-            <div className="space-y-5">
+            <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <Building2 className="w-5 h-5 text-[#dfb141]" />
-                <h2 className="text-xl sm:text-2xl font-bold text-neutral-950">
+                <Building2 className="w-4 h-4 text-[#2563eb]" />
+                <h2 className="text-lg sm:text-xl font-medium text-slate-900">
                   {isArabic ? "الباقات والخيارات المتاحة" : "Service Packages & Pricing"}
                 </h2>
               </div>
@@ -165,22 +168,21 @@ export default function DetailContentLayout({
                   return (
                     <div
                       key={i}
-                      className="p-6 rounded-3xl bg-white border border-neutral-200/90 shadow-sm hover:border-[#dfb141] transition-all flex flex-col justify-between space-y-4"
+                      className="p-5 rounded-lg bg-white border border-slate-200 hover:border-[#93c5fd] transition-colors flex flex-col justify-between space-y-3"
                     >
-                      <div className="space-y-2">
-                        <span className="text-xs font-semibold text-neutral-500 uppercase tracking-wider block">
+                      <div className="space-y-1.5">
+                        <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider block">
                           {opt.badge || (isArabic ? "خيار معتمد" : "Verified Option")}
                         </span>
-                        <h3 className="text-lg font-bold text-neutral-950">{opt.name}</h3>
+                        <h3 className="text-base font-medium text-slate-900">{opt.name}</h3>
 
-                        {/* Country-Specific Price Highlight (PKR in Pakistan, BHD in Bahrain) */}
                         {optionPrice && (
                           <div className="pt-1">
-                            <span className="text-xl sm:text-2xl font-extrabold text-[#c49725]">
+                            <span className="text-xl font-semibold text-[#2563eb]">
                               {optionPrice}
                             </span>
                             {opt.period && (
-                              <span className="text-xs text-neutral-500 font-normal ml-1">
+                              <span className="text-xs text-slate-500 font-normal ml-1">
                                 / {opt.period}
                               </span>
                             )}
@@ -188,26 +190,25 @@ export default function DetailContentLayout({
                         )}
 
                         {opt.capacity && (
-                          <p className="text-xs text-neutral-600 font-medium">
+                          <p className="text-xs text-slate-600 font-normal">
                             {isArabic ? `السعة: ${opt.capacity}` : `Capacity: ${opt.capacity}`}
                           </p>
                         )}
 
                         {opt.desc && (
-                          <p className="text-xs text-neutral-500 font-normal leading-relaxed pt-1">
+                          <p className="text-xs text-slate-500 font-normal leading-relaxed pt-1">
                             {opt.desc}
                           </p>
                         )}
                       </div>
 
-                      {/* Included Pill Badge */}
                       <div className="pt-2">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold">
-                          <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-blue-50 text-[#2563eb] text-[10px] font-medium">
+                          <CheckCircle2 className="w-3 h-3" />
                           <span>
                             {isArabic
-                              ? "مشمول بالدعم الفوري المعتمد"
-                              : "Instant Assistance Included"}
+                              ? "مشمول بالدعم المعتمد"
+                              : "Verified Assistance"}
                           </span>
                         </span>
                       </div>
@@ -218,82 +219,109 @@ export default function DetailContentLayout({
             </div>
           )}
 
-          {/* 3. About This Service Section */}
-          <div className="space-y-4 pt-4 border-t border-neutral-100">
+          {/* About Section */}
+          <div className="space-y-3 pt-4 border-t border-slate-200">
             <div className="flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-[#dfb141]" />
-              <h2 className="text-xl sm:text-2xl font-bold text-neutral-950">
+              <MapPin className="w-4 h-4 text-[#2563eb]" />
+              <h2 className="text-lg sm:text-xl font-medium text-slate-900">
                 {isArabic ? "تفاصيل ونظرة عامة على الخدمة" : "About This Service"}
               </h2>
             </div>
 
-            <div className="prose max-w-none text-neutral-600 font-normal text-sm sm:text-base leading-relaxed space-y-4">
+            <div className="text-slate-600 font-normal text-xs sm:text-sm leading-relaxed space-y-3">
               <p>{overviewText}</p>
             </div>
           </div>
         </div>
 
-        {/* ================= RIGHT SIDEBAR / BOOKING BOX (30% WIDTH) ================= */}
-        <div className="lg:col-span-4 lg:sticky lg:top-28 space-y-6">
-          {/* Quick Booking Box */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-[#f8f9fc] border border-neutral-200/90 shadow-sm space-y-6">
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-neutral-500 uppercase tracking-wider block">
+        {/* RIGHT SIDEBAR */}
+        <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-5">
+          <div className="p-5 sm:p-6 rounded-lg bg-slate-50 border border-slate-200 space-y-5">
+            <div className="space-y-1">
+              <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider block">
                 {locationOrTagline}
               </span>
-              <h3 className="text-xl sm:text-2xl font-bold text-neutral-950">{title}</h3>
+              <h3 className="text-lg sm:text-xl font-medium text-slate-900">{title}</h3>
               {displayStartingPrice && (
-                <div className="pt-2">
-                  <span className="text-2xl sm:text-3xl font-extrabold text-[#c49725]">
+                <div className="pt-1">
+                  <span className="text-2xl font-semibold text-[#2563eb]">
                     {displayStartingPrice}
                   </span>
                 </div>
               )}
             </div>
 
-            {/* Direct WhatsApp Call to Action */}
-            <div className="space-y-3 pt-2">
-              <a
-                href={contact.whatsappLink(whatsAppText)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-4 px-6 rounded-2xl bg-[#dfb141] hover:bg-[#c49725] text-white font-bold text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+            {/* Action Buttons */}
+            <div className="space-y-2.5 pt-1">
+              {/* Primary Book / Order on WhatsApp Button -> Opens Form Modal */}
+              <button
+                onClick={() => setOrderModalOpen(true)}
+                className="w-full py-3 px-4 rounded-md bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-semibold text-xs sm:text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
               >
                 <PhoneCall className="w-4 h-4" />
-                <span>{isArabic ? "احجز عبر الواتساب فوراً" : "Book on WhatsApp Now"}</span>
-              </a>
+                <span>{isArabic ? "احجز عبر الواتساب فوراً (نموذج الطلب)" : "Book on WhatsApp Now (Order Form)"}</span>
+              </button>
+
+              <button
+                onClick={() => setCustomizerOpen(true)}
+                className="w-full py-2.5 px-4 rounded-md bg-blue-50 hover:bg-blue-100 text-[#2563eb] font-medium text-xs sm:text-sm transition-colors border border-blue-200 flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+              >
+                <Sliders className="w-4 h-4 text-[#2563eb]" />
+                <span>{isArabic ? "تخصيص الباقة حسب رغبتك" : "Customize Your Package"}</span>
+              </button>
 
               <Link
                 href="/contact"
-                className="w-full py-3.5 px-6 rounded-2xl bg-white hover:bg-neutral-100 text-neutral-900 font-semibold text-xs transition-all border border-neutral-300 flex items-center justify-center gap-2 cursor-pointer text-center"
+                className="w-full py-2.5 px-4 rounded-md bg-white hover:bg-slate-100 text-slate-800 font-medium text-xs transition-colors border border-slate-200 flex items-center justify-center gap-1.5 cursor-pointer text-center"
               >
                 <span>{isArabic ? "طلب استشارة مخصصة" : "Request Custom Inquiry"}</span>
               </Link>
             </div>
 
             {/* Guarantee Badge */}
-            <div className="pt-4 border-t border-neutral-200/70 space-y-2 text-xs text-neutral-500">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+            <div className="pt-3 border-t border-slate-200 space-y-1.5 text-xs text-slate-500">
+              <div className="flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                 <span>{isArabic ? "ضمان الخدمة المعتمدة 100%" : "100% Verified Quality & Support"}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#dfb141] shrink-0" />
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#2563eb] shrink-0" />
                 <span>{isArabic ? "متابعة مباشرة مع المستشار" : "Direct Advisor Communication"}</span>
               </div>
             </div>
           </div>
 
-          {/* Back Navigation Button */}
+          {/* Back Button */}
           <Link
             href={backLinkHref}
-            className="inline-flex items-center gap-2 text-xs font-bold text-neutral-600 hover:text-neutral-950 transition-colors px-2"
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 transition-colors px-1"
           >
-            <ArrowLeft className={`w-4 h-4 ${isArabic ? "rotate-180" : ""}`} />
+            <ArrowLeft className={`w-3.5 h-3.5 ${isArabic ? "rotate-180" : ""}`} />
             <span>{backLinkLabel}</span>
           </Link>
         </div>
       </div>
+
+      {/* Service Customizer Modal */}
+      <ServiceCustomizerModal
+        isOpen={customizerOpen}
+        onClose={() => setCustomizerOpen(false)}
+        serviceType={customizerServiceType || "business-bahrain"}
+        initialItemName={title}
+      />
+
+      {/* Direct WhatsApp Order Form Modal */}
+      <ProductOrderModal
+        isOpen={orderModalOpen}
+        onClose={() => setOrderModalOpen(false)}
+        title={title}
+        categoryTag={categoryTag}
+        heroImage={heroImage}
+        startingPrice={startingPrice}
+        startingPricePkr={startingPricePkr}
+        startingPriceBhd={startingPriceBhd}
+        serviceOptions={serviceOptions}
+      />
     </section>
   );
 }

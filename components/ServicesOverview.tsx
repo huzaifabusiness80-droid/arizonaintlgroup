@@ -32,24 +32,24 @@ const curatedServices: CuratedServiceCard[] = [
     divisionNameEn: "Travel & Tours",
     divisionNameAr: "السياحة والسفر",
     divisionSlug: "travel-tours",
-    descEn: "Instant reservations across major global airlines with flexible rebooking assistance.",
-    descAr: "حجوزات فورية على كبرى خطوط الطيران العالمية مع مرونة كاملة في التعديل والاسترجاع.",
-    tagEn: "Instant Confirmation",
-    tagAr: "تأكيد فوري",
-    image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80&auto=format&fit=crop",
+    descEn: "Worldwide Flights",
+    descAr: "حجوزات طيران دولية",
+    tagEn: "Travel",
+    tagAr: "سياحة",
+    image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=85&auto=format&fit=crop",
   },
   {
-    nameEn: "100% Foreign Ownership",
+    nameEn: "100% Foreign Ownership CR",
     nameAr: "ملكية أجنبية كاملة 100%",
     itemSlug: "foreign-ownership-cr",
     divisionNameEn: "Business in Bahrain",
     divisionNameAr: "تأسيس الشركات بالبحرين",
     divisionSlug: "business-bahrain",
-    descEn: "Commercial Registration (CR), Single Person Company (SPC), and WLL setup in Bahrain.",
-    descAr: "إصدار السجل التجاري (CR)، شركة ذات مسؤولية محدودة WLL، وتأسيس الشركات بالبحرين.",
-    tagEn: "Gov Approved",
-    tagAr: "اعتماد رسمي",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80&auto=format&fit=crop",
+    descEn: "Bahrain Corporate Setup",
+    descAr: "السجل التجاري بالبحرين",
+    tagEn: "Bahrain CR",
+    tagAr: "تأسيس شركات",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=85&auto=format&fit=crop",
   },
   {
     nameEn: "Daily & Monthly Car Rentals",
@@ -58,24 +58,24 @@ const curatedServices: CuratedServiceCard[] = [
     divisionNameEn: "Rent A Car",
     divisionNameAr: "تأجير السيارات",
     divisionSlug: "rent-a-car",
-    descEn: "Flexible self-drive fleet ranging from economy sedans to luxury SUVs and sports convertibles.",
-    descAr: "أسطول سيارات حديث ومتنوع من سيارات السيدان الاقتصادية إلى سيارات الدفع الرباعي الفاخرة.",
-    tagEn: "Flexible Plans",
-    tagAr: "خطط مرنة",
-    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80&auto=format&fit=crop",
+    descEn: "Sedans & Luxury SUVs",
+    descAr: "أسطول سيارات حديث",
+    tagEn: "Fleet",
+    tagAr: "تأجير سيارات",
+    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=85&auto=format&fit=crop",
   },
   {
-    nameEn: "Worldwide Visa Services",
+    nameEn: "Worldwide Visa Facilitation",
     nameAr: "خدمات التأشيرات العالمية",
     itemSlug: "worldwide-visas",
     divisionNameEn: "Global Visas",
     divisionNameAr: "التأشيرات",
     divisionSlug: "travel-tours",
-    descEn: "Fast tourist, business, transit, and family visa processing with high approval success.",
-    descAr: "تأشيرات سياحية وتجارية وسياحة عائلية لكافة دول العالم بأعلى نسب قبول وموافقة.",
-    tagEn: "Worldwide Visas",
-    tagAr: "تأشيرات دولية",
-    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&q=80&auto=format&fit=crop",
+    descEn: "Schengen, UK, USA & Gulf",
+    descAr: "تأشيرات الشنغن والخليج",
+    tagEn: "Visas",
+    tagAr: "تأشيرات",
+    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&q=85&auto=format&fit=crop",
   },
   {
     nameEn: "Turnkey Office with EWA",
@@ -84,70 +84,95 @@ const curatedServices: CuratedServiceCard[] = [
     divisionNameEn: "Business in Bahrain",
     divisionNameAr: "الشركات بالبحرين",
     divisionSlug: "business-bahrain",
-    descEn: "Fully compliant commercial workspaces with electricity and water connections.",
-    descAr: "مكاتب تجارية مؤثثة ومطابقة لاشتراطات البلدية ومزودة بعداد الكهرباء والماء وعقد موثق.",
-    tagEn: "Turnkey Office",
-    tagAr: "مكتب جاهز",
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80&auto=format&fit=crop",
+    descEn: "Approved Commercial Spaces",
+    descAr: "مكاتب تجارية مرخصة",
+    tagEn: "Offices",
+    tagAr: "مكاتب تجارية",
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=85&auto=format&fit=crop",
   },
   {
-    nameEn: "VIP Chauffeur Services",
+    nameEn: "VIP Chauffeur & Transfers",
     nameAr: "خدمة السائق الخاص VIP",
     itemSlug: "vip-chauffeur",
     divisionNameEn: "Rent A Car",
     divisionNameAr: "تأجير السيارات",
     divisionSlug: "rent-a-car",
-    descEn: "Professional uniformed private drivers for corporate executives and VIP delegations.",
-    descAr: "سائقون محترفون بلباس رسمي لرجال الأعمال والوفود الدبلوماسية وتوصيل المطار.",
-    tagEn: "VIP Protocol",
-    tagAr: "بروتوكول VIP",
-    image: "https://images.unsplash.com/photo-1563720223185-11003d516935?w=800&q=80&auto=format&fit=crop",
+    descEn: "Airport & Corporate Service",
+    descAr: "سائقون محترفون",
+    tagEn: "VIP Service",
+    tagAr: "خدمة VIP",
+    image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&q=85&auto=format&fit=crop",
   },
   {
-    nameEn: "Flagship Smartphones & Tech",
-    nameAr: "أحدث الهواتف الذكية المعتمدة",
-    itemSlug: "flagship-smartphones",
-    divisionNameEn: "Mobiles & Tech",
-    divisionNameAr: "الهواتف والتكنولوجيا",
-    divisionSlug: "mobiles-tech",
-    descEn: "Brand-new, sealed iPhones, Samsung Galaxy, and Google Pixel devices with same-day home delivery.",
-    descAr: "أجهزة آيفون وسامسونج جالاكسي وجوجل بكسل أصلية ومختومة مع توصيل سريع في نفس اليوم.",
-    tagEn: "100% Genuine",
-    tagAr: "أصلي 100%",
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=80&auto=format&fit=crop",
-  },
-  {
-    nameEn: "Umrah & Spiritual Packages",
-    nameAr: "باقات العمرة والزيارات",
+    nameEn: "Umrah & Spiritual Journeys",
+    nameAr: "رحلات العمرة والزيارات",
     itemSlug: "umrah-spiritual",
     divisionNameEn: "Travel & Tours",
     divisionNameAr: "السياحة والسفر",
     divisionSlug: "travel-tours",
-    descEn: "Comprehensive Umrah and Ziyarat packages with VIP ground transfers and hotel guidance.",
-    descAr: "برامج عمرة متميزة تشمل الطيران والإقامة الفندقية القريبة والمواصلات المريحة.",
-    tagEn: "Spiritual Care",
-    tagAr: "عمرة ميسرة",
-    image: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=800&q=80&auto=format&fit=crop",
+    descEn: "5-Star Hotels & Transport",
+    descAr: "باقات متكاملة ومريحة",
+    tagEn: "Spiritual",
+    tagAr: "عمرة وزيارات",
+    image: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=800&q=85&auto=format&fit=crop",
+  },
+  {
+    nameEn: "Luxury Hotels & 5-Star Stays",
+    nameAr: "الفنادق والمنتجعات الفاخرة",
+    itemSlug: "hotels-resorts",
+    divisionNameEn: "Travel & Tours",
+    divisionNameAr: "السياحة والسفر",
+    divisionSlug: "travel-tours",
+    descEn: "Exclusive Rates Worldwide",
+    descAr: "إقامات فندقية فاخرة",
+    tagEn: "5-Star Stays",
+    tagAr: "فنادق فاخرة",
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=85&auto=format&fit=crop",
+  },
+  {
+    nameEn: "Flagship Smartphones & Tech",
+    nameAr: "الهواتف الذكية الأصلية 100%",
+    itemSlug: "flagship-smartphones",
+    divisionNameEn: "Mobiles & Tech",
+    divisionNameAr: "الهواتف والتكنولوجيا",
+    divisionSlug: "mobiles-tech",
+    descEn: "Apple, Samsung & Pixel",
+    descAr: "أحدث الأجهزة بالضمان",
+    tagEn: "Flagship Tech",
+    tagAr: "تقنية معتمدة",
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=85&auto=format&fit=crop",
+  },
+  {
+    nameEn: "Fast Chargers & GaN Cables",
+    nameAr: "شواحن سريعة وكابلات GaN",
+    itemSlug: "fast-chargers",
+    divisionNameEn: "Mobiles & Tech",
+    divisionNameAr: "الهواتف والتكنولوجيا",
+    divisionSlug: "mobiles-tech",
+    descEn: "High-Speed Rapid Power",
+    descAr: "شحن سريع وآمن",
+    tagEn: "GaN Fast Charge",
+    tagAr: "شحن سريع",
+    image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800&q=85&auto=format&fit=crop",
   },
 ];
 
 export default function ServicesOverview() {
   const { isPakistan } = useGeoLocation();
   const { isArabic, t } = useLanguage();
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [services, setServices] = useState<CuratedServiceCard[]>(curatedServices);
 
   useEffect(() => {
-    // Fetch live services from all modules to keep homepage 100% dynamic
     Promise.all([
-      fetch("/api/admin/tours").then((r) => r.json()).catch(() => ({ success: false })),
-      fetch("/api/admin/bahrain").then((r) => r.json()).catch(() => ({ success: false })),
-      fetch("/api/admin/cars").then((r) => r.json()).catch(() => ({ success: false })),
-      fetch("/api/admin/mobiles").then((r) => r.json()).catch(() => ({ success: false })),
+      fetch("/api/admin/tours").then((r) => r.json()).catch(() => null),
+      fetch("/api/admin/bahrain").then((r) => r.json()).catch(() => null),
+      fetch("/api/admin/cars").then((r) => r.json()).catch(() => null),
+      fetch("/api/admin/mobiles").then((r) => r.json()).catch(() => null),
     ]).then(([toursRes, bahrainRes, carsRes, mobilesRes]) => {
       const combined: CuratedServiceCard[] = [];
 
-      if (toursRes.success && Array.isArray(toursRes.items)) {
+      if (toursRes?.success && Array.isArray(toursRes.items)) {
         toursRes.items.filter((it: any) => it.isActive !== false).forEach((it: any) => {
           combined.push({
             nameEn: it.name,
@@ -156,8 +181,8 @@ export default function ServicesOverview() {
             divisionNameEn: "Travel & Tours",
             divisionNameAr: "السياحة والسفر",
             divisionSlug: "travel-tours",
-            descEn: it.description || it.about || "",
-            descAr: it.description || it.about || "",
+            descEn: it.tag || "Travel & Tourism",
+            descAr: it.tag || "السياحة والسفر",
             tagEn: it.tag || "Travel",
             tagAr: it.tag || "سياحة",
             image: it.image || "",
@@ -165,17 +190,17 @@ export default function ServicesOverview() {
         });
       }
 
-      if (bahrainRes.success && Array.isArray(bahrainRes.items)) {
+      if (bahrainRes?.success && Array.isArray(bahrainRes.items)) {
         bahrainRes.items.filter((it: any) => it.isActive !== false).forEach((it: any) => {
           combined.push({
             nameEn: it.name,
             nameAr: it.name,
             itemSlug: it.slug,
             divisionNameEn: "Business in Bahrain",
-            divisionNameAr: "تأسيس الشركات بالبحرين",
+            divisionNameAr: "الشركات بالبحرين",
             divisionSlug: "business-bahrain",
-            descEn: it.description || it.about || "",
-            descAr: it.description || it.about || "",
+            descEn: it.tag || "Bahrain Setup",
+            descAr: it.tag || "تأسيس الشركات",
             tagEn: it.tag || "Corporate",
             tagAr: it.tag || "شركات",
             image: it.image || "",
@@ -183,7 +208,7 @@ export default function ServicesOverview() {
         });
       }
 
-      if (carsRes.success && Array.isArray(carsRes.items)) {
+      if (carsRes?.success && Array.isArray(carsRes.items)) {
         carsRes.items.filter((it: any) => it.isActive !== false).forEach((it: any) => {
           combined.push({
             nameEn: it.name,
@@ -192,8 +217,8 @@ export default function ServicesOverview() {
             divisionNameEn: "Rent A Car",
             divisionNameAr: "تأجير السيارات",
             divisionSlug: "rent-a-car",
-            descEn: it.description || it.about || "",
-            descAr: it.description || it.about || "",
+            descEn: it.tag || "Fleet & Rentals",
+            descAr: it.tag || "أسطول السيارات",
             tagEn: it.tag || "Fleet",
             tagAr: it.tag || "سيارات",
             image: it.image || "",
@@ -201,7 +226,7 @@ export default function ServicesOverview() {
         });
       }
 
-      if (mobilesRes.success && Array.isArray(mobilesRes.items)) {
+      if (mobilesRes?.success && Array.isArray(mobilesRes.items)) {
         mobilesRes.items.filter((it: any) => it.isActive !== false).forEach((it: any) => {
           combined.push({
             nameEn: it.name,
@@ -210,8 +235,8 @@ export default function ServicesOverview() {
             divisionNameEn: "Mobiles & Tech",
             divisionNameAr: "الهواتف والتكنولوجيا",
             divisionSlug: "mobiles-tech",
-            descEn: it.description || it.about || "",
-            descAr: it.description || it.about || "",
+            descEn: it.tag || "Certified Devices",
+            descAr: it.tag || "أجهزة معتمدة",
             tagEn: it.tag || "Tech",
             tagAr: it.tag || "تكنولوجيا",
             image: it.image || "",
@@ -225,7 +250,6 @@ export default function ServicesOverview() {
     });
   }, []);
 
-  // Filter curated services for non-Pakistan visitors
   const displayServices = isPakistan
     ? services
     : services.filter(
@@ -233,10 +257,17 @@ export default function ServicesOverview() {
       );
 
   const scroll = (direction: "left" | "right") => {
-    if (scrollContainerRef.current) {
-      const scrollAmount = 380;
-      const move = isArabic ? (direction === "left" ? scrollAmount : -scrollAmount) : (direction === "left" ? -scrollAmount : scrollAmount);
-      scrollContainerRef.current.scrollBy({
+    if (scrollRef.current) {
+      const scrollDistance = 380;
+      const move = isArabic
+        ? direction === "left"
+          ? scrollDistance
+          : -scrollDistance
+        : direction === "left"
+        ? -scrollDistance
+        : scrollDistance;
+
+      scrollRef.current.scrollBy({
         left: move,
         behavior: "smooth",
       });
@@ -244,83 +275,68 @@ export default function ServicesOverview() {
   };
 
   return (
-    <section id="services" className="w-full bg-white py-16 sm:py-24 overflow-hidden border-b border-neutral-100">
-      {/* Main Container: Strictly Lock-Aligned with max-w-[1580px] */}
-      <div className="w-full max-w-[1580px] mx-auto px-4 sm:px-8 lg:px-12">
-        {/* Header Row (Left: Heading & Badge, Right: Subtext & Navigation) */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-10 mb-12 sm:mb-16">
+    <section id="services" className="w-full bg-white py-14 sm:py-20 border-b border-slate-200 overflow-hidden">
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header Row */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-10">
           <div>
-            {/* Top Badge / Category Tab */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neutral-100 border border-neutral-200/90 text-neutral-800 text-xs font-semibold uppercase tracking-wider mb-4 shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-[#dfb141] ring-2 ring-[#dfb141]/30" />
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-blue-50 border border-blue-100 text-[#2563eb] text-xs font-medium uppercase tracking-wider mb-2.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2563eb]" />
               <span>{t("services.badge")}</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[-0.03em] text-neutral-950 leading-[1.18]">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-slate-900 leading-tight">
               {t("services.title1")} <br />
-              <span className="font-bold text-neutral-950">{t("services.title2")}</span>
+              <span className="text-[#2563eb]">{t("services.title2")}</span>
             </h2>
           </div>
 
-          {/* Right Side: Subtext + View All Link + Navigation Arrows */}
-          <div className="flex flex-col items-start md:items-end gap-5 max-w-xl">
-            <p className="text-sm sm:text-base text-neutral-500 font-normal leading-relaxed md:text-right">
-              {t("services.desc")}
-            </p>
+          {/* Right Navigation Controls */}
+          <div className="flex items-center gap-3 self-start md:self-end">
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-1 text-xs font-medium text-[#2563eb] hover:text-[#1d4ed8] transition-colors"
+            >
+              <span>{t("services.view_all")}</span>
+              <ArrowUpRight className={`w-3.5 h-3.5 ${isArabic ? "rotate-[-90deg]" : ""}`} />
+            </Link>
 
-            <div className="flex items-center gap-4">
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-neutral-950 hover:text-[#c49725] transition-colors"
+            {/* Left / Right Large Navigation Arrow Buttons */}
+            <div className="flex items-center gap-2" dir="ltr">
+              <button
+                onClick={() => scroll("left")}
+                className="w-9 h-9 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 flex items-center justify-center transition-colors shadow-xs hover:border-slate-300 cursor-pointer"
+                aria-label="Scroll left"
               >
-                <span>{t("services.view_all")}</span>
-                <ArrowUpRight className={`w-3.5 h-3.5 ${isArabic ? "rotate-[-90deg]" : ""}`} />
-              </Link>
-
-              {/* Navigation Arrows */}
-              <div className="flex items-center gap-2 shrink-0" dir="ltr">
-                <button
-                  onClick={() => scroll("left")}
-                  className="w-10 h-10 rounded-full border border-neutral-200 bg-white hover:bg-neutral-950 hover:text-white hover:border-neutral-950 text-neutral-800 flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95"
-                  aria-label="Scroll left"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => scroll("right")}
-                  className="w-10 h-10 rounded-full border border-neutral-200 bg-white hover:bg-neutral-950 hover:text-white hover:border-neutral-950 text-neutral-800 flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95"
-                  aria-label="Scroll right"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => scroll("right")}
+                className="w-9 h-9 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 flex items-center justify-center transition-colors shadow-xs hover:border-slate-300 cursor-pointer"
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Cards Carousel */}
+        {/* Large Prominent Cards Carousel (Matching Reference Photo) */}
         <div
-          ref={scrollContainerRef}
-          className="flex gap-5 sm:gap-6 overflow-x-auto pb-6 pt-2 scroll-smooth no-scrollbar snap-x snap-mandatory pr-8"
-          style={{
-            width: "calc(100% + (100vw - 100%) / 2)",
-            maxWidth: "none",
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-          }}
+          ref={scrollRef}
+          className="flex gap-5 sm:gap-6 overflow-x-auto pb-4 pt-1 scroll-smooth snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {displayServices.map((item) => {
             const cardName = isArabic ? item.nameAr : item.nameEn;
             const cardDesc = isArabic ? item.descAr : item.descEn;
-            const cardTag = isArabic ? item.tagAr : item.tagEn;
 
             return (
               <Link
                 key={item.nameEn}
                 href={`/services/${item.divisionSlug}/${item.itemSlug}`}
-                className="group relative w-[285px] sm:w-[335px] lg:w-[370px] h-[375px] sm:h-[415px] rounded-[28px] sm:rounded-[32px] overflow-hidden shrink-0 snap-start shadow-sm hover:shadow-2xl transition-all duration-500 block bg-neutral-950"
+                className="group relative w-[270px] sm:w-[310px] lg:w-[335px] h-[360px] sm:h-[420px] rounded-3xl overflow-hidden shrink-0 snap-start bg-slate-900 transition-all duration-300 block shadow-sm hover:shadow-xl cursor-pointer"
               >
-                {/* Full-Bleed Background Image */}
+                {/* Full-Bleed High Quality Background Image */}
                 <img
                   src={item.image}
                   alt={cardName}
@@ -328,23 +344,16 @@ export default function ServicesOverview() {
                   className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-700 ease-out"
                 />
 
-                {/* Cinematic Dark Overlay Gradients */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-black/20 z-10" />
+                {/* Dark Vignette Bottom Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent z-10" />
 
-                {/* Bottom Content Block */}
-                <div className="absolute bottom-6 left-6 right-6 z-20">
-                  {/* Black Tag Badge with Golden Text */}
-                  <span className="inline-block px-3 py-1 rounded-full bg-black/90 border border-[#dfb141]/50 text-[#dfb141] text-[10px] font-bold tracking-widest uppercase mb-2.5 shadow-xs">
-                    {cardTag}
-                  </span>
-
-                  {/* Title */}
-                  <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-snug">
+                {/* Content Inside Card (Centered at Bottom) */}
+                <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 text-center z-20 flex flex-col items-center justify-end">
+                  <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight leading-snug drop-shadow-sm group-hover:text-blue-200 transition-colors">
                     {cardName}
                   </h3>
 
-                  {/* Description */}
-                  <p className="text-xs sm:text-sm text-neutral-300 font-normal mt-1.5 line-clamp-2 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-slate-200 font-medium mt-1 drop-shadow-xs line-clamp-1">
                     {cardDesc}
                   </p>
                 </div>

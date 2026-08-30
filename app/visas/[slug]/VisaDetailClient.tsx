@@ -2,18 +2,20 @@
 
 import React, { useState, useEffect } from "react";
 import { VisaDetail } from "@/lib/data";
+import { Sliders } from "lucide-react";
 import PageBanner from "@/components/PageBanner";
 import DetailContentLayout from "@/components/DetailContentLayout";
 import CtaSection from "@/components/CtaSection";
 import { useLanguage } from "@/context/LanguageContext";
 import { useGeoLocation } from "@/context/GeoContext";
 import { arabicVisaNames } from "@/lib/localizedData";
+import ServiceCustomizerModal from "@/components/ServiceCustomizerModal";
 
 export default function VisaDetailClient({ visa: initialVisa }: { visa: VisaDetail }) {
   const { isArabic, t } = useLanguage();
   const { contact } = useGeoLocation();
-
   const [visa, setVisa] = useState<VisaDetail>(initialVisa);
+  const [customizerOpen, setCustomizerOpen] = useState(false);
 
   useEffect(() => {
     fetch("/api/admin/visas")
@@ -62,12 +64,21 @@ export default function VisaDetailClient({ visa: initialVisa }: { visa: VisaDeta
 
   return (
     <>
-      {/* Page Banner */}
+      {/* Page Banner with Heading Customize Button */}
       <PageBanner
         title={visaName}
         subtitle={visaOverview}
         breadcrumbCurrent={visaName}
         backgroundImage={visa.heroImage}
+        actionButton={
+          <button
+            onClick={() => setCustomizerOpen(true)}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/25 text-white text-xs sm:text-sm font-semibold transition-all cursor-pointer shadow-lg hover:scale-105"
+          >
+            <Sliders className="w-4 h-4 text-blue-400" />
+            <span>{isArabic ? "تخصيص ملف التأشيرة" : "Customize Visa Application"}</span>
+          </button>
+        }
       />
 
       {/* Detail Layout */}
@@ -86,6 +97,7 @@ export default function VisaDetailClient({ visa: initialVisa }: { visa: VisaDeta
         backLinkHref="/visas"
         backLinkLabel={t("visas.view_all")}
         whatsAppText={`Hi Arizona, I want to apply for ${visa.name}. Please guide me with requirements and processing time.`}
+        customizerServiceType="visas"
       />
 
       {/* Reusable Scenic CTA Banner */}
@@ -99,6 +111,23 @@ export default function VisaDetailClient({ visa: initialVisa }: { visa: VisaDeta
         buttonText={isArabic ? "التقديم عبر الواتساب" : "Apply on WhatsApp"}
         buttonHref={contact.whatsappLink(`Hi Arizona, I want to apply for ${visa.name}. Please guide me.`)}
         backgroundImage={visa.heroImage}
+        secondaryAction={
+          <button
+            onClick={() => setCustomizerOpen(true)}
+            className="px-6 py-3 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-white font-medium text-xs sm:text-sm inline-flex items-center gap-2 transition-colors border border-slate-700 backdrop-blur-md cursor-pointer"
+          >
+            <Sliders className="w-4 h-4 text-blue-400" />
+            <span>{isArabic ? "تخصيص ملف التأشيرة" : "Customize Visa Application"}</span>
+          </button>
+        }
+      />
+
+      {/* Service Customizer Modal */}
+      <ServiceCustomizerModal
+        isOpen={customizerOpen}
+        onClose={() => setCustomizerOpen(false)}
+        serviceType="visas"
+        initialItemName={visa.country}
       />
     </>
   );

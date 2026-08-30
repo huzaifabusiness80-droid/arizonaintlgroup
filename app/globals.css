@@ -1,70 +1,224 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --font-sans: var(--font-dm-sans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: var(--font-poppins), "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-brand-800: #1e40af;
+  --color-brand-900: #1e3a8a;
+  --color-brand-950: #0f172a;
 }
 
 :root {
-  --font-dm-sans: "DM Sans", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: #f0f2f5;
-  color: #111827;
+  background-color: #f8fafc;
+  color: #0f172a;
   font-weight: 400;
+  letter-spacing: -0.011em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
 [dir="rtl"], html[dir="rtl"] body, .font-arabic {
   font-family: var(--font-cairo), "Cairo", "Segoe UI", Tahoma, sans-serif;
+  letter-spacing: normal;
 }
 
-/* Glassmorphism & UI Utilities */
-.glass-pill {
-  background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+/* ──────────────────────────────────────────────────────────────────────────
+   UNIVERSAL SITE-WIDE LIGHT & DARK MODE THEME ENGINE
+   ────────────────────────────────────────────────────────────────────────── */
+
+html.dark {
+  color-scheme: dark;
 }
 
-.glass-pill-dark {
-  background: rgba(18, 24, 38, 0.45);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 10px 35px -5px rgba(0, 0, 0, 0.25);
+html.dark body {
+  background-color: #080d1a !important;
+  color: #f1f5f9 !important;
 }
 
-.hero-shadow {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05);
+/* Cards & Section Panels */
+html.dark .bg-white {
+  background-color: #0d1527 !important;
 }
 
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.97) translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+html.dark .bg-slate-50,
+html.dark .bg-gray-50,
+html.dark .bg-slate-100\/60 {
+  background-color: #111c33 !important;
 }
 
-.animate-fade-scale {
-  animation: fadeInScale 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+html.dark .bg-slate-100 {
+  background-color: #162442 !important;
 }
 
-/* Clean Scrollbar */
+html.dark .bg-slate-200 {
+  background-color: #1e3056 !important;
+}
+
+html.dark .bg-blue-50 {
+  background-color: rgba(37, 99, 235, 0.12) !important;
+}
+
+html.dark .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.12) !important;
+}
+
+html.dark .bg-amber-50 {
+  background-color: rgba(245, 158, 11, 0.12) !important;
+}
+
+html.dark .bg-purple-50 {
+  background-color: rgba(168, 85, 247, 0.12) !important;
+}
+
+/* Clean Borders in Dark Mode */
+html.dark .border-slate-100,
+html.dark .border-slate-200,
+html.dark .border-slate-300,
+html.dark .border-gray-100,
+html.dark .border-gray-200,
+html.dark .border-gray-300 {
+  border-color: #1e2d4a !important;
+}
+
+html.dark .border-blue-100,
+html.dark .border-blue-200 {
+  border-color: rgba(37, 99, 235, 0.28) !important;
+}
+
+html.dark .border-emerald-100,
+html.dark .border-emerald-200 {
+  border-color: rgba(16, 185, 129, 0.28) !important;
+}
+
+/* Typography Contrast in Dark Mode */
+html.dark .text-slate-950,
+html.dark .text-slate-900,
+html.dark .text-slate-800 {
+  color: #f8fafc !important;
+}
+
+html.dark .text-slate-700,
+html.dark .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+/* Inputs, Selects & Forms in Dark Mode */
+html.dark input:not([type="submit"]):not([type="button"]),
+html.dark select,
+html.dark textarea {
+  background-color: #0b1322 !important;
+  color: #f8fafc !important;
+  border-color: #243452 !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* Dropdown menus & Popovers */
+html.dark .shadow-lg,
+html.dark .shadow-xl,
+html.dark .shadow-2xl {
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Minimalist Corporate Utilities */
+.corporate-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.corporate-card:hover {
+  border-color: #93c5fd;
+  transform: translateY(-2px);
+}
+
+html.dark .corporate-card {
+  background: #0d1527 !important;
+  border-color: #1e2d4a !important;
+}
+
+html.dark .corporate-card:hover {
+  border-color: #3b82f6 !important;
+}
+
+/* Clean Executive Glass */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+html.dark .glass-nav {
+  background: rgba(11, 17, 32, 0.92) !important;
+  border-bottom-color: rgba(30, 41, 59, 0.8) !important;
+}
+
+/* Smooth Minimal Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: #f1f5f9;
 }
+html.dark ::-webkit-scrollbar-track {
+  background: #080d1a !important;
+}
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 9999px;
+  background: #94a3b8;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #1e2d4a !important;
+}
+
+/* Text Selection */
+::selection {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+/* Continuous Infinite Marquee */
+@keyframes techMarquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-tech-marquee {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: techMarquee 35s linear infinite;
+}
+
+.animate-tech-marquee:hover {
+  animation-play-state: paused;
 }

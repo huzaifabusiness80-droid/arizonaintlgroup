@@ -150,7 +150,7 @@ export default function GalleryUpload({
           }}
         >
           {uploading ? (
-            <div style={{ fontSize: 11, color: "#c9a227", fontWeight: 600 }}>
+            <div style={{ fontSize: 11, color: "#2563eb", fontWeight: 600 }}>
               ⏳ Uploading...
             </div>
           ) : (

@@ -155,7 +155,28 @@ model BahrainService {
   @@map("bahrain_services")
 }
 
-// ─── INQUIRIES (from contact forms) ──────────────────────────────────────────
+// ─── USER AUTH & PORTAL ───────────────────────────────────────────────────────
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String
+  password  String
+  phone     String?
+  country   String?
+  city      String?
+  avatar    String?
+  role      String    @default("USER") // USER, VIP_CLIENT
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  inquiries Inquiry[]
+  bookings  Booking[]
+
+  @@map("users")
+}
+
+// ─── INQUIRIES (from contact forms & customizer) ──────────────────────────────
 
 model Inquiry {
   id        String   @id @default(cuid())
@@ -167,13 +188,15 @@ model Inquiry {
   country   String?
   status    String   @default("NEW") // NEW, IN_PROGRESS, RESOLVED
   isRead    Boolean  @default(false)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("inquiries")
 }
 
-// ─── BOOKINGS (from booking widget) ──────────────────────────────────────────
+// ─── BOOKINGS (from booking widget & packages) ──────────────────────────────
 
 model Booking {
   id            String   @id @default(cuid())
@@ -186,7 +209,9 @@ model Booking {
   customerPhone String?
   customerEmail String?
   notes         String?  @db.Text
-  status        String   @default("PENDING")
+  status        String   @default("PENDING") // PENDING, CONFIRMED, PROCESSING, COMPLETED, CANCELLED
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 

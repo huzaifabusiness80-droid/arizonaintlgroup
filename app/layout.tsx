@@ -1,11 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Sans, Cairo } from "next/font/google";
+import { Poppins, Cairo } from "next/font/google";
 import Script from "next/script";
 import JsonLd from "@/components/JsonLd";
 import "./globals.css";
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
@@ -14,7 +14,7 @@ const dmSans = DM_Sans({
 const cairo = Cairo({
   variable: "--font-cairo",
   subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -22,7 +22,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#dfb141",
+  themeColor: "#2563eb",
 };
 
 const siteUrl = "https://arizonaintlgroup.com";
@@ -170,6 +170,9 @@ export const metadata: Metadata = {
 
 import { GeoProvider } from "@/context/GeoContext";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { AuthProvider } from "@/context/AuthContext";
+import { ThemeProvider } from "@/context/ThemeContext";
+import AiAssistant from "@/components/AiAssistant";
 
 export default function RootLayout({
   children,
@@ -177,7 +180,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${cairo.variable} font-sans antialiased scroll-smooth`}>
+    <html lang="en" className={`${poppins.variable} ${cairo.variable} font-sans antialiased scroll-smooth`} suppressHydrationWarning>
       <head>
         {/* Google AdSense Meta & Script */}
         <meta name="google-adsense-account" content="ca-pub-2984910261301996" />
@@ -189,12 +192,17 @@ export default function RootLayout({
         {/* Schema.org Structured Data (JSON-LD) */}
         <JsonLd type="home" />
       </head>
-      <body className="min-h-screen bg-[#f8f9fa] text-[#111827] font-sans font-normal selection:bg-[#dfb141] selection:text-white">
-        <GeoProvider>
-          <LanguageProvider>
-            {children}
-          </LanguageProvider>
-        </GeoProvider>
+      <body className="min-h-screen bg-[#f8fafc] dark:bg-[#0b1120] text-[#0f172a] dark:text-slate-100 font-sans font-normal selection:bg-[#2563eb] selection:text-white">
+        <ThemeProvider>
+          <GeoProvider>
+            <LanguageProvider>
+              <AuthProvider>
+                {children}
+                <AiAssistant />
+              </AuthProvider>
+            </LanguageProvider>
+          </GeoProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

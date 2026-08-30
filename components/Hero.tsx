@@ -8,8 +8,6 @@ import {
   Plane,
   Car,
   Building2,
-  Smartphone,
-  ArrowRight,
   ArrowUpRight,
   ChevronLeft,
   ChevronRight,
@@ -19,8 +17,7 @@ import {
   Search,
   Hotel,
   Globe2,
-  ArrowUp,
-  MessageCircle,
+  Smartphone,
 } from "lucide-react";
 import { useGeoLocation } from "@/context/GeoContext";
 import { useLanguage } from "@/context/LanguageContext";
@@ -50,12 +47,12 @@ const servicesData: ServiceSlide[] = [
     categoryEn: "Travel & Tours",
     categoryAr: "السياحة والسفر",
     icon: Plane,
-    badgeHighlightEn: "Travel & Tours",
-    badgeHighlightAr: "السياحة والسفر",
+    badgeHighlightEn: "Global Travel & Visa Facilitation",
+    badgeHighlightAr: "السياحة والسفر والتأشيرات",
     titleEn: "Discover The World",
     titleAr: "استكشف أروع وجهات العالم",
-    titleHighlightEn: "With Confidence",
-    titleHighlightAr: "بكل ثقة واطمئنان",
+    titleHighlightEn: "With Global Excellence",
+    titleHighlightAr: "بأعلى معايير التميز",
     descriptionEn:
       "Flight tickets, worldwide visas, luxury holiday packages, 5-star hotel accommodations, and dedicated Umrah services tailored to perfection.",
     descriptionAr:
@@ -65,129 +62,99 @@ const servicesData: ServiceSlide[] = [
     image: "/images/hero-airplane.jpg",
   },
   {
-    id: "cars",
-    categoryEn: "Car Rentals",
-    categoryAr: "تأجير السيارات",
-    icon: Car,
-    badgeHighlightEn: "Car Rentals",
-    badgeHighlightAr: "تأجير السيارات",
-    titleEn: "Reliable Car Rental",
-    titleAr: "تأجير سيارات موثوق",
-    titleHighlightEn: "Wherever You Go",
-    titleHighlightAr: "أينما كانت وجهتك",
-    descriptionEn:
-      "Daily, weekly, and monthly rentals. Premium luxury sedans, SUVs, self-drive fleet, and 24/7 airport pickup and transfer services.",
-    descriptionAr:
-      "تأجير يومي وأسبوعي وشهري. أسطول متنوع من سيارات السيدان الفاخرة وسيارات الدفع الرباعي وخدمات التوصيل من وإلى المطار على مدار 24 ساعة.",
-    primaryBtn: { textEn: "Book Your Car", textAr: "احجز سيارتك الآن", href: "/services/rent-a-car" },
-    secondaryBtn: { textEn: "Airport Transfers", textAr: "توصيل المطار", href: "/services/rent-a-car" },
-    image: "/images/hero-cars.jpg",
-  },
-  {
     id: "bahrain",
     categoryEn: "Business in Bahrain",
     categoryAr: "الشركات بالبحرين",
     icon: Building2,
-    badgeHighlightEn: "Business Setup",
-    badgeHighlightAr: "تأسيس الأعمال",
+    badgeHighlightEn: "Corporate Establishment in Bahrain",
+    badgeHighlightAr: "تأسيس الأعمال في البحرين",
     titleEn: "Build Your Business",
     titleAr: "أسس شركتك في البحرين",
-    titleHighlightEn: "Own Your Future",
+    titleHighlightEn: "With 100% Ownership",
     titleHighlightAr: "بملكية أجنبية 100%",
     descriptionEn:
       "Complete business setup in Bahrain for local and global investors. Commercial Registration (CR), office with EWA, banking, and LMRA visa solutions.",
     descriptionAr:
       "تأسيس متكامل للشركات في مملكة البحرين للمستثمرين الدوليين. إصدار السجل التجاري (CR)، مكاتب موثقة مع EWA، فتح الحسابات البنكية وإقامات المستثمر.",
-    primaryBtn: { textEn: "Start Business Setup", textAr: "ابدأ تأسيس شركتك", href: "/services/business-bahrain" },
-    secondaryBtn: { textEn: "Free Consultation", textAr: "استشارة مجانية", href: "https://wa.me" },
+    primaryBtn: { textEn: "Start Company in Bahrain", textAr: "ابدأ شركتك الآن", href: "/services/business-bahrain" },
+    secondaryBtn: { textEn: "View Corporate Services", textAr: "خدمات الشركات", href: "/services/business-bahrain" },
     image: "/images/hero-bahrain.jpg",
+  },
+  {
+    id: "cars",
+    categoryEn: "Rent A Car",
+    categoryAr: "تأجير السيارات",
+    icon: Car,
+    badgeHighlightEn: "Luxury Mobility & Transfers",
+    badgeHighlightAr: "تأجير السيارات الفاخرة",
+    titleEn: "Premium Car Rentals",
+    titleAr: "تأجير سيارات فاخرة",
+    titleHighlightEn: "& Chauffeur Fleet",
+    titleHighlightAr: "وخدمة السائق الخاص",
+    descriptionEn:
+      "Modern fleet ranging from economical sedans to luxury SUVs and executive chauffeur services for corporate travel and airport transfers.",
+    descriptionAr:
+      "أسطول سيارات حديث ومتنوع من سيارات السيدان الاقتصادية إلى سيارات الدفع الرباعي الفاخرة وخدمات السائق الخاص والتوصيل للمطار.",
+    primaryBtn: { textEn: "Explore Fleet", textAr: "استعرض الأسطول", href: "/services/rent-a-car" },
+    secondaryBtn: { textEn: "Book Airport Transfer", textAr: "حجز توصيل المطار", href: "/services/rent-a-car" },
+    image: "/images/hero-car.jpg",
   },
   {
     id: "mobiles",
     categoryEn: "Mobiles & Tech",
     categoryAr: "الهواتف والتكنولوجيا",
     icon: Smartphone,
-    badgeHighlightEn: "Mobiles & Tech",
-    badgeHighlightAr: "الهواتف والتقنية",
-    titleEn: "Smartphones & Gadgets",
-    titleAr: "أحدث الهواتف والإلكترونيات",
-    titleHighlightEn: "Direct To Your Door",
-    titleHighlightAr: "توصيل فوري لباب منزلك",
+    badgeHighlightEn: "Authorized Flagship Tech",
+    badgeHighlightAr: "أجهزة أصلية معتمدة 100%",
+    titleEn: "Flagship Smartphones",
+    titleAr: "أحدث الهواتف الذكية",
+    titleHighlightEn: "& Fast GaN Tech",
+    titleHighlightAr: "والشواحن السريعة المعتمدة",
     descriptionEn:
-      "Latest iPhone, Samsung Galaxy, and Google Pixel flagships. Fast GaN chargers, audio accessories, and same-day home delivery.",
+      "Original Apple iPhones, Samsung Galaxy, and Google Pixel devices with express delivery, official warranties, and high-speed GaN charging solutions.",
     descriptionAr:
-      "أحدث أجهزة الآيفون، سامسونج جالاكسي، وجوجل بكسل الأصلية 100%. شواحن GaN السريعة وملحقات الصوت مع توصيل سريع في نفس اليوم.",
-    primaryBtn: { textEn: "Order on WhatsApp", textAr: "اطلب عبر الواتساب", href: "https://wa.me" },
-    secondaryBtn: { textEn: "View Products", textAr: "عرض المنتجات", href: "/services/mobiles-tech" },
-    image: "/images/hero-tech.jpg",
+      "أحدث هواتف آبل آيفون وسامسونج جالاكسي الأصلية مع ضمان الوكيل المعتمد، شواحن GaN السريعة وتوصيل فوري لكافة المناطق.",
+    primaryBtn: { textEn: "Explore Tech & Phones", textAr: "استعرض الهواتف والأجهزة", href: "/services/mobiles-tech" },
+    secondaryBtn: { textEn: "View Accessories", textAr: "ملحقات وشواحن", href: "/services/mobiles-tech" },
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1920&q=85&auto=format&fit=crop",
   },
 ];
 
-import { WORLDWIDE_COUNTRIES, CountryItem } from "@/lib/countries";
-
 export default function Hero() {
   const { isPakistan, contact } = useGeoLocation();
-  const { language, isArabic, t } = useLanguage();
+  const { isArabic, t } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [countryList, setCountryList] = useState<CountryItem[]>(WORLDWIDE_COUNTRIES);
+  const [bookingTab, setBookingTab] = useState<string>("travel");
+  const [fromCity, setFromCity] = useState("Islamabad, Pakistan");
+  const [destination, setDestination] = useState("Bahrain");
+  const [date, setDate] = useState("");
+  const [passengers, setPassengers] = useState("1 Adult");
 
-  // Filter slides based on location
+  // Mobiles & Tech dedicated selector states
+  const [mobileBrand, setMobileBrand] = useState("Apple iPhone 16 / 15 Pro");
+  const [mobileStorage, setMobileStorage] = useState("256GB (Recommended)");
+  const [mobileCity, setMobileCity] = useState("Islamabad / Rawalpindi (Same Day)");
+  const [mobilePta, setMobilePta] = useState("Official PTA Approved (Box Packed)");
+
   const availableSlides = isPakistan
     ? servicesData
     : servicesData.filter((s) => s.id !== "cars" && s.id !== "mobiles");
 
-  // Booking widget state
-  const [bookingTab, setBookingTab] = useState<string>("travel");
-  const [fromCity, setFromCity] = useState(isArabic ? "المنامة / كراتشي" : "Manama / Karachi");
-  const [destination, setDestination] = useState("🇪🇸 Spain (Schengen)");
-  const [date, setDate] = useState("2026-09-15");
-  const [passengers, setPassengers] = useState("1 Adult");
-
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const res = await fetch("https://restcountries.com/v3.1/all?fields=name,cca2,flag", { cache: "force-cache" });
-        if (res.ok) {
-          const data = await res.json();
-          if (Array.isArray(data) && data.length > 0) {
-            const mapped: CountryItem[] = data
-              .map((c: any) => ({
-                code: c.cca2,
-                name: c.name?.common || c.name?.official || "",
-                nameAr: c.name?.common || "",
-                flag: c.flag || "🌐",
-              }))
-              .filter((c: CountryItem) => c.name.length > 0)
-              .sort((a: CountryItem, b: CountryItem) => a.name.localeCompare(b.name));
-            
-            const priorityCodes = ["BH", "SA", "AE", "PK", "ES", "GB", "US", "CA", "MY", "TH", "TR"];
-            const priority = WORLDWIDE_COUNTRIES.filter(c => priorityCodes.includes(c.code));
-            const rest = mapped.filter((c: CountryItem) => !priorityCodes.includes(c.code));
-            setCountryList([...priority, ...rest]);
-          }
-        }
-      } catch {
-        // Fallback default is already set to WORLDWIDE_COUNTRIES
-      }
-    };
-    fetchCountries();
-  }, []);
-
   const bookingTabs = [
     { id: "travel", labelEn: "FLIGHTS & UMRAH", labelAr: "الطيران والعمرة", icon: Plane },
-    { id: "hotels", labelEn: "HOTELS & RESORTS", labelAr: "الفنادق والمنتجعات", icon: Hotel },
     { id: "visas", labelEn: "WORLDWIDE VISAS", labelAr: "تأشيرات السفر", icon: Globe2 },
     { id: "business", labelEn: "BUSINESS IN BAHRAIN", labelAr: "تأسيس الأعمال بالبحرين", icon: Building2 },
+    { id: "hotels", labelEn: "HOTELS & RESORTS", labelAr: "الفنادق والمنتجعات", icon: Hotel },
     ...(isPakistan ? [{ id: "cars", labelEn: "RENT A CAR", labelAr: "تأجير السيارات", icon: Car }] : []),
+    ...(isPakistan ? [{ id: "mobiles", labelEn: "MOBILES & TECH", labelAr: "الهواتف والتكنولوجيا", icon: Smartphone }] : []),
   ];
 
-  // Auto-play slideshow
   useEffect(() => {
     if (!isAutoPlaying) return;
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % availableSlides.length);
-    }, 6500);
+    }, 7000);
     return () => clearInterval(interval);
   }, [isAutoPlaying, availableSlides.length]);
 
@@ -205,25 +172,32 @@ export default function Hero() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    const query = `Hi Arizona, I want to inquire about ${bookingTab.toUpperCase()}. From: ${fromCity}, Destination: ${destination}, Date: ${date}, Details: ${passengers}`;
-    // Save inquiry to Neon database
+    let query = "";
+    let inquiryService = `Booking Widget: ${bookingTab.toUpperCase()}`;
+    let inquiryMsg = "";
+
+    if (bookingTab === "mobiles") {
+      query = `Hello Arizona International Group,\n\nI want to check price & order for Mobiles & Tech:\n- Device / Model: ${mobileBrand}\n- Storage / Variant: ${mobileStorage}\n- Delivery City: ${mobileCity}\n- Status & Warranty: ${mobilePta}`;
+      inquiryService = `Mobiles & Tech: ${mobileBrand}`;
+      inquiryMsg = `Model: ${mobileBrand} | Storage: ${mobileStorage} | City: ${mobileCity} | Status: ${mobilePta}`;
+    } else {
+      query = `Hello Arizona International Group, I would like to inquire about ${bookingTab.toUpperCase()} services.\nFrom: ${fromCity}\nDestination: ${destination}\nTravel Date: ${date || "Flexible"}\nGuests/Details: ${passengers}`;
+      inquiryMsg = `From: ${fromCity} -> Destination: ${destination} | Travel Date: ${date} | Category/Passengers: ${passengers}`;
+    }
+
     fetch("/api/inquiries", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: `Lead via Booking Widget (${passengers})`,
+        name: `Lead via Widget (${bookingTab === "mobiles" ? mobileBrand : passengers})`,
         phone: "WhatsApp Inquirer",
         email: "booking-widget@arizonaintl.com",
-        service: `Booking Widget: ${bookingTab.toUpperCase()}`,
-        message: `From: ${fromCity} -> Destination: ${destination} | Travel Date: ${date} | Category/Passengers: ${passengers}`,
+        service: inquiryService,
+        message: inquiryMsg,
         country: destination,
       }),
     }).catch(() => {});
     window.open(contact.whatsappLink(query), "_blank");
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const slideTitle = isArabic ? slide.titleAr : slide.titleEn;
@@ -233,29 +207,19 @@ export default function Hero() {
   const primaryText = isArabic ? slide.primaryBtn.textAr : slide.primaryBtn.textEn;
   const secondaryText = isArabic ? slide.secondaryBtn.textAr : slide.secondaryBtn.textEn;
 
-  const resolveBtnHref = (href: string) => {
-    if (href.startsWith("https://wa.me")) {
-      return contact.whatsappLink(`Hi Arizona, I am interested in ${slide.titleEn}`);
-    }
-    return href;
-  };
-
-  const primaryHref = resolveBtnHref(slide.primaryBtn.href);
-  const secondaryHref = resolveBtnHref(slide.secondaryBtn.href);
-
   return (
     <div className="relative w-full">
       {/* 1. Main Hero Carousel Stage */}
-      <section className="relative w-full min-h-[580px] lg:min-h-[660px] flex flex-col justify-center bg-neutral-950 text-white overflow-hidden pb-24 sm:pb-32 pt-12 sm:pt-16">
-        {/* Full-Bleed Background Images with AnimatePresence */}
+      <section className="relative w-full min-h-[560px] sm:min-h-[620px] lg:min-h-[660px] flex flex-col justify-center bg-slate-950 text-white overflow-hidden pb-28 sm:pb-36 pt-14 sm:pt-20">
+        {/* Background Images */}
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode="wait">
             <motion.div
               key={slide.id}
-              initial={{ opacity: 0, scale: 1.06 }}
+              initial={{ opacity: 0, scale: 1.04 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.9, ease: [0.25, 1, 0.5, 1] }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
               className="absolute inset-0"
             >
               <Image
@@ -263,85 +227,85 @@ export default function Hero() {
                 alt={slideTitle}
                 fill
                 priority
-                className="object-cover object-center filter brightness-90"
+                className="object-cover object-center filter brightness-75"
                 sizes="100vw"
               />
             </motion.div>
           </AnimatePresence>
 
-          {/* Cinematic Dark Overlay Gradients */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/35" />
-          <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-black/50" />
+          {/* Gradients */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/65 to-slate-950/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/40" />
         </div>
 
         {/* Content Box */}
-        <div className="w-full max-w-[1580px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
-          <div className="max-w-4xl space-y-6">
+        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="max-w-3xl space-y-5">
             {/* Top Badge */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={`badge-${slide.id}`}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-white text-xs font-normal uppercase tracking-wider shadow-sm"
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.3 }}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-white/15 backdrop-blur-md border border-white/20 text-slate-100 text-xs font-semibold tracking-wide"
               >
-                <span className="w-2 h-2 rounded-full bg-[#dfb141] ring-2 ring-[#dfb141]/30" />
+                <span className="w-2 h-2 rounded-full bg-[#3b82f6]" />
                 <span>{slideBadge}</span>
               </motion.div>
             </AnimatePresence>
 
-            {/* Slide Title (Grand & Prominent) */}
+            {/* Slide Title */}
             <AnimatePresence mode="wait">
               <motion.h1
                 key={`title-${slide.id}`}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.5, delay: 0.05 }}
-                className="text-4xl sm:text-6xl lg:text-[64px] font-bold tracking-tight leading-[1.12] text-white"
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, delay: 0.05 }}
+                className="text-3xl sm:text-5xl lg:text-[58px] font-semibold tracking-tight leading-[1.15] text-white"
               >
                 {slideTitle} <br />
-                <span className="text-[#dfb141] font-bold">{slideTitleHighlight}</span>
+                <span className="text-[#3b82f6]">{slideTitleHighlight}</span>
               </motion.h1>
             </AnimatePresence>
 
-            {/* Slide Description (Large & Readable) */}
+            {/* Slide Description */}
             <AnimatePresence mode="wait">
               <motion.p
                 key={`desc-${slide.id}`}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-base sm:text-lg lg:text-xl text-neutral-200 font-normal leading-relaxed max-w-2xl"
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+                className="text-sm sm:text-base lg:text-lg text-slate-200 font-normal leading-relaxed max-w-2xl"
               >
                 {slideDesc}
               </motion.p>
             </AnimatePresence>
 
-            {/* Slide Action Buttons */}
+            {/* Action Buttons */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={`btn-${slide.id}`}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.5, delay: 0.15 }}
-                className="flex flex-wrap items-center gap-3.5 pt-2"
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, delay: 0.15 }}
+                className="flex flex-wrap items-center gap-3 pt-2"
               >
                 <Link
-                  href={primaryHref}
-                  className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-[#dfb141] hover:bg-[#c49725] text-white font-normal text-sm shadow-md transition-all active:scale-95 group"
+                  href={slide.primaryBtn.href}
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-semibold text-xs sm:text-sm transition-all duration-200 shadow-md group cursor-pointer"
                 >
                   <span>{primaryText}</span>
                   <ArrowUpRight className={`w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform ${isArabic ? "rotate-[-90deg]" : ""}`} />
                 </Link>
 
                 <Link
-                  href={secondaryHref}
-                  className="inline-flex items-center px-7 py-3 rounded-full bg-black/40 hover:bg-white/20 text-white font-normal text-sm border border-white/30 backdrop-blur-md transition-all active:scale-95"
+                  href={slide.secondaryBtn.href}
+                  className="inline-flex items-center px-5 py-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-100 font-semibold text-xs sm:text-sm border border-slate-700 backdrop-blur-md transition-all duration-200 cursor-pointer"
                 >
                   {secondaryText}
                 </Link>
@@ -350,10 +314,10 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Carousel Controls (Dots & Arrows) */}
-        <div className="w-full max-w-[1580px] mx-auto px-4 sm:px-8 lg:px-12 flex items-center justify-between mt-8 relative z-20">
-          {/* Slide Indicator Dots */}
-          <div className="flex items-center gap-2">
+        {/* Carousel Controls */}
+        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between mt-8 relative z-20">
+          {/* Indicator Dots */}
+          <div className="flex items-center gap-1.5">
             {availableSlides.map((s, idx) => (
               <button
                 key={s.id}
@@ -363,8 +327,8 @@ export default function Hero() {
                 }}
                 className={`h-2 rounded-full transition-all duration-300 ${
                   currentSlide === idx
-                    ? "w-8 bg-[#dfb141]"
-                    : "w-2 bg-white/40 hover:bg-white/70"
+                    ? "w-6 bg-[#3b82f6]"
+                    : "w-2 bg-white/30 hover:bg-white/60"
                 }`}
                 aria-label={`Go to slide ${idx + 1}`}
               />
@@ -375,27 +339,27 @@ export default function Hero() {
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrev}
-              className="w-10 h-10 rounded-full border border-white/20 hover:border-white/50 bg-black/30 hover:bg-white/10 text-white flex items-center justify-center transition-colors cursor-pointer"
+              className="w-8 h-8 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
               aria-label="Previous slide"
             >
-              <ChevronLeft className={`w-5 h-5 ${isArabic ? "rotate-180" : ""}`} />
+              <ChevronLeft className={`w-4 h-4 ${isArabic ? "rotate-180" : ""}`} />
             </button>
             <button
               onClick={handleNext}
-              className="w-10 h-10 rounded-full border border-white/20 hover:border-white/50 bg-black/30 hover:bg-white/10 text-white flex items-center justify-center transition-colors cursor-pointer"
+              className="w-8 h-8 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
               aria-label="Next slide"
             >
-              <ChevronRight className={`w-5 h-5 ${isArabic ? "rotate-180" : ""}`} />
+              <ChevronRight className={`w-3.5 h-3.5 ${isArabic ? "rotate-180" : ""}`} />
             </button>
           </div>
         </div>
       </section>
 
-      {/* 2. Interactive Booking Widget Overlay Bar */}
-      <div className="relative -mt-16 sm:-mt-28 z-30 w-full max-w-[1580px] mx-auto px-4 sm:px-8 lg:px-12">
-        <div className="bg-white rounded-3xl sm:rounded-[32px] shadow-2xl border border-neutral-200/90 p-5 sm:p-8">
+      {/* 2. Interactive Booking Widget */}
+      <div className="relative -mt-10 sm:-mt-16 z-30 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white dark:bg-[#0d1527] rounded-2xl border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-lg dark:shadow-2xl transition-colors">
           {/* Service Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-4 border-b border-neutral-100 no-scrollbar">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-2.5 border-b border-slate-100 dark:border-slate-800/80 no-scrollbar">
             {bookingTabs.map((tab) => {
               const TabIcon = tab.icon;
               const isSelected = bookingTab === tab.id;
@@ -405,119 +369,180 @@ export default function Hero() {
                 <button
                   key={tab.id}
                   onClick={() => setBookingTab(tab.id)}
-                  className={`inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-xs font-normal whitespace-nowrap transition-all cursor-pointer ${
+                  className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
                     isSelected
-                      ? "bg-[#dfb141] text-white shadow-sm"
-                      : "text-neutral-600 hover:text-neutral-950 hover:bg-neutral-100"
+                      ? "bg-[#2563eb] text-white shadow-xs"
+                      : "text-slate-600 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
                   }`}
                 >
-                  <TabIcon className="w-4 h-4" />
+                  <TabIcon className="w-3.5 h-3.5" />
                   <span>{tabLabel}</span>
                 </button>
               );
             })}
           </div>
 
-          {/* Dynamic Search Fields Row */}
+          {/* Search Fields Row */}
           <form
             onSubmit={handleSearch}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 items-center "
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2.5 items-center mt-3"
           >
-            {/* Field 1: Departure Country / City with Live Search API */}
+            {/* Field 1: Device / Departure */}
             <div className="lg:col-span-3">
-              <CountrySearchInput
-                label={t("widget.from")}
-                value={fromCity}
-                onChange={(val) => setFromCity(val)}
-                placeholder={isArabic ? "بلد أو مدينة المغادرة..." : "Departure country / city..."}
-                icon={MapPin}
-                id="hero-from-country"
-              />
-            </div>
-
-            {/* Field 2: Destination Country with Live Search API */}
-            <div className="lg:col-span-3">
-              <CountrySearchInput
-                label={t("widget.to")}
-                value={destination}
-                onChange={(val) => setDestination(val)}
-                placeholder={isArabic ? "بلد أو وجهة السفر..." : "Destination country..."}
-                icon={Globe2}
-                id="hero-to-country"
-              />
-            </div>
-
-            {/* Field 3: Date */}
-            <div className="lg:col-span-2 p-3.5 rounded-2xl bg-[#f8f9fc] border border-neutral-200/80 hover:border-neutral-400 transition-colors">
-              <label className="block text-[11px] font-normal uppercase tracking-wider text-neutral-500 mb-1">
-                {t("widget.departure")}
-              </label>
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-[#dfb141] shrink-0" />
-                <input
-                  type="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  className="w-full bg-transparent text-xs sm:text-sm font-normal text-neutral-900 focus:outline-none"
+              {bookingTab === "mobiles" ? (
+                <div className="p-2.5 rounded-md bg-slate-50 dark:bg-[#080d1a] border border-slate-200 dark:border-slate-800/90 focus-within:border-[#2563eb] dark:focus-within:border-[#3b82f6] transition-colors">
+                  <label className="block text-[10px] font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-0.5">
+                    {isArabic ? "الموديل أو الجهاز" : "Select Device / Model"}
+                  </label>
+                  <div className="flex items-center gap-1.5">
+                    <Smartphone className="w-3.5 h-3.5 text-[#2563eb] dark:text-[#60a5fa] shrink-0" />
+                    <select
+                      value={mobileBrand}
+                      onChange={(e) => setMobileBrand(e.target.value)}
+                      className="w-full bg-transparent text-xs font-medium text-slate-900 dark:text-white focus:outline-none cursor-pointer [&>option]:bg-white [&>option]:dark:bg-[#0d1527] [&>option]:text-slate-900 [&>option]:dark:text-white"
+                    >
+                      <option value="Apple iPhone 16 / 16 Pro Max">Apple iPhone 16 / 16 Pro Max</option>
+                      <option value="Apple iPhone 15 / 15 Pro Max">Apple iPhone 15 / 15 Pro Max</option>
+                      <option value="Samsung Galaxy S24 Ultra">Samsung Galaxy S24 Ultra</option>
+                      <option value="Samsung Galaxy Z Fold / Flip">Samsung Galaxy Z Fold / Flip</option>
+                      <option value="Google Pixel 9 / 9 Pro">Google Pixel 9 / 9 Pro</option>
+                      <option value="GaN Fast Chargers & 100W PD Cables">GaN Fast Chargers & 100W PD Cables</option>
+                      <option value="Apple Watch & Smartwatches">Apple Watch & Smartwatches</option>
+                      <option value="AirPods Pro & Galaxy Buds">AirPods Pro & Galaxy Buds</option>
+                    </select>
+                  </div>
+                </div>
+              ) : (
+                <CountrySearchInput
+                  label={t("widget.from")}
+                  value={fromCity}
+                  onChange={(val) => setFromCity(val)}
+                  placeholder={isArabic ? "بلد أو مدينة المغادرة..." : "Departure country / city..."}
+                  icon={MapPin}
+                  id="hero-from-country"
                 />
+              )}
+            </div>
+
+            {/* Field 2: Storage / Destination */}
+            <div className="lg:col-span-3">
+              {bookingTab === "mobiles" ? (
+                <div className="p-2.5 rounded-md bg-slate-50 dark:bg-[#080d1a] border border-slate-200 dark:border-slate-800/90 focus-within:border-[#2563eb] dark:focus-within:border-[#3b82f6] transition-colors">
+                  <label className="block text-[10px] font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-0.5">
+                    {isArabic ? "السعة والنوع" : "Storage / Variant"}
+                  </label>
+                  <div className="flex items-center gap-1.5">
+                    <Smartphone className="w-3.5 h-3.5 text-[#2563eb] dark:text-[#60a5fa] shrink-0" />
+                    <select
+                      value={mobileStorage}
+                      onChange={(e) => setMobileStorage(e.target.value)}
+                      className="w-full bg-transparent text-xs font-medium text-slate-900 dark:text-white focus:outline-none cursor-pointer [&>option]:bg-white [&>option]:dark:bg-[#0d1527] [&>option]:text-slate-900 [&>option]:dark:text-white"
+                    >
+                      <option value="128 GB">128 GB</option>
+                      <option value="256 GB (Recommended)">256 GB (Recommended)</option>
+                      <option value="512 GB">512 GB</option>
+                      <option value="1 TB (Max Storage)">1 TB (Max Storage)</option>
+                      <option value="65W/100W GaN Fast Charger">65W / 100W GaN Fast Charger</option>
+                      <option value="Charger + Armor Case Bundle">Charger + Armor Case Bundle</option>
+                    </select>
+                  </div>
+                </div>
+              ) : (
+                <CountrySearchInput
+                  label={t("widget.to")}
+                  value={destination}
+                  onChange={(val) => setDestination(val)}
+                  placeholder={isArabic ? "بلد أو وجهة السفر..." : "Destination country..."}
+                  icon={Globe2}
+                  id="hero-to-country"
+                />
+              )}
+            </div>
+
+            {/* Field 3: Delivery City / Departure Date */}
+            <div className="lg:col-span-2 p-2.5 rounded-md bg-slate-50 dark:bg-[#080d1a] border border-slate-200 dark:border-slate-800/90 focus-within:border-[#2563eb] dark:focus-within:border-[#3b82f6] transition-colors">
+              <label className="block text-[10px] font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-0.5">
+                {bookingTab === "mobiles" ? (isArabic ? "مدينة التوصيل" : "Delivery City") : t("widget.departure")}
+              </label>
+              <div className="flex items-center gap-1.5">
+                {bookingTab === "mobiles" ? (
+                  <>
+                    <MapPin className="w-3.5 h-3.5 text-[#2563eb] dark:text-[#60a5fa] shrink-0" />
+                    <select
+                      value={mobileCity}
+                      onChange={(e) => setMobileCity(e.target.value)}
+                      className="w-full bg-transparent text-xs font-medium text-slate-900 dark:text-white focus:outline-none cursor-pointer [&>option]:bg-white [&>option]:dark:bg-[#0d1527] [&>option]:text-slate-900 [&>option]:dark:text-white"
+                    >
+                      <option value="Islamabad / Rawalpindi (Same Day)">Islamabad / Rawalpindi</option>
+                      <option value="Lahore">Lahore</option>
+                      <option value="Karachi">Karachi</option>
+                      <option value="Peshawar">Peshawar</option>
+                      <option value="All Pakistan Express Delivery">All Pakistan Delivery</option>
+                    </select>
+                  </>
+                ) : (
+                  <>
+                    <Calendar className="w-3.5 h-3.5 text-[#2563eb] dark:text-[#60a5fa] shrink-0" />
+                    <input
+                      type="date"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                      className="w-full bg-transparent text-xs font-normal text-slate-900 dark:text-white dark:[color-scheme:dark] focus:outline-none"
+                    />
+                  </>
+                )}
               </div>
             </div>
 
-            {/* Field 4: Guests / Category */}
-            <div className="lg:col-span-2 p-3.5 rounded-2xl bg-[#f8f9fc] border border-neutral-200/80 hover:border-neutral-400 transition-colors">
-              <label className="block text-[11px] font-normal uppercase tracking-wider text-neutral-500 mb-1">
-                {t("widget.passengers")}
+            {/* Field 4: Status / Passengers */}
+            <div className="lg:col-span-2 p-2.5 rounded-md bg-slate-50 dark:bg-[#080d1a] border border-slate-200 dark:border-slate-800/90 focus-within:border-[#2563eb] dark:focus-within:border-[#3b82f6] transition-colors">
+              <label className="block text-[10px] font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-0.5">
+                {bookingTab === "mobiles" ? (isArabic ? "الحالة والضمان" : "Condition & Status") : t("widget.passengers")}
               </label>
-              <div className="flex items-center gap-2">
-                <Users className="w-4 h-4 text-[#dfb141] shrink-0" />
+              <div className="flex items-center gap-1.5">
+                <Users className="w-3.5 h-3.5 text-[#2563eb] dark:text-[#60a5fa] shrink-0" />
                 <select
-                  value={passengers}
-                  onChange={(e) => setPassengers(e.target.value)}
-                  className="w-full bg-transparent text-xs sm:text-sm font-normal text-neutral-900 focus:outline-none cursor-pointer"
+                  value={bookingTab === "mobiles" ? mobilePta : passengers}
+                  onChange={(e) => {
+                    if (bookingTab === "mobiles") {
+                      setMobilePta(e.target.value);
+                    } else {
+                      setPassengers(e.target.value);
+                    }
+                  }}
+                  className="w-full bg-transparent text-xs font-medium text-slate-900 dark:text-white focus:outline-none cursor-pointer [&>option]:bg-white [&>option]:dark:bg-[#0d1527] [&>option]:text-slate-900 [&>option]:dark:text-white"
                 >
-                  <option value="1 Adult">1 Adult</option>
-                  <option value="2 Adults">2 Adults</option>
-                  <option value="Family (3+)">Family (3+)</option>
-                  <option value="Corporate Group">Corporate Group</option>
+                  {bookingTab === "mobiles" ? (
+                    <>
+                      <option value="Official PTA Approved (Box Packed)">Official PTA Approved</option>
+                      <option value="Non-PTA (Physical Dual SIM)">Non-PTA Physical Dual</option>
+                      <option value="1 Year Official Brand Warranty">1 Year Official Warranty</option>
+                      <option value="Wholesale / Corporate Bulk">Wholesale Bulk Order</option>
+                    </>
+                  ) : (
+                    <>
+                      <option value="1 Adult">1 Adult</option>
+                      <option value="2 Adults">2 Adults</option>
+                      <option value="Family (3+)">Family (3+)</option>
+                      <option value="Corporate Group">Corporate Group</option>
+                    </>
+                  )}
                 </select>
               </div>
             </div>
 
-            {/* Field 5: Golden Search / Inquire Button */}
+            {/* Search Button */}
             <div className="lg:col-span-2">
               <button
                 type="submit"
-                className="w-full py-4 px-6 rounded-2xl bg-[#dfb141] hover:bg-[#c49725] text-white font-normal text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+                className="w-full py-3 px-3.5 rounded-lg bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-medium text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
               >
-                <Search className="w-4 h-4" />
-                <span>{isArabic ? "بحث فوري" : "Search"}</span>
+                <Search className="w-3.5 h-3.5" />
+                <span>{bookingTab === "mobiles" ? (isArabic ? "طلب وتأكيد" : "Check Price & Order") : (isArabic ? "بحث فوري" : "Search")}</span>
               </button>
             </div>
           </form>
         </div>
-      </div>
-
-      {/* 3. Floating Bottom Action Buttons (WhatsApp + Scroll To Top) */}
-      <div className={`fixed bottom-6 ${isArabic ? "left-6" : "right-6"} z-50 flex flex-col gap-3`}>
-        {/* Scroll To Top Button */}
-        <button
-          onClick={scrollToTop}
-          className="w-11 h-11 rounded-full bg-[#dfb141] hover:bg-[#c49725] text-white flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95 cursor-pointer"
-          aria-label="Scroll to top"
-        >
-          <ArrowUp className="w-5 h-5 text-white" />
-        </button>
-
-        {/* WhatsApp Floating Chat Button */}
-        <a
-          href={contact.whatsappLink()}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-11 h-11 rounded-full bg-[#25d366] hover:bg-[#20ba59] text-white flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95"
-          aria-label="Chat on WhatsApp"
-        >
-          <MessageCircle className="w-5 h-5 fill-current" />
-        </a>
       </div>
     </div>
   );

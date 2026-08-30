@@ -2,16 +2,30 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import {
+  LayoutDashboard,
+  BookOpen,
+  Compass,
+  Car,
+  Plane,
+  Smartphone,
+  Building2,
+  MessageSquareText,
+  ExternalLink,
+  LogOut,
+  ShieldCheck,
+  Globe,
+} from "lucide-react";
 
 const NAV_ITEMS = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: "▣" },
-  { href: "/admin/blogs", label: "Articles & Blogs", icon: "✍" },
-  { href: "/admin/visas", label: "Visas", icon: "⊞" },
-  { href: "/admin/rent-a-car", label: "Rent a Car", icon: "◈" },
-  { href: "/admin/travel-tours", label: "Travel & Tours", icon: "◉" },
-  { href: "/admin/mobiles-tech", label: "Mobiles & Tech", icon: "▦" },
-  { href: "/admin/bahrain-services", label: "Bahrain Business", icon: "◇" },
-  { href: "/admin/inquiries", label: "Inquiries", icon: "▤" },
+  { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/blogs", label: "Articles & Blogs", icon: BookOpen },
+  { href: "/admin/visas", label: "Worldwide Visas", icon: Compass },
+  { href: "/admin/rent-a-car", label: "Rent A Car", icon: Car },
+  { href: "/admin/travel-tours", label: "Travel & Tours", icon: Plane },
+  { href: "/admin/mobiles-tech", label: "Mobiles & Tech", icon: Smartphone },
+  { href: "/admin/bahrain-services", label: "Bahrain Business (CR)", icon: Building2 },
+  { href: "/admin/inquiries", label: "Client Inquiries", icon: MessageSquareText },
 ];
 
 export default function AdminSidebar() {
@@ -25,29 +39,70 @@ export default function AdminSidebar() {
   }
 
   return (
-    <aside style={{
-      width: 220,
-      minHeight: "100vh",
-      background: "#111",
-      display: "flex",
-      flexDirection: "column",
-      flexShrink: 0,
-      fontFamily: "system-ui, -apple-system, sans-serif",
-    }}>
-      {/* Brand */}
-      <div style={{ padding: "28px 20px 20px", borderBottom: "1px solid #222" }}>
-        <div style={{ fontSize: 11, color: "#c9a227", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 600, marginBottom: 2 }}>
-          Arizona Intl.
-        </div>
-        <div style={{ fontSize: 13, color: "#999", fontWeight: 400 }}>
-          Admin Portal
-        </div>
+    <aside
+      style={{
+        width: "260px",
+        minHeight: "100vh",
+        background: "#0f172a",
+        display: "flex",
+        flexDirection: "column",
+        flexShrink: 0,
+        fontFamily: "system-ui, -apple-system, sans-serif",
+        borderRight: "1px solid #1e293b",
+      }}
+    >
+      {/* Brand Header */}
+      <div
+        style={{
+          padding: "24px 20px",
+          borderBottom: "1px solid #1e293b",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Link
+          href="/admin/dashboard"
+          style={{
+            textDecoration: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+          }}
+        >
+          <img
+            src="/arizona-logo.png"
+            alt="Arizona International Group"
+            style={{
+              height: "48px",
+              width: "auto",
+              maxWidth: "190px",
+              objectFit: "contain",
+            }}
+          />
+        </Link>
       </div>
 
-      {/* Navigation */}
-      <nav style={{ flex: 1, padding: "12px 0" }}>
+      {/* Navigation Links */}
+      <nav style={{ flex: 1, padding: "16px 12px", display: "flex", flexDirection: "column", gap: "3px" }}>
+        <div
+          style={{
+            fontSize: "10px",
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+            color: "#64748b",
+            padding: "0 10px 8px",
+            fontWeight: 600,
+          }}
+        >
+          Management Portal
+        </div>
+
         {NAV_ITEMS.map((item) => {
-          const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+          const Icon = item.icon;
+          const isActive = pathname === item.href || (item.href !== "/admin/dashboard" && pathname.startsWith(item.href));
+
           return (
             <Link
               key={item.href}
@@ -55,42 +110,129 @@ export default function AdminSidebar() {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: 10,
-                padding: "10px 20px",
-                fontSize: 13,
-                color: isActive ? "#fff" : "#888",
-                background: isActive ? "#1a1a1a" : "transparent",
-                borderLeft: isActive ? "2px solid #c9a227" : "2px solid transparent",
+                gap: "11px",
+                padding: "10px 14px",
+                fontSize: "13px",
+                color: isActive ? "#ffffff" : "#94a3b8",
+                background: isActive
+                  ? "#2563eb"
+                  : "transparent",
+                borderRadius: "4px",
                 textDecoration: "none",
-                fontWeight: isActive ? 500 : 400,
-                transition: "color 0.15s",
+                fontWeight: isActive ? 600 : 400,
+                transition: "all 0.15s ease",
               }}
             >
-              <span style={{ fontSize: 12, opacity: 0.7 }}>{item.icon}</span>
-              {item.label}
+              <Icon
+                size={17}
+                style={{
+                  color: isActive ? "#ffffff" : "#64748b",
+                  flexShrink: 0,
+                }}
+              />
+              <span style={{ flex: 1 }}>{item.label}</span>
             </Link>
           );
         })}
+
+        {/* Live Site Link */}
+        <div style={{ marginTop: "16px", paddingTop: "12px", borderTop: "1px solid #1e293b" }}>
+          <div
+            style={{
+              fontSize: "10px",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              color: "#64748b",
+              padding: "0 10px 8px",
+              fontWeight: 600,
+            }}
+          >
+            Quick Links
+          </div>
+          <a
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "9px 14px",
+              fontSize: "12px",
+              color: "#93c5fd",
+              background: "rgba(37, 99, 235, 0.12)",
+              border: "1px solid rgba(59, 130, 246, 0.25)",
+              borderRadius: "4px",
+              textDecoration: "none",
+              fontWeight: 500,
+              transition: "all 0.15s ease",
+            }}
+          >
+            <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <Globe size={14} />
+              View Live Website
+            </span>
+            <ExternalLink size={13} />
+          </a>
+        </div>
       </nav>
 
-      {/* Logout */}
-      <div style={{ padding: "16px 20px", borderTop: "1px solid #222" }}>
+      {/* Footer Profile & Logout */}
+      <div
+        style={{
+          padding: "16px",
+          borderTop: "1px solid #1e293b",
+          background: "#0b1120",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
+          <div
+            style={{
+              width: "34px",
+              height: "34px",
+              borderRadius: "50%",
+              background: "linear-gradient(135deg, #2563eb, #1d4ed8)",
+              color: "#ffffff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontWeight: 700,
+              fontSize: "13px",
+            }}
+          >
+            AZ
+          </div>
+          <div style={{ overflow: "hidden" }}>
+            <div style={{ fontSize: "12px", fontWeight: 600, color: "#ffffff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+              Arizona Super Admin
+            </div>
+            <div style={{ fontSize: "11px", color: "#64748b" }}>
+              admin@arizonaintl.com
+            </div>
+          </div>
+        </div>
+
         <button
           onClick={handleLogout}
           style={{
             width: "100%",
-            padding: "9px 0",
-            background: "transparent",
-            border: "1px solid #333",
-            color: "#888",
-            fontSize: 12,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "8px",
+            padding: "8px 0",
+            background: "rgba(220, 38, 38, 0.12)",
+            border: "1px solid rgba(220, 38, 38, 0.25)",
+            color: "#fca5a5",
+            fontSize: "12px",
+            fontWeight: 500,
             cursor: "pointer",
-            textAlign: "center",
-            letterSpacing: "0.05em",
-            textTransform: "uppercase",
+            borderRadius: "4px",
+            transition: "all 0.15s ease",
           }}
         >
-          Sign Out
+          <LogOut size={14} />
+          Sign Out of Portal
         </button>
       </div>
     </aside>

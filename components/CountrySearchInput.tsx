@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { LucideIcon, Loader2 } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
 
 export interface PlaceItem {
   id: string;
@@ -31,7 +30,6 @@ export default function CountrySearchInput({
   icon: Icon,
   id,
 }: CountrySearchInputProps) {
-  const { isArabic } = useLanguage();
   const [results, setResults] = useState<PlaceItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -39,12 +37,10 @@ export default function CountrySearchInput({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Sync external value
   useEffect(() => {
     setSearchTerm(value);
   }, [value]);
 
-  // Fetch initial popular places on mount
   useEffect(() => {
     fetch("/api/places")
       .then((r) => r.json())
@@ -53,10 +49,9 @@ export default function CountrySearchInput({
           setResults(d.results);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
-  // Fetch live places from API when user types
   const searchPlaces = (q: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
@@ -66,7 +61,7 @@ export default function CountrySearchInput({
         .then((d) => {
           if (d.success && Array.isArray(d.results)) setResults(d.results);
         })
-        .catch(() => {});
+        .catch(() => { });
       return;
     }
 
@@ -88,7 +83,6 @@ export default function CountrySearchInput({
     }, 150);
   };
 
-  // Handle outside click to close dropdown
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
@@ -117,14 +111,14 @@ export default function CountrySearchInput({
   return (
     <div
       ref={wrapperRef}
-      className="relative p-3.5 rounded-2xl bg-[#f8f9fc] border border-neutral-200/80 hover:border-neutral-400 focus-within:border-neutral-900 transition-colors"
+      className="relative p-2.5 rounded-md bg-slate-50 border border-slate-200 focus-within:border-[#2563eb] transition-colors"
     >
-      <label className="block text-[11px] font-normal uppercase tracking-wider text-neutral-500 mb-1">
+      <label className="block text-[10px] font-medium uppercase tracking-wider text-slate-500 mb-0.5">
         {label}
       </label>
 
       <div className="flex items-center gap-2">
-        <Icon className="w-4 h-4 text-[#dfb141] shrink-0" />
+        <Icon className="w-3.5 h-3.5 text-[#2563eb] shrink-0" />
         <input
           id={id}
           type="text"
@@ -134,27 +128,27 @@ export default function CountrySearchInput({
             setIsOpen(true);
             if (!results.length) searchPlaces(searchTerm);
           }}
-          className="w-full bg-transparent text-xs sm:text-sm font-normal text-neutral-900 focus:outline-none placeholder:text-neutral-400"
+          className="w-full bg-transparent text-xs sm:text-sm font-normal text-slate-900 focus:outline-none placeholder:text-slate-400"
           placeholder={placeholder}
           autoComplete="off"
         />
-        {loading && <Loader2 className="w-3.5 h-3.5 animate-spin text-[#dfb141] shrink-0" />}
+        {loading && <Loader2 className="w-3 h-3 animate-spin text-[#2563eb] shrink-0" />}
       </div>
 
       {/* Autocomplete Dropdown List */}
       {isOpen && (
         <div
-          className="absolute left-0 right-0 top-[calc(100%+6px)] z-50 bg-white border border-neutral-200 rounded-2xl shadow-xl max-h-64 overflow-y-auto py-2 text-left"
-          style={{ minWidth: 280 }}
+          className="absolute left-0 right-0 top-[calc(100%+4px)] z-50 bg-white border border-slate-200 rounded-md shadow-lg max-h-60 overflow-y-auto py-1 text-left"
+          style={{ minWidth: 260 }}
         >
           {loading && results.length === 0 ? (
-            <div className="px-4 py-3 text-xs text-neutral-400 text-center flex items-center justify-center gap-2">
-              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#dfb141]" />
-              <span>Searching worldwide cities & countries...</span>
+            <div className="px-3 py-2 text-xs text-slate-400 text-center flex items-center justify-center gap-1.5">
+              <Loader2 className="w-3 h-3 animate-spin text-[#2563eb]" />
+              <span>Searching cities & countries...</span>
             </div>
           ) : results.length === 0 ? (
-            <div className="px-4 py-3 text-xs text-neutral-400 text-center">
-              No matching city or country found
+            <div className="px-3 py-2 text-xs text-slate-400 text-center">
+              No matching location found
             </div>
           ) : (
             results.map((place) => (
@@ -162,20 +156,20 @@ export default function CountrySearchInput({
                 key={place.id}
                 type="button"
                 onClick={() => handleSelect(place)}
-                className="w-full px-3.5 py-2.5 flex items-center justify-between gap-3 text-xs sm:text-sm hover:bg-neutral-50 transition-colors text-neutral-800 cursor-pointer border-b border-neutral-100/60 last:border-none text-left"
+                className="w-full px-3 py-2 flex items-center justify-between gap-2 text-xs hover:bg-slate-50 transition-colors text-slate-800 cursor-pointer border-b border-slate-100 last:border-none text-left"
               >
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <span className="text-lg shrink-0">{place.flag}</span>
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="text-sm shrink-0">{place.flag}</span>
                   <div className="min-w-0">
-                    <span className="font-semibold text-neutral-950 block truncate">
+                    <span className="font-medium text-slate-900 block truncate">
                       {place.name}
                     </span>
-                    <span className="text-[11px] text-neutral-500 block truncate">
+                    <span className="text-[10px] text-slate-500 block truncate">
                       {place.state ? `${place.state}, ` : ""}{place.country}
                     </span>
                   </div>
                 </div>
-                <span className="text-[10px] uppercase font-bold text-neutral-400 tracking-wider shrink-0">
+                <span className="text-[9px] uppercase font-mono text-slate-400 shrink-0">
                   {place.countryCode}
                 </span>
               </button>

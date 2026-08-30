@@ -11,27 +11,31 @@ export default function Footer() {
   const { isArabic, t } = useLanguage();
 
   return (
-    <footer className="w-full bg-neutral-950 text-white pt-16 pb-12 border-t border-neutral-900">
-      <div className="w-full max-w-[1580px] mx-auto px-4 sm:px-8 lg:px-12">
-        <div className={`grid grid-cols-1 md:grid-cols-2 ${isPakistan ? "lg:grid-cols-5" : "lg:grid-cols-4"} gap-10 lg:gap-8 pb-14 border-b border-neutral-800`}>
+    <footer className="w-full bg-[#0f172a] text-slate-400 pt-16 pb-12 border-t border-slate-800">
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className={`grid grid-cols-1 md:grid-cols-2 ${isPakistan ? "lg:grid-cols-5" : "lg:grid-cols-4"} gap-8 lg:gap-8 pb-12 border-b border-slate-800`}>
           {/* Brand Col */}
           <div className="lg:col-span-2">
             <Link
               href="/"
-              className="text-2xl font-bold tracking-tight text-white flex items-center gap-2"
+              className="inline-block group"
             >
-              <span>Arizona</span>
+              <img
+                src="/arizona-logo.png"
+                alt="Arizona International Group"
+                className="h-12 w-auto object-contain brightness-105 group-hover:opacity-90 transition-opacity"
+              />
             </Link>
-            <p className="mt-4 text-xs sm:text-sm text-neutral-400 font-normal max-w-sm leading-relaxed">
+            <p className="mt-3 text-xs text-slate-400 font-normal max-w-sm leading-relaxed">
               {t("footer.desc")}
             </p>
 
-            <div className="mt-6 flex items-center gap-3">
+            <div className="mt-5 flex items-center gap-3">
               <a
                 href={contact.whatsappLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white hover:text-neutral-950 text-xs font-medium transition-all"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-slate-800 hover:bg-[#2563eb] text-slate-200 hover:text-white text-xs font-medium transition-colors"
                 dir="ltr"
               >
                 <PhoneCall className="w-3.5 h-3.5" />
@@ -42,10 +46,10 @@ export default function Footer() {
 
           {/* Travel & Visas Col */}
           <div>
-            <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">
+            <h4 className="text-xs font-medium text-white uppercase tracking-wider mb-3.5">
               {t("footer.col_travel")}
             </h4>
-            <ul className="space-y-2.5 text-xs text-neutral-400 font-normal">
+            <ul className="space-y-2 text-xs text-slate-400 font-normal">
               <li><Link href="/services/travel-tours" className="hover:text-white transition-colors">{isArabic ? "حجز تذاكر الطيران" : "Flight Ticket Booking"}</Link></li>
               <li><Link href="/visas" className="hover:text-white transition-colors">{isArabic ? "مركز التأشيرات العالمي" : "Worldwide Visa Hub"}</Link></li>
               <li><Link href="/visas/bahrain" className="hover:text-white transition-colors">{isArabic ? "تأشيرة البحرين الإلكترونية" : "Bahrain eVisa"}</Link></li>
@@ -57,10 +61,10 @@ export default function Footer() {
 
           {/* Bahrain Business Col */}
           <div>
-            <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">
+            <h4 className="text-xs font-medium text-white uppercase tracking-wider mb-3.5">
               {isPakistan ? t("footer.col_business_pk") : t("footer.col_business")}
             </h4>
-            <ul className="space-y-2.5 text-xs text-neutral-400 font-normal">
+            <ul className="space-y-2 text-xs text-slate-400 font-normal">
               {isPakistan && (
                 <>
                   <li><Link href="/services/rent-a-car" className="hover:text-white transition-colors">{isArabic ? "تأجير سيارات يومي وشهري" : "Daily & Monthly Car Rental"}</Link></li>
@@ -81,18 +85,18 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Mobiles & Tech Col (Only shown if in Pakistan) */}
+          {/* Mobiles & Tech Col */}
           {isPakistan && (
             <div>
-              <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">
+              <h4 className="text-xs font-medium text-white uppercase tracking-wider mb-3.5">
                 {t("footer.col_tech")}
               </h4>
-              <ul className="space-y-2.5 text-xs text-neutral-400 font-normal">
+              <ul className="space-y-2 text-xs text-slate-400 font-normal">
                 <li><Link href="/services/mobiles-tech" className="hover:text-white transition-colors">{isArabic ? "أحدث الهواتف الذكية" : "Flagship Smartphones"}</Link></li>
                 <li><Link href="/services/mobiles-tech" className="hover:text-white transition-colors">{isArabic ? "شواحن سريعة وكابلات" : "Fast Chargers & Adapters"}</Link></li>
                 <li><Link href="/services/mobiles-tech" className="hover:text-white transition-colors">{isArabic ? "ساعات ذكية وسماعات" : "Smartwatches & Audio"}</Link></li>
                 <li><Link href="/services/mobiles-tech" className="hover:text-white transition-colors">{isArabic ? "توصيل منزلي سريع" : "Same-Day Home Delivery"}</Link></li>
-                <li><Link href="/blogs" className="hover:text-[#c9a227] transition-colors">{isArabic ? "المقالات والأدلة" : "Articles & Guides"}</Link></li>
+                <li><Link href="/blogs" className="hover:text-white transition-colors">{isArabic ? "المقالات والأدلة" : "Articles & Guides"}</Link></li>
                 <li><Link href="/about" className="hover:text-white transition-colors">{isArabic ? "عن مجموعة أريزونا" : "About Arizona Group"}</Link></li>
                 <li><Link href="/contact" className="hover:text-white transition-colors">{isArabic ? "اتصل بفريق الدعم" : "Contact Support"}</Link></li>
               </ul>
@@ -101,9 +105,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom Legal & Copyright */}
-        <div className="pt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-neutral-500 font-normal">
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-neutral-400" />
+        <div className="pt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[11px] text-slate-500 font-normal">
+          <div className="flex items-center gap-1.5">
+            <ShieldCheck className="w-3.5 h-3.5 text-slate-400" />
             <span>{t("footer.disclaimer")}</span>
           </div>
           <span>&copy; {new Date().getFullYear()} {t("footer.copyright")}</span>

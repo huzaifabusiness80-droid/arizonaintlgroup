@@ -3,12 +3,14 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { BusinessDivision, ServiceItemDetail } from "@/lib/data";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Sliders, Sparkles } from "lucide-react";
 import PageBanner from "@/components/PageBanner";
 import CtaSection from "@/components/CtaSection";
 import { useLanguage } from "@/context/LanguageContext";
 import { useGeoLocation } from "@/context/GeoContext";
 import { getLocalizedPrice } from "@/lib/pricing-helper";
+import ServiceCustomizerModal from "@/components/ServiceCustomizerModal";
+import MobileTechCarousel from "@/components/MobileTechCarousel";
 
 const arabicDivisionInfo: { [slug: string]: { title: string; overview: string } } = {
   "travel-tours": {
@@ -29,8 +31,16 @@ const arabicDivisionInfo: { [slug: string]: { title: string; overview: string } 
   },
 };
 
+const getCustomizeLabel = (slug: string, isArabic: boolean) => {
+  if (slug === "travel-tours") return isArabic ? "تخصيص رحلتك" : "Customize Your Trip";
+  if (slug === "mobiles-tech") return isArabic ? "تخصيص طلب الأجهزة" : "Customize Your Tech Order";
+  if (slug === "business-bahrain") return isArabic ? "تخصيص تأسيس شركتك" : "Customize Corporate Setup";
+  if (slug === "rent-a-car") return isArabic ? "تخصيص استئجار السيارة" : "Customize Fleet & Rental";
+  return isArabic ? "تخصيص الباقة" : "Customize Package";
+};
+
 export default function DivisionDetailClient({ division }: { division: BusinessDivision }) {
-  const { isArabic, t } = useLanguage();
+  const { isArabic } = useLanguage();
   const { contact, isPakistan } = useGeoLocation();
   const arInfo = arabicDivisionInfo[division.slug];
 
@@ -38,6 +48,7 @@ export default function DivisionDetailClient({ division }: { division: BusinessD
   const divOverview = isArabic && arInfo ? arInfo.overview : division.overview;
 
   const [servicesList, setServicesList] = useState<ServiceItemDetail[]>(division.servicesList || []);
+  const [customizerOpen, setCustomizerOpen] = useState(false);
 
   useEffect(() => {
     let apiEndpoint = "";
@@ -75,115 +86,287 @@ export default function DivisionDetailClient({ division }: { division: BusinessD
       .catch(() => {});
   }, [division.slug]);
 
+  const customizeLabel = getCustomizeLabel(division.slug, isArabic);
+
   return (
     <>
-      {/* Page Banner */}
+      {/* Page Banner with Header Customize Button */}
       <PageBanner
         title={divTitle}
         subtitle={divOverview}
         breadcrumbCurrent={division.title}
         backgroundImage={division.heroImage}
+        actionButton={
+          <button
+            onClick={() => setCustomizerOpen(true)}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/25 text-white text-xs sm:text-sm font-semibold transition-all cursor-pointer shadow-lg hover:scale-105"
+          >
+            <Sliders className="w-4 h-4 text-blue-400" />
+            <span>{customizeLabel}</span>
+          </button>
+        }
       />
 
       {/* Services Grid Section */}
-      <section className="w-full py-16 sm:py-24 px-4 sm:px-8 lg:px-12 max-w-[1580px] mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12 sm:mb-16">
+      <section className="w-full py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
           <div>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neutral-100 border border-neutral-200 text-neutral-800 text-xs font-semibold uppercase tracking-wider mb-4">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 border border-blue-100 text-[#2563eb] text-xs font-medium uppercase tracking-wider mb-3">
               <span>{isArabic ? "قائمة الخدمات المتاحة" : "Available Offerings"}</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-neutral-950">
+            <h2 className="text-2xl sm:text-4xl font-medium tracking-tight text-slate-900 leading-tight">
               {isArabic ? "استكشف باقات" : "Explore Packages in"}{" "}
-              <span className="font-bold text-[#dfb141]">{divTitle}</span>
+              <span className="text-[#2563eb] font-semibold">{divTitle}</span>
             </h2>
           </div>
 
-          <p className="max-w-md text-xs sm:text-sm text-neutral-600 font-normal leading-relaxed">
-            {isArabic
-              ? "اختر الخدمة المناسبة لمعرفة تفاصيل الباقات والأسعار والحجز الفوري."
-              : "Select any category below to view detailed pricing, options, and direct booking."}
-          </p>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <button
+              onClick={() => setCustomizerOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#2563eb] hover:bg-[#1d4ed8] text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+            >
+              <Sliders className="w-4 h-4" />
+              <span>{customizeLabel}</span>
+            </button>
+          </div>
         </div>
 
-        {/* 3-Column Modern Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {servicesList.map((item) => {
-            const localizedPrice = getLocalizedPrice(
-              {
-                pricePkr: (item as any).pricePkr,
-                priceBhd: (item as any).priceBhd,
-                price: item.price,
-              },
-              isPakistan
-            );
+        {/* Cards Grid with Mid-Section Visual Carousel for Mobiles & Tech */}
+        {division.slug === "mobiles-tech" && servicesList.length > 2 ? (
+          <div className="space-y-8">
+            {/* Top Cards (First 2) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+              {servicesList.slice(0, 2).map((item) => {
+                const localizedPrice = getLocalizedPrice(
+                  {
+                    pricePkr: (item as any).pricePkr,
+                    priceBhd: (item as any).priceBhd,
+                    price: item.price,
+                  },
+                  isPakistan
+                );
 
-            return (
-              <Link
-                key={item.slug}
-                href={`/services/${division.slug}/${item.slug}`}
-                className="rounded-3xl bg-[#f8f9fc] border border-neutral-200/80 hover:border-[#dfb141] p-4 sm:p-5 flex flex-col justify-between group transition-all duration-300 hover:shadow-xl hover:bg-white"
-              >
-                <div>
-                  {/* Card Thumbnail Image */}
-                  <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-5 bg-neutral-900">
-                    <img
-                      src={item.image || division.heroImage}
-                      alt={item.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+                return (
+                  <Link
+                    key={item.slug}
+                    href={`/services/${division.slug}/${item.slug}`}
+                    className="rounded-xl bg-white dark:bg-[#0d1527] border border-slate-200 dark:border-slate-800 hover:border-[#93c5fd] dark:hover:border-blue-500 hover:shadow-md p-4 flex flex-col justify-between group transition-all"
+                  >
+                    <div>
+                      {/* Card Thumbnail Image */}
+                      <div className="relative aspect-[16/10] rounded-lg overflow-hidden mb-3.5 bg-slate-900">
+                        <img
+                          src={item.image || division.heroImage}
+                          alt={item.name}
+                          className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
+                        />
 
-                    {/* Badge */}
-                    <div
-                      className={`absolute top-3 ${
-                        isArabic ? "right-3" : "left-3"
-                      } px-3 py-1 rounded-full bg-black/70 backdrop-blur-md text-white text-[11px] font-semibold border border-white/20`}
-                    >
-                      {item.tag}
+                        {/* Badge */}
+                        <div
+                          className={`absolute top-2.5 ${
+                            isArabic ? "right-2.5" : "left-2.5"
+                          } px-2 py-0.5 rounded-md bg-slate-950/80 backdrop-blur-md text-white text-[10px] font-medium border border-slate-700`}
+                        >
+                          {item.tag}
+                        </div>
+
+                        {/* Starting Price Pill */}
+                        {localizedPrice && (
+                          <div
+                            className={`absolute bottom-2.5 ${
+                              isArabic ? "left-2.5" : "right-2.5"
+                            } px-2.5 py-0.5 rounded-md bg-[#2563eb] text-white text-[10px] font-medium`}
+                          >
+                            {localizedPrice}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Card Title & Desc */}
+                      <div className="px-1">
+                        <h3 className="text-base font-semibold text-slate-900 dark:text-white tracking-tight group-hover:text-[#2563eb] transition-colors">
+                          {item.name}
+                        </h3>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 font-normal mt-1 leading-relaxed line-clamp-2">
+                          {item.desc}
+                        </p>
+                      </div>
                     </div>
 
-                    {/* Starting Price Pill (Pakistan in PKR, Bahrain in BHD) */}
-                    {localizedPrice && (
-                      <div
-                        className={`absolute bottom-3 ${
-                          isArabic ? "left-3" : "right-3"
-                        } px-3 py-1 rounded-full bg-[#dfb141] text-white text-[11px] font-bold shadow-md`}
-                      >
-                        {localizedPrice}
+                    {/* Card Action Link */}
+                    <div className="mt-3.5 pt-3 border-t border-slate-100 dark:border-slate-800/80 px-1 flex items-center justify-between">
+                      <span className="text-xs font-medium text-[#2563eb] dark:text-[#60a5fa]">
+                        {isArabic ? "عرض الباقات والتفاصيل" : "View Packages & Details"}
+                      </span>
+                      <div className="w-7 h-7 rounded-md bg-slate-100 dark:bg-slate-800 group-hover:bg-[#2563eb] group-hover:text-white text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors">
+                        <ArrowUpRight
+                          className={`w-3.5 h-3.5 ${isArabic ? "rotate-[-90deg]" : ""}`}
+                        />
                       </div>
-                    )}
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* In the Middle: Luxury Continuous Scrolling Hardware Showcase */}
+            <div className="-mx-4 sm:-mx-6 lg:-mx-8">
+              <MobileTechCarousel />
+            </div>
+
+            {/* Bottom Cards (Remaining) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+              {servicesList.slice(2).map((item) => {
+                const localizedPrice = getLocalizedPrice(
+                  {
+                    pricePkr: (item as any).pricePkr,
+                    priceBhd: (item as any).priceBhd,
+                    price: item.price,
+                  },
+                  isPakistan
+                );
+
+                return (
+                  <Link
+                    key={item.slug}
+                    href={`/services/${division.slug}/${item.slug}`}
+                    className="rounded-xl bg-white dark:bg-[#0d1527] border border-slate-200 dark:border-slate-800 hover:border-[#93c5fd] dark:hover:border-blue-500 hover:shadow-md p-4 flex flex-col justify-between group transition-all"
+                  >
+                    <div>
+                      {/* Card Thumbnail Image */}
+                      <div className="relative aspect-[16/10] rounded-lg overflow-hidden mb-3.5 bg-slate-900">
+                        <img
+                          src={item.image || division.heroImage}
+                          alt={item.name}
+                          className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
+                        />
+
+                        {/* Badge */}
+                        <div
+                          className={`absolute top-2.5 ${
+                            isArabic ? "right-2.5" : "left-2.5"
+                          } px-2 py-0.5 rounded-md bg-slate-950/80 backdrop-blur-md text-white text-[10px] font-medium border border-slate-700`}
+                        >
+                          {item.tag}
+                        </div>
+
+                        {/* Starting Price Pill */}
+                        {localizedPrice && (
+                          <div
+                            className={`absolute bottom-2.5 ${
+                              isArabic ? "left-2.5" : "right-2.5"
+                            } px-2.5 py-0.5 rounded-md bg-[#2563eb] text-white text-[10px] font-medium`}
+                          >
+                            {localizedPrice}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Card Title & Desc */}
+                      <div className="px-1">
+                        <h3 className="text-base font-semibold text-slate-900 dark:text-white tracking-tight group-hover:text-[#2563eb] transition-colors">
+                          {item.name}
+                        </h3>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 font-normal mt-1 leading-relaxed line-clamp-2">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Card Action Link */}
+                    <div className="mt-3.5 pt-3 border-t border-slate-100 dark:border-slate-800/80 px-1 flex items-center justify-between">
+                      <span className="text-xs font-medium text-[#2563eb] dark:text-[#60a5fa]">
+                        {isArabic ? "عرض الباقات والتفاصيل" : "View Packages & Details"}
+                      </span>
+                      <div className="w-7 h-7 rounded-md bg-slate-100 dark:bg-slate-800 group-hover:bg-[#2563eb] group-hover:text-white text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors">
+                        <ArrowUpRight
+                          className={`w-3.5 h-3.5 ${isArabic ? "rotate-[-90deg]" : ""}`}
+                        />
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+            {servicesList.map((item) => {
+              const localizedPrice = getLocalizedPrice(
+                {
+                  pricePkr: (item as any).pricePkr,
+                  priceBhd: (item as any).priceBhd,
+                  price: item.price,
+                },
+                isPakistan
+              );
+
+              return (
+                <Link
+                  key={item.slug}
+                  href={`/services/${division.slug}/${item.slug}`}
+                  className="rounded-xl bg-white dark:bg-[#0d1527] border border-slate-200 dark:border-slate-800 hover:border-[#93c5fd] dark:hover:border-blue-500 hover:shadow-xs p-3.5 flex flex-col justify-between group transition-all"
+                >
+                  <div>
+                    {/* Card Thumbnail Image */}
+                    <div className="relative aspect-[16/10] rounded-lg overflow-hidden mb-3 bg-slate-900">
+                      <img
+                        src={item.image || division.heroImage}
+                        alt={item.name}
+                        className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
+                      />
+
+                      {/* Badge */}
+                      <div
+                        className={`absolute top-2.5 ${
+                          isArabic ? "right-2.5" : "left-2.5"
+                        } px-2 py-0.5 rounded-md bg-slate-950/80 backdrop-blur-md text-white text-[10px] font-medium border border-slate-700`}
+                      >
+                        {item.tag}
+                      </div>
+
+                      {/* Starting Price Pill */}
+                      {localizedPrice && (
+                        <div
+                          className={`absolute bottom-2.5 ${
+                            isArabic ? "left-2.5" : "right-2.5"
+                          } px-2.5 py-0.5 rounded-md bg-[#2563eb] text-white text-[10px] font-medium`}
+                        >
+                          {localizedPrice}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Card Title & Desc */}
+                    <div className="px-1">
+                      <h3 className="text-base font-semibold text-slate-900 dark:text-white tracking-tight group-hover:text-[#2563eb] transition-colors">
+                        {item.name}
+                      </h3>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 font-normal mt-1 leading-relaxed line-clamp-2">
+                        {item.desc}
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Card Title & Desc */}
-                  <div className="px-2 pb-2">
-                    <h3 className="text-lg sm:text-xl font-bold text-neutral-950 tracking-tight group-hover:text-[#dfb141] transition-colors">
-                      {item.name}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-neutral-600 font-normal mt-2 leading-relaxed line-clamp-2">
-                      {item.desc}
-                    </p>
+                  {/* Card Action Link */}
+                  <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/80 px-1 flex items-center justify-between">
+                    <span className="text-xs font-medium text-[#2563eb] dark:text-[#60a5fa]">
+                      {isArabic ? "عرض الباقات والتفاصيل" : "View Packages & Details"}
+                    </span>
+                    <div className="w-7 h-7 rounded-md bg-slate-100 dark:bg-slate-800 group-hover:bg-[#2563eb] group-hover:text-white text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors">
+                      <ArrowUpRight
+                        className={`w-3.5 h-3.5 ${isArabic ? "rotate-[-90deg]" : ""}`}
+                      />
+                    </div>
                   </div>
-                </div>
-
-                {/* Card Action Link */}
-                <div className="mt-4 pt-3 border-t border-neutral-100 px-2 pb-1 flex items-center justify-between">
-                  <span className="text-xs font-semibold text-neutral-500">
-                    {isArabic ? "عرض الباقات والتفاصيل" : "View Packages & Details"}
-                  </span>
-                  <div className="w-8 h-8 rounded-full bg-neutral-100 group-hover:bg-[#dfb141] group-hover:text-white text-neutral-800 flex items-center justify-center transition-all">
-                    <ArrowUpRight
-                      className={`w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform ${
-                        isArabic ? "rotate-[-90deg]" : ""
-                      }`}
-                    />
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </section>
 
-      {/* Reusable Scenic CTA Banner */}
+      {/* CTA Banner with End-of-Page Customize Button */}
       <CtaSection
         title={isArabic ? `جاهز لحجز ${divTitle}؟` : `Ready to Book Your ${division.title}?`}
         subtitle={
@@ -198,6 +381,23 @@ export default function DivisionDetailClient({ division }: { division: BusinessD
             : contact.whatsappLink(`Hi Arizona, I want to book ${division.title}. Please guide me.`)
         }
         backgroundImage={division.heroImage}
+        secondaryAction={
+          <button
+            onClick={() => setCustomizerOpen(true)}
+            className="px-6 py-3 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-white font-medium text-xs sm:text-sm inline-flex items-center gap-2 transition-colors border border-slate-700 backdrop-blur-md cursor-pointer"
+          >
+            <Sliders className="w-4 h-4 text-[#3b82f6]" />
+            <span>{customizeLabel}</span>
+          </button>
+        }
+      />
+
+      {/* Service Customizer Modal */}
+      <ServiceCustomizerModal
+        isOpen={customizerOpen}
+        onClose={() => setCustomizerOpen(false)}
+        serviceType={division.slug as any}
+        initialItemName={division.title}
       />
     </>
   );

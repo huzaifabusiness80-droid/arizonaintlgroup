@@ -11,6 +11,7 @@ interface CtaSectionProps {
   buttonText?: string;
   buttonHref?: string;
   backgroundImage?: string;
+  secondaryAction?: React.ReactNode;
 }
 
 export default function CtaSection({
@@ -19,6 +20,7 @@ export default function CtaSection({
   buttonText,
   buttonHref = "/services",
   backgroundImage = "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&q=85&auto=format&fit=crop",
+  secondaryAction,
 }: CtaSectionProps) {
   const { isArabic, t } = useLanguage();
 
@@ -29,51 +31,49 @@ export default function CtaSection({
   const isExternal = buttonHref.startsWith("http") || buttonHref.startsWith("https://wa.me");
 
   return (
-    <section className="w-full bg-neutral-950 text-white relative overflow-hidden py-24 sm:py-36 flex flex-col items-center justify-center text-center">
-      {/* Full-Bleed Scenic Background Image */}
+    <section className="w-full bg-slate-950 text-white relative overflow-hidden py-20 sm:py-28 flex flex-col items-center justify-center text-center">
+      {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
           src={backgroundImage}
           alt={displayTitle}
-          className="w-full h-full object-cover object-center filter brightness-[0.65]"
+          className="w-full h-full object-cover object-center filter brightness-50"
         />
-        {/* Soft Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-black/60" />
       </div>
 
-      {/* Centered Content Container */}
-      <div className="w-full max-w-[1580px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10 flex flex-col items-center space-y-6">
-        {/* Main Headline */}
-        <h2 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white max-w-4xl leading-[1.14] whitespace-pre-line">
+      {/* Content Container */}
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center space-y-4">
+        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-white max-w-3xl leading-tight whitespace-pre-line">
           {displayTitle}
         </h2>
 
-        {/* Subtitle */}
-        <p className="text-sm sm:text-base lg:text-lg text-neutral-200 font-normal max-w-2xl leading-relaxed tracking-wide opacity-90">
+        <p className="text-xs sm:text-sm lg:text-base text-slate-300 font-normal max-w-xl leading-relaxed">
           {displaySubtitle}
         </p>
 
-        {/* Action Button */}
-        <div className="pt-4">
+        <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
           {isExternal ? (
             <a
               href={buttonHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-3.5 rounded-full bg-white hover:bg-neutral-100 text-neutral-950 font-bold text-sm sm:text-base inline-flex items-center gap-2 shadow-2xl transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+              className="px-6 py-3 rounded-lg bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-medium text-xs sm:text-sm inline-flex items-center gap-1.5 transition-colors cursor-pointer shadow-md"
             >
               <span>{displayBtnText}</span>
-              <ArrowRight className={`w-4 h-4 text-neutral-950 ${isArabic ? "rotate-180" : ""}`} />
+              <ArrowRight className={`w-3.5 h-3.5 text-white ${isArabic ? "rotate-180" : ""}`} />
             </a>
           ) : (
             <Link
               href={buttonHref}
-              className="px-8 py-3.5 rounded-full bg-white hover:bg-neutral-100 text-neutral-950 font-bold text-sm sm:text-base inline-flex items-center gap-2 shadow-2xl transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+              className="px-6 py-3 rounded-lg bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-medium text-xs sm:text-sm inline-flex items-center gap-1.5 transition-colors cursor-pointer shadow-md"
             >
               <span>{displayBtnText}</span>
-              <ArrowRight className={`w-4 h-4 text-neutral-950 ${isArabic ? "rotate-180" : ""}`} />
+              <ArrowRight className={`w-3.5 h-3.5 text-white ${isArabic ? "rotate-180" : ""}`} />
             </Link>
           )}
+
+          {secondaryAction}
         </div>
       </div>
     </section>

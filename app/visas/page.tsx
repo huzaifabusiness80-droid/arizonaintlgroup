@@ -7,10 +7,11 @@ import PageBanner from "@/components/PageBanner";
 import CtaSection from "@/components/CtaSection";
 import Link from "next/link";
 import { allVisasData, VisaDetail } from "@/lib/data";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Sliders } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useGeoLocation } from "@/context/GeoContext";
 import { arabicVisaNames } from "@/lib/localizedData";
+import ServiceCustomizerModal from "@/components/ServiceCustomizerModal";
 
 const regionFilters = [
   { id: "all", labelEn: "All Destinations", labelAr: "جميع الوجهات" },
@@ -21,11 +22,14 @@ const regionFilters = [
   { id: "africa", labelEn: "Africa", labelAr: "إفريقيا" },
 ];
 
+const DEFAULT_VISA_IMAGE = "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80&auto=format&fit=crop";
+
 export default function VisasPage() {
   const { isArabic, t } = useLanguage();
   const { contact } = useGeoLocation();
   const [selectedRegion, setSelectedRegion] = useState("all");
   const [visas, setVisas] = useState<VisaDetail[]>(allVisasData);
+  const [customizerOpen, setCustomizerOpen] = useState(false);
 
   useEffect(() => {
     fetch("/api/admin/visas")
@@ -34,17 +38,20 @@ export default function VisasPage() {
         if (d.success && Array.isArray(d.items) && d.items.length > 0) {
           const active = d.items
             .filter((item: any) => item.isActive !== false)
-            .map((item: any) => ({
-              ...item,
-              time: item.processingTime || item.time || "3 - 5 Days",
-              heroImage: item.heroImage || item.image || "",
-              cardImage: item.cardImage || item.image || "",
-              tagline: item.tagline || "",
-              overview: item.overview || item.description || "",
-              requirements: Array.isArray(item.requirements) ? item.requirements : [],
-              processSteps: Array.isArray(item.processSteps) ? item.processSteps : [],
-              included: Array.isArray(item.included) ? item.included : [],
-            }));
+            .map((item: any) => {
+              const fallbackImg = item.cardImage?.trim() || item.image?.trim() || item.heroImage?.trim() || DEFAULT_VISA_IMAGE;
+              return {
+                ...item,
+                time: item.processingTime || item.time || "3 - 5 Days",
+                heroImage: item.heroImage?.trim() || fallbackImg,
+                cardImage: fallbackImg,
+                tagline: item.tagline || "",
+                overview: item.overview || item.description || "",
+                requirements: Array.isArray(item.requirements) ? item.requirements : [],
+                processSteps: Array.isArray(item.processSteps) ? item.processSteps : [],
+                included: Array.isArray(item.included) ? item.included : [],
+              };
+            });
           if (active.length > 0) {
             setVisas(active);
           }
@@ -59,7 +66,7 @@ export default function VisasPage() {
       : visas.filter((v) => v.region === selectedRegion);
 
   return (
-    <div className="min-h-screen bg-white text-neutral-900 flex flex-col justify-between">
+    <div className="min-h-screen bg-white text-slate-900 flex flex-col justify-between">
       <Navbar />
 
       <main>
@@ -73,21 +80,30 @@ export default function VisasPage() {
           }
           breadcrumbCurrent={t("nav.worldwide_visas")}
           backgroundImage="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=85&auto=format&fit=crop"
+          actionButton={
+            <button
+              onClick={() => setCustomizerOpen(true)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/25 text-white text-xs sm:text-sm font-semibold transition-all cursor-pointer shadow-lg hover:scale-105"
+            >
+              <Sliders className="w-4 h-4 text-blue-400" />
+              <span>{isArabic ? "تخصيص ملف التأشيرة" : "Customize Visa Application"}</span>
+            </button>
+          }
         />
 
         {/* Filter Pills Bar */}
-        <section className="w-full bg-[#f8f9fc] border-b border-neutral-200/80 py-6 px-4 sm:px-8 lg:px-12">
-          <div className="w-full max-w-[1580px] mx-auto flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+        <section className="w-full bg-slate-50 border-b border-slate-200 py-3 px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-[1440px] mx-auto flex flex-wrap items-center justify-center gap-2">
             {regionFilters.map((tab) => {
               const label = isArabic ? tab.labelAr : tab.labelEn;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setSelectedRegion(tab.id)}
-                  className={`px-5 py-2.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  className={`px-3 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer ${
                     selectedRegion === tab.id
-                      ? "bg-[#dfb141] text-white shadow-md"
-                      : "bg-white text-neutral-700 hover:bg-neutral-100 border border-neutral-200"
+                      ? "bg-[#2563eb] text-white"
+                      : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
                   }`}
                 >
                   {label}
@@ -98,25 +114,30 @@ export default function VisasPage() {
         </section>
 
         {/* Visas Grid */}
-        <section className="w-full py-16 sm:py-24 px-4 sm:px-8 lg:px-12 max-w-[1580px] mx-auto border-b border-neutral-100">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+        <section className="w-full py-14 sm:py-18 px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto border-b border-slate-200">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div>
-              <span className="text-xs font-bold tracking-widest text-[#dfb141] uppercase block mb-3">
+              <span className="text-[11px] font-medium tracking-wider text-[#2563eb] uppercase block mb-1.5">
                 {isArabic ? "تأشيرات السفارات والتأشيرة الإلكترونية" : "EMBASSY & EVISA CLEARANCE"}
               </span>
-              <h2 className="text-3xl sm:text-5xl font-normal tracking-[-0.03em] text-neutral-950">
+              <h2 className="text-2xl sm:text-4xl font-medium tracking-tight text-slate-900">
                 {isArabic ? "استكشف الوجهات المتاحة" : "Explore Destinations"}{" "}
-                <span className="font-bold">({filteredVisas.length})</span>
+                <span className="font-semibold text-[#2563eb]">({filteredVisas.length})</span>
               </h2>
             </div>
-            <p className="text-xs sm:text-sm text-neutral-500 font-medium max-w-sm">
-              {isArabic
-                ? "اختر وجهتك للاطلاع على المستندات المطلوبة، مدة المعالجة، الرسوم، والتواصل المباشر مع مكتب التأشيرات."
-                : "Select your destination country to view required documents, processing timeline, fees, and WhatsApp desk."}
-            </p>
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <button
+                onClick={() => setCustomizerOpen(true)}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#2563eb] hover:bg-[#1d4ed8] text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+              >
+                <Sliders className="w-4 h-4" />
+                <span>{isArabic ? "تخصيص ملف التأشيرة" : "Customize Visa Application"}</span>
+              </button>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             {filteredVisas.map((item) => {
               const arInfo = arabicVisaNames[item.slug];
               const countryName = isArabic && arInfo ? arInfo.country : item.country;
@@ -129,48 +150,48 @@ export default function VisasPage() {
                 <Link
                   key={item.slug}
                   href={`/visas/${item.slug}`}
-                  className="group rounded-[28px] overflow-hidden bg-white border border-neutral-200/90 hover:border-[#dfb141] hover:shadow-2xl transition-all duration-300 flex flex-col justify-between p-3.5 block"
+                  className="group rounded-lg overflow-hidden bg-white border border-slate-200 hover:border-[#93c5fd] hover:shadow-xs transition-all flex flex-col justify-between p-3 block"
                 >
                   <div>
                     {/* Card Thumbnail Image */}
-                    <div className="relative aspect-[16/10] rounded-[22px] overflow-hidden bg-neutral-200 mb-4">
+                    <div className="relative aspect-[16/10] rounded-md overflow-hidden bg-slate-100 mb-3">
                       <img
-                        src={item.cardImage}
-                        alt={countryName}
+                        src={item.cardImage?.trim() || DEFAULT_VISA_IMAGE}
+                        alt={countryName || "Visa destination"}
                         loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
                       />
-                      <div className={`absolute top-3 ${isArabic ? "right-3" : "left-3"} px-3 py-1 rounded-full bg-black/70 backdrop-blur-md text-white text-[11px] font-semibold border border-white/20 flex items-center gap-1.5`}>
+                      <div className={`absolute top-2.5 ${isArabic ? "right-2.5" : "left-2.5"} px-2.5 py-0.5 rounded-md bg-slate-950/80 backdrop-blur-md text-white text-[10px] font-medium border border-slate-700 flex items-center gap-1`}>
                         <span>{item.flag}</span>
                         <span>{regionName}</span>
                       </div>
 
-                      <div className={`absolute bottom-3 ${isArabic ? "left-3" : "right-3"} px-3 py-1 rounded-full bg-[#dfb141] text-white text-[11px] font-bold shadow-md`}>
+                      <div className={`absolute bottom-2.5 ${isArabic ? "left-2.5" : "right-2.5"} px-2 py-0.5 rounded-md bg-[#2563eb] text-white text-[10px] font-medium`}>
                         {processingTime}
                       </div>
                     </div>
 
                     {/* Title & Desc */}
-                    <div className="px-2 pb-2">
-                      <h3 className="text-lg sm:text-xl font-bold text-neutral-950 tracking-tight group-hover:text-[#dfb141] transition-colors">
+                    <div className="px-1">
+                      <h3 className="text-base font-medium text-slate-900 tracking-tight group-hover:text-[#2563eb] transition-colors">
                         {countryName}
                       </h3>
-                      <p className="text-xs text-neutral-500 font-semibold mt-0.5">
+                      <p className="text-xs text-slate-500 font-normal mt-0.5">
                         {visaType}
                       </p>
-                      <p className="text-xs sm:text-sm text-neutral-600 font-normal mt-2 leading-relaxed line-clamp-2">
+                      <p className="text-xs text-slate-600 font-normal mt-1.5 leading-relaxed line-clamp-2">
                         {overviewText}
                       </p>
                     </div>
                   </div>
 
                   {/* Card Action Link */}
-                  <div className="mt-4 pt-3 border-t border-neutral-100 px-2 pb-1 flex items-center justify-between">
-                    <span className="text-xs font-semibold text-neutral-500">
+                  <div className="mt-3 pt-2.5 border-t border-slate-100 px-1 flex items-center justify-between">
+                    <span className="text-xs font-medium text-[#2563eb]">
                       {isArabic ? "التقديم والتحقق من الشروط" : "Apply & Check Requirements"}
                     </span>
-                    <div className="w-8 h-8 rounded-full bg-neutral-100 group-hover:bg-[#dfb141] group-hover:text-white text-neutral-800 flex items-center justify-center transition-all">
-                      <ArrowUpRight className={`w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform ${isArabic ? "rotate-[-90deg]" : ""}`} />
+                    <div className="w-7 h-7 rounded-md bg-slate-100 group-hover:bg-[#2563eb] group-hover:text-white text-slate-600 flex items-center justify-center transition-colors">
+                      <ArrowUpRight className={`w-3.5 h-3.5 ${isArabic ? "rotate-[-90deg]" : ""}`} />
                     </div>
                   </div>
                 </Link>
@@ -179,7 +200,7 @@ export default function VisasPage() {
           </div>
         </section>
 
-        {/* Reusable Scenic CTA Banner */}
+        {/* CTA Banner */}
         <CtaSection
           title={isArabic ? "هل تحتاج تأشيرة لدولة أخرى؟" : "Need Visa Assistance for Another Country?"}
           subtitle={
@@ -188,10 +209,25 @@ export default function VisasPage() {
               : "We facilitate transit, tourist, business, and investor visas worldwide. Chat directly with our dedicated visa desk."
           }
           buttonText={isArabic ? "تواصل مع مكتب التأشيرات" : "Contact Visa Desk"}
-          buttonHref={contact.whatsappLink("Hi Arizona, I need visa assistance. Please guide me.")}
+          buttonHref={contact.whatsappLink("Hi Arizona International Group, I need visa assistance. Please guide me.")}
           backgroundImage="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=85&auto=format&fit=crop"
+          secondaryAction={
+            <button
+              onClick={() => setCustomizerOpen(true)}
+              className="px-6 py-3 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-white font-medium text-xs sm:text-sm inline-flex items-center gap-2 transition-colors border border-slate-700 backdrop-blur-md cursor-pointer"
+            >
+              <Sliders className="w-4 h-4 text-[#3b82f6]" />
+              <span>{isArabic ? "تخصيص ملف التأشيرة" : "Customize Visa Application"}</span>
+            </button>
+          }
         />
       </main>
+
+      <ServiceCustomizerModal
+        isOpen={customizerOpen}
+        onClose={() => setCustomizerOpen(false)}
+        serviceType="visas"
+      />
 
       <Footer />
     </div>
