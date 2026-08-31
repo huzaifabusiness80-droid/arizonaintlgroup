@@ -182,11 +182,25 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable} ${cairo.variable} font-sans antialiased scroll-smooth`} suppressHydrationWarning>
       <head>
+        {/* Google Analytics (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-KX69P9668R"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-KX69P9668R');
+          `}
+        </Script>
+
         {/* Google AdSense Meta & Script */}
         <meta name="google-adsense-account" content="ca-pub-2984910261301996" />
-        <script
-          async
+        <Script
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2984910261301996"
+          strategy="afterInteractive"
           crossOrigin="anonymous"
         />
         {/* Schema.org Structured Data (JSON-LD) */}
